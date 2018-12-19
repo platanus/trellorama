@@ -45,12 +45,12 @@ export default {
       const self = this;
       const url = `boards/${boardId}/lists`;
       window.Trello.rest('get', url, data => {
-        for (let index = 0; index < data.length; index++) {
-          if (listIds.includes(data[index].id)) {
-            self.lists.push(data[index]);
-            self.countCards(data[index].id, self.listIncludesArchived.includes(data[index].id));
+        data.forEach(element => {
+          if (listIds.includes(element.id)) {
+            self.lists.push(element);
+            self.countCards(element.id, self.listIncludesArchived.includes(element.id));
           }
-        }
+        });
       });
     },
     countCards(listId, includeArchived) {

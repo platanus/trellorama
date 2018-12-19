@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-for="board in boards" v-bind:key="board.id">
-      <Board v-bind:board="board" v-if="board.id == '5bcf863f74837934564848be'"/>
-      <BoardInfo v-bind:boardId="board.id" v-if="board.id == '5bcf863f74837934564848be'"/>
+      <Board v-bind:board="board"/>
+      <BoardInfo v-bind:boardId="board.id"/>
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       boards: [],
+      boardIds: ['5bcf863f74837934564848be'],
     };
   },
   mounted() {
@@ -29,7 +30,11 @@ export default {
     getBoards() {
       const self = this;
       window.Trello.rest('get', 'members/me/boards', data => {
-        self.boards = data;
+        data.forEach(element => {
+          if (self.boardIds.includes(element.id)) {
+            self.boards.push(element);
+          }
+        });
       }
       );
     },
