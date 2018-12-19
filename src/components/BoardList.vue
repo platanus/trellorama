@@ -30,11 +30,7 @@ export default {
     getBoards() {
       const self = this;
       window.Trello.rest('get', 'members/me/boards', data => {
-        data.forEach(element => {
-          if (self.boardIds.includes(element.id)) {
-            self.boards.push(element);
-          }
-        });
+        self.boards = data.filter((element) => self.boardIds.includes(element.id));
       }
       );
     },

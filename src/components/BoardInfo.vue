@@ -44,20 +44,16 @@ export default {
     getLists(boardId, listIds) {
       const self = this;
       const url = `boards/${boardId}/lists`;
-      window.Trello.rest('get', url, data => {
-        data.forEach(element => {
-          if (listIds.includes(element.id)) {
-            self.lists.push(element);
-            self.countCards(element.id, self.listIncludesArchived.includes(element.id));
-          }
-        });
+      window.Trello.rest('get', url, (data) => {
+        self.lists = data.filter((element) => listIds.includes(element.id));
+        self.lists.forEach((element) => self.countCards(element.id, self.listIncludesArchived.includes(element.id)));
       });
     },
     countCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
       self.$set(self.cardCountByList, listId, []);
-      window.Trello.lists.get(listId, { cards: cardsFilter }, data => {
+      window.Trello.lists.get(listId, { cards: cardsFilter }, (data) => {
         self.cardCountByList[listId] = data.cards;
       });
     },
