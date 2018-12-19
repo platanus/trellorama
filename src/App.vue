@@ -5,18 +5,17 @@
   </div>
 </template>
 <script>
-import {authorize} from './trello.js'
-import BoardList from './components/BoardList.vue'
+import trelloAuthorize from './trelloAuthorize.js';
+import BoardList from './components/BoardList.vue';
 
-
-authorize();
+trelloAuthorize();
 
 export default {
   name: 'app',
   components: {
-    BoardList
-  }
-}
+    BoardList,
+  },
+};
 </script>
 
 <style>

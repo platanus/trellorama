@@ -8,7 +8,7 @@
 export default {
   name: 'Board',
   props: {
-    board: Object
-  }
-}
+    board: Object,
+  },
+};
 </script>
