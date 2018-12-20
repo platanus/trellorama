@@ -2,6 +2,24 @@ import moment from 'moment';
 
 moment().format();
 
+const globalColors = [
+  ['rgba(255, 0, 0, 0.1)', 'rgba(255, 0, 0, 0.5)'],
+  ['rgba(0, 255, 0, 0.1)', 'rgba(0, 255, 0, 0.5)'],
+  ['rgba(0, 0, 255, 0.1)', 'rgba(0, 0, 255, 0.5)'],
+  ['rgba(244, 244, 65, 0.1)', 'rgba(244, 244, 65, 0.5)'],
+  ['rgba(244, 124, 65, 0.1)', 'rgba(244, 124, 65, 0.5)'],
+  ['rgba(65, 244, 211, 0.1)', 'rgba(65, 244, 211, 0.5)'],
+  ['rgba(160, 65, 244, 0.1)', 'rgba(160, 65, 244, 0.5)'],
+];
+let globalColorIndex = 0;
+
+function getColor() {
+  const color = globalColors[globalColorIndex];
+  globalColorIndex = (globalColorIndex + 1) % globalColors.length;
+
+  return color;
+}
+
 function getWeekYear(date) {
   const yearPadding = 100;
   const momentDate = moment(date);
@@ -36,13 +54,24 @@ function countCardsByWeek(activities, week) {
 }
 
 function buildChartDataSet(filteredActivities, labels) {
+  if (filteredActivities.length === 0) {
+    return {
+      label: [],
+      data: [],
+    };
+  }
   const datasetName = filteredActivities[0].list.name;
   let datasetValues = labels.map((label) => countCardsByWeek(filteredActivities, label));
   datasetValues = datasetValues.reduce((a, b, index) => [...a, b + (a[index - 1] || 0)], []);
 
+  const colors = getColor();
+
   return {
     label: datasetName,
     data: datasetValues,
+    fill: true,
+    backgroundColor: colors[0],
+    borderColor: colors[1],
   };
 }
 
@@ -62,9 +91,12 @@ export default function (activities, listIds) {
   activitiesData = activitiesData.filter((element) => element !== null);
   activitiesData = activitiesData.filter((element) => listIds.includes(element.list.id));
 
-  const labels = getLabels(activitiesData);
+  const weekLabels = getLabels(activitiesData);
 
-  const chartDataset = buildChartDataSets(activitiesData, labels, listIds);
+  const chartDataset = buildChartDataSets(activitiesData, weekLabels, listIds);
 
-  return chartDataset;
+  return {
+    labels: weekLabels,
+    datasets: chartDataset,
+  };
 }

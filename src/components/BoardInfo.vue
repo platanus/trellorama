@@ -1,4 +1,5 @@
 <template>
+  <div>
     <table>
         <thead>
             <tr>
@@ -13,11 +14,19 @@
             </tr>
         </tbody>
     </table>
+    <h2>Cumulative Chart</h2>
+    <StackedChart :activities="cardActivities" :listIds="listIds"/>
+  </div>
 </template>
 
 <script>
+import StackedChart from './StackedChart.vue';
+
 export default {
   name: 'BoardInfo',
+  components: {
+    StackedChart,
+  },
   data() {
     return {
       lists: [],
