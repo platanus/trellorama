@@ -23,7 +23,6 @@ function getApiKey() {
 }
 
 function isAuthorized() {
-  console.log(getToken());
   return !(getToken() === '');
 }
 

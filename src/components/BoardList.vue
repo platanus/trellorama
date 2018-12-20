@@ -32,9 +32,7 @@ export default {
       const self = this;
       request(
         'members/me/boards',
-        (response) => {
-          self.boards = response.data.filter((element) => self.boardIds.includes(element.id));
-        },
+        (response) => { self.boards = response.data.filter((element) => self.boardIds.includes(element.id)); },
         (error) => { console.log(error); }
       );
     },
