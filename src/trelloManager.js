@@ -24,7 +24,6 @@ function isAuthorized() {
 }
 
 function redirectAuthorization(apiKey) {
-  console.log('Holiii');
   const returnUrl = window.location.href;
   const scope = 'read';
   const expiration = 'never';
