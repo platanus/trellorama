@@ -42,11 +42,9 @@ function getActivityData(activity) {
 }
 
 function getLabels(activities) {
-  let labels = activities.map((element) => element.date);
-  labels = labels.filter((value, index, self) => self.indexOf(value) === index);
-  labels.sort();
-
-  return labels;
+  return activities.map((element) => element.date)
+    .filter((value, index, self) => self.indexOf(value) === index)
+    .sort();
 }
 
 function countCardsByWeek(activities, week) {
@@ -61,8 +59,8 @@ function buildChartDataSet(filteredActivities, labels) {
     };
   }
   const datasetName = filteredActivities[0].list.name;
-  let datasetValues = labels.map((label) => countCardsByWeek(filteredActivities, label));
-  datasetValues = datasetValues.reduce((a, b, index) => [...a, b + (a[index - 1] || 0)], []);
+  const datasetValues = labels.map((label) => countCardsByWeek(filteredActivities, label))
+    .reduce((a, b, index) => [...a, b + (a[index - 1] || 0)], []);
 
   const colors = getColor();
 
@@ -76,14 +74,12 @@ function buildChartDataSet(filteredActivities, labels) {
 }
 
 function buildChartDataSets(activities, labels, listIds) {
-  const datasets = listIds.map(
+  return listIds.map(
     (listId) => buildChartDataSet(
       activities.filter((activity) => listId === activity.list.id),
       labels
     )
   );
-
-  return datasets;
 }
 
 export default function (activities, listIds) {

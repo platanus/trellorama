@@ -10,7 +10,7 @@
         <tbody>
             <tr>
                 <th>Number of Cards</th>
-                <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardCountByList[list.id].length }}</td>
+                <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardsByList[list.id].length }}</td>
             </tr>
         </tbody>
     </table>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       lists: [],
-      cardCountByList: {},
+      cardsByList: {},
       listIds: [
         '5bcf863f74837934564848c2',
         '5bcf863f74837934564848c3',
@@ -62,10 +62,10 @@ export default {
     getCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
-      self.$set(self.cardCountByList, listId, []);
+      self.$set(self.cardsByList, listId, []);
       window.Trello.lists.get(listId, { cards: cardsFilter }, (data) => {
         data.cards.forEach((element) => self.getCardActivities(element.id));
-        self.cardCountByList[listId] = data.cards;
+        self.cardsByList[listId] = data.cards;
       });
     },
     getCardActivities(cardId) {
