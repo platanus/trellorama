@@ -5,10 +5,10 @@
   </div>
 </template>
 <script>
-import trelloAuthorize from './trelloAuthorize.js';
 import BoardList from './components/BoardList.vue';
+import { authorize } from './trelloManager.js';
 
-trelloAuthorize();
+authorize(process.env.VUE_APP_TRELLO_KEY);
 
 export default {
   name: 'app',
