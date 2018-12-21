@@ -51,8 +51,7 @@ export default {
       request(
         'members/me/boards',
         (response) => { self.boards = response.data.filter((element) => self.boardIds.includes(element.id)); },
-        (error) => {
-          console.log(error);
+        () => {
           onRequestError(self.getBoards);
         }
       );

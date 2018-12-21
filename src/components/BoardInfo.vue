@@ -59,8 +59,7 @@ export default {
           self.lists = response.data.filter((element) => listIds.includes(element.id));
           self.lists.forEach((element) => self.getCards(element.id, self.listIncludesArchived.includes(element.id)));
         },
-        (error) => {
-          console.log(error);
+        () => {
           onRequestError(self.getLists, [boardId, listIds]);
         }
       );
@@ -75,8 +74,7 @@ export default {
           response.data.cards.forEach((card) => self.getCardActivities(card.id));
           self.cardsByList[listId] = response.data.cards;
         },
-        (error) => {
-          console.log(error);
+        () => {
           onRequestError(self.getCards, [listId, includeArchived]);
         },
         { cards: cardsFilter }
@@ -87,8 +85,7 @@ export default {
       request(
         `cards/${cardId}/actions`,
         (response) => { self.cardActivities = self.cardActivities.concat(response.data); },
-        (error) => {
-          console.log(error);
+        () => {
           onRequestError(self.getCardActivities, [cardId]);
         },
         { filter: 'createCard,updateCard:idList' }
