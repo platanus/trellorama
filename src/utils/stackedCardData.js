@@ -21,13 +21,15 @@ function getColor() {
 }
 
 function getWeekYear(date) {
-  const yearPadding = 100;
+  const zeroPadding = 2;
   const momentDate = moment(date);
-  const year = momentDate.get('year') * yearPadding;
-  const week = momentDate.get('week');
-  const weekYear = year + week;
+  const year = momentDate.year();
 
-  return weekYear;
+  // 1 is added because moment.js months go from 0 to 11
+  const month = (momentDate.month() + 1).toString().padStart(zeroPadding, '0');
+  const day = momentDate.date().toString().padStart(zeroPadding, '0');
+
+  return `${year}-${month}-${day}`;
 }
 
 function getActivityData(activity) {
@@ -70,6 +72,7 @@ function buildChartDataSet(filteredActivities, labels) {
     fill: true,
     backgroundColor: colors[0],
     borderColor: colors[1],
+    cubicInterpolationMode: 'monotone',
   };
 }
 
