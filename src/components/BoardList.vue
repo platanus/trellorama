@@ -21,6 +21,10 @@ export default {
     return {
       boards: [],
       boardIds: ['5bcf863f74837934564848be'],
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
     };
   },
   mounted() {
@@ -29,7 +33,7 @@ export default {
   methods: {
     getBoards() {
       const self = this;
-      window.Trello.rest('get', 'members/me/boards', data => {
+      window.Trello.rest('get', 'members/me/boards', (data) => {
         self.boards = data.filter((element) => self.boardIds.includes(element.id));
       }
       );

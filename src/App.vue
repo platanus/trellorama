@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import trelloAuthorize from './trelloAuthorize.js';
+import trelloAuthorize from './utils/trelloAuthorize.js';
 import BoardList from './components/BoardList.vue';
 
 trelloAuthorize();

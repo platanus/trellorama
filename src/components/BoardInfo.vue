@@ -1,27 +1,36 @@
 <template>
+  <div>
     <table>
         <thead>
             <tr>
                 <th></th>
-                <th v-for="list in lists" v-bind:key="list.id">{{list.name}}</th>
+                <th v-for="list in lists" v-bind:key="list.id">{{ list.name }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th>Number of Cards</th>
-                <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardCountByList[list.id].length }}</td>
+                <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardsByList[list.id].length }}</td>
             </tr>
         </tbody>
     </table>
+    <h2>Cumulative Chart</h2>
+    <StackedChart :activities="cardActivities" :listIds="listIds"/>
+  </div>
 </template>
 
 <script>
+import StackedChart from './StackedChart.vue';
+
 export default {
   name: 'BoardInfo',
+  components: {
+    StackedChart,
+  },
   data() {
     return {
       lists: [],
-      cardCountByList: {},
+      cardsByList: {},
       listIds: [
         '5bcf863f74837934564848c2',
         '5bcf863f74837934564848c3',
@@ -32,6 +41,7 @@ export default {
         '5bcf863f74837934564848c8',
       ],
       listIncludesArchived: ['5bcf863f74837934564848c8'],
+      cardActivities: [],
     };
   },
   props: {
@@ -46,15 +56,23 @@ export default {
       const url = `boards/${boardId}/lists`;
       window.Trello.rest('get', url, (data) => {
         self.lists = data.filter((element) => listIds.includes(element.id));
-        self.lists.forEach((element) => self.countCards(element.id, self.listIncludesArchived.includes(element.id)));
+        self.lists.forEach((element) => self.getCards(element.id, self.listIncludesArchived.includes(element.id)));
       });
     },
-    countCards(listId, includeArchived) {
+    getCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
-      self.$set(self.cardCountByList, listId, []);
+      self.$set(self.cardsByList, listId, []);
       window.Trello.lists.get(listId, { cards: cardsFilter }, (data) => {
-        self.cardCountByList[listId] = data.cards;
+        data.cards.forEach((element) => self.getCardActivities(element.id));
+        self.cardsByList[listId] = data.cards;
+      });
+    },
+    getCardActivities(cardId) {
+      const self = this;
+      const url = `cards/${cardId}/actions`;
+      window.Trello.rest('get', url, { filter: 'createCard,updateCard:idList' }, (data) => {
+        self.cardActivities = self.cardActivities.concat(data);
       });
     },
   },
