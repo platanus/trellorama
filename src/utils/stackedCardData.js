@@ -20,7 +20,7 @@ function getColor() {
   return color;
 }
 
-function getWeekYear(date) {
+function getDate(date) {
   const zeroPadding = 2;
   const momentDate = moment(date);
   const year = momentDate.year();
@@ -34,10 +34,18 @@ function getWeekYear(date) {
 
 function getActivityData(activity) {
   if (activity.type === 'updateCard') {
-    return { date: getWeekYear(activity.date), list: activity.data.listAfter };
+    return {
+      date: getDate(activity.date),
+      list: activity.data.listAfter,
+      id: activity.data.card.id,
+    };
   }
   if (activity.type === 'createCard') {
-    return { date: getWeekYear(activity.date), list: activity.data.list };
+    return {
+      date: getDate(activity.date),
+      list: activity.data.list,
+      id: activity.data.card.id,
+    };
   }
 
   return null;
@@ -85,10 +93,32 @@ function buildChartDataSets(activities, labels, listIds) {
   );
 }
 
-export default function (activities, listIds) {
-  let activitiesData = activities.map(getActivityData);
-  activitiesData = activitiesData.filter((element) => element !== null);
-  activitiesData = activitiesData.filter((element) => listIds.includes(element.list.id));
+function fillRetroactively(activities, listIds) {
+  listIds.slice(1).forEach((currentList, currentIndex) => {
+    activities.filter((activity) => activity.list.id === currentList)
+      .forEach((currentActivity) => {
+        listIds.slice(0, currentIndex + 1).forEach((previousList) => {
+          const previousActivitie = activities.filter((activity) => activity.list.id === previousList)
+            .filter((prevAct) => prevAct.id === currentActivity.id);
+          if (previousActivitie.length === 0) {
+            activities.push({
+              date: currentActivity.date,
+              list: { id: previousList, name: '' },
+              id: currentActivity.id,
+            });
+          }
+        });
+      });
+  });
+}
+
+export default function (activities, listIds, retroactiveFill) {
+  const activitiesData = activities.map(getActivityData)
+    .filter((activity) => activity !== null)
+    .filter((activity) => listIds.includes(activity.list.id));
+  if (retroactiveFill) {
+    fillRetroactively(activitiesData, listIds);
+  }
 
   const weekLabels = getLabels(activitiesData);
 

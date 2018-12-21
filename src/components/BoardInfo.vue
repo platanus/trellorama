@@ -15,7 +15,13 @@
         </tbody>
     </table>
     <h2>Cumulative Chart</h2>
-    <StackedChart :activities="cardActivities" :listIds="listIds"/>
+    <div>
+      <b>Options:</b>
+      &ensp;
+      <label for="fillBackLists">Fill lists retroactively</label>
+      <input type="checkbox" id="fillBackLists" v-model="fillBackLists">
+    </div>
+    <StackedChart :activities="cardActivities" :listIds="listIds" :fillBackLists="fillBackLists"/>
   </div>
 </template>
 
@@ -32,24 +38,17 @@ export default {
     return {
       lists: [],
       cardsByList: {},
-      listIds: [
-        '5bcf863f74837934564848c2',
-        '5bcf863f74837934564848c3',
-        '5bcf863f74837934564848c4',
-        '5bcf863f74837934564848c5',
-        '5bcf863f74837934564848c6',
-        '5bcf863f74837934564848c7',
-        '5bcf863f74837934564848c8',
-      ],
       listIncludesArchived: ['5bcf863f74837934564848c8'],
       cardActivities: [],
+      fillBackLists: true,
     };
   },
   props: {
     boardId: String,
+    listIds: Array,
   },
   mounted() {
-    this.getLists(this.$props.boardId, this.listIds);
+    this.getLists(this.$props.boardId, this.$props.listIds);
   },
   methods: {
     getLists(boardId, listIds) {
