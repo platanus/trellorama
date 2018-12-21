@@ -6,6 +6,10 @@ Dashboard for trello statistics
 ```
 npm install
 ```
+After that, you have to go to [Trello Developer API Keys][https://trello.com/app-key/] to retrieve your api key. After that, on the project root, you must create a file called **.env.local** where you have to place you api key:
+```
+VUE_APP_TRELLO_KEY=YOUR_KEY_HERE
+```
 
 ### Compiles and hot-reloads for development
 ```

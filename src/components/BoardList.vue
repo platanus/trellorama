@@ -10,7 +10,7 @@
 <script>
 import Board from './Board.vue';
 import BoardInfo from './BoardInfo.vue';
-import { request, onRequestError } from '../trelloManager.js';
+import { request, onRequestError } from '../utils/trelloManager.js';
 
 export default {
   name: 'BoardList',
@@ -22,6 +22,10 @@ export default {
     return {
       boards: [],
       boardIds: ['5bcf863f74837934564848be'],
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
     };
   },
   mounted() {

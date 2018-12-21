@@ -1,29 +1,37 @@
 <template>
+  <div>
     <table>
         <thead>
             <tr>
                 <th></th>
-                <th v-for="list in lists" v-bind:key="list.id">{{list.name}}</th>
+                <th v-for="list in lists" v-bind:key="list.id">{{ list.name }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th>Number of Cards</th>
-                <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardCountByList[list.id].length }}</td>
+                <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardsByList[list.id].length }}</td>
             </tr>
         </tbody>
     </table>
+    <h2>Cumulative Chart</h2>
+    <StackedChart :activities="cardActivities" :listIds="listIds"/>
+  </div>
 </template>
 
 <script>
-import { request, onRequestError } from '../trelloManager.js';
+import { request, onRequestError } from '../utils/trelloManager.js';
+import StackedChart from './StackedChart.vue';
 
 export default {
   name: 'BoardInfo',
+  components: {
+    StackedChart,
+  },
   data() {
     return {
       lists: [],
-      cardCountByList: {},
+      cardsByList: {},
       listIds: [
         '5bcf863f74837934564848c2',
         '5bcf863f74837934564848c3',
@@ -34,6 +42,7 @@ export default {
         '5bcf863f74837934564848c8',
       ],
       listIncludesArchived: ['5bcf863f74837934564848c8'],
+      cardActivities: [],
     };
   },
   props: {
@@ -49,7 +58,7 @@ export default {
         `boards/${boardId}/lists`,
         (response) => {
           self.lists = response.data.filter((element) => listIds.includes(element.id));
-          self.lists.forEach((element) => self.countCards(element.id, self.listIncludesArchived.includes(element.id)));
+          self.lists.forEach((element) => self.getCards(element.id, self.listIncludesArchived.includes(element.id)));
         },
         (error) => {
           console.log(error);
@@ -57,18 +66,33 @@ export default {
         }
       );
     },
-    countCards(listId, includeArchived) {
+    getCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
-      self.$set(self.cardCountByList, listId, []);
+      self.$set(self.cardsByList, listId, []);
       request(
         `lists/${listId}`,
-        (response) => { self.cardCountByList[listId] = response.data.cards; },
+        (response) => {
+          response.data.cards.forEach((card) => self.getCardActivities(card.id));
+          self.cardsByList[listId] = response.data.cards;
+        },
         (error) => {
           console.log(error);
-          onRequestError(self.countCards, [listId, includeArchived]);
+          onRequestError(self.getCards, [listId, includeArchived]);
         },
         { cards: cardsFilter }
+      );
+    },
+    getCardActivities(cardId) {
+      const self = this;
+      request(
+        `cards/${cardId}/actions`,
+        (response) => { self.cardActivities = self.cardActivities.concat(response.data); },
+        (error) => {
+          console.log(error);
+          onRequestError(self.getCardActivities, [cardId]);
+        },
+        { filter: 'createCard,updateCard:idList' }
       );
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ board.name }}</h2>
+    <h1>{{ board.name }}</h1>
   </div>
 </template>
 
