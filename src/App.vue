@@ -8,7 +8,9 @@
 import BoardList from './components/BoardList.vue';
 import { authorize } from './trelloManager.js';
 
+/* eslint-disable */
 authorize(process.env.VUE_APP_TRELLO_KEY);
+/* eslint-disable */
 
 export default {
   name: 'app',

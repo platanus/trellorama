@@ -3,6 +3,7 @@ import axios from 'axios';
 const baseUrl = 'https://trello.com/1/';
 const tokenCookieName = 'trellotoken';
 const apiKeyCookieName = 'trelloapikey';
+const trelloApiIntervalTimeout = 10000;
 
 function readCookie(name) {
   const cookie = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
@@ -50,8 +51,19 @@ function authorize(apiKey) {
   redirectAuthorization(apiKey);
 }
 
-function request(url, onSuccess, onError) {
-  axios.get(`${baseUrl}${url}?key=${getApiKey()}&token=${getToken()}`)
+function parseParams(params) {
+  return Object.keys(params)
+    .reduce((total, param) => `${total}&${param}=${params[param]}`, '');
+}
+
+function onRequestError(functionToExecute, parametersList = []) {
+  setTimeout(() => {
+    functionToExecute(...parametersList);
+  }, trelloApiIntervalTimeout);
+}
+
+function request(url, onSuccess, onError, params = {}) {
+  axios.get(`${baseUrl}${url}?key=${getApiKey()}&token=${getToken()}${parseParams(params)}`)
     .then(onSuccess)
     .catch(onError);
 }
@@ -60,4 +72,5 @@ export {
   authorize,
   isAuthorized,
   request,
+  onRequestError,
 };

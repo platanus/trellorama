@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { request, onRequestError } from '../trelloManager.js';
+
 export default {
   name: 'BoardInfo',
   data() {
@@ -43,19 +45,31 @@ export default {
   methods: {
     getLists(boardId, listIds) {
       const self = this;
-      const url = `boards/${boardId}/lists`;
-      window.Trello.rest('get', url, (data) => {
-        self.lists = data.filter((element) => listIds.includes(element.id));
-        self.lists.forEach((element) => self.countCards(element.id, self.listIncludesArchived.includes(element.id)));
-      });
+      request(
+        `boards/${boardId}/lists`,
+        (response) => {
+          self.lists = response.data.filter((element) => listIds.includes(element.id));
+          self.lists.forEach((element) => self.countCards(element.id, self.listIncludesArchived.includes(element.id)));
+        },
+        (error) => {
+          console.log(error);
+          onRequestError(self.getLists, [boardId, listIds]);
+        }
+      );
     },
     countCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
       self.$set(self.cardCountByList, listId, []);
-      window.Trello.lists.get(listId, { cards: cardsFilter }, (data) => {
-        self.cardCountByList[listId] = data.cards;
-      });
+      request(
+        `lists/${listId}`,
+        (response) => { self.cardCountByList[listId] = response.data.cards; },
+        (error) => {
+          console.log(error);
+          onRequestError(self.countCards, [listId, includeArchived]);
+        },
+        { cards: cardsFilter }
+      );
     },
   },
 };

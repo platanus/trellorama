@@ -10,7 +10,7 @@
 <script>
 import Board from './Board.vue';
 import BoardInfo from './BoardInfo.vue';
-import { request } from '../trelloManager.js';
+import { request, onRequestError } from '../trelloManager.js';
 
 export default {
   name: 'BoardList',
@@ -33,7 +33,10 @@ export default {
       request(
         'members/me/boards',
         (response) => { self.boards = response.data.filter((element) => self.boardIds.includes(element.id)); },
-        (error) => { console.log(error); }
+        (error) => {
+          console.log(error);
+          onRequestError(self.getBoards);
+        }
       );
     },
   },
