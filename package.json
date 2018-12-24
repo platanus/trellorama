@@ -15,7 +15,8 @@
     "moment": "^2.23.0",
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
-    "vue-select": "^2.5.1"
+    "vue-select": "^2.5.1",
+    "vuejs-datepicker": "^1.5.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
