@@ -14,6 +14,8 @@ export default {
     },
     listIds: Array,
     fillBackLists: Boolean,
+    dateTypeSelector: String,
+    dayOfWeek: String,
   },
   data() {
     return {
@@ -31,13 +33,24 @@ export default {
     fillBackLists() {
       this.renderData();
     },
+    dateTypeSelector() {
+      this.renderData();
+    },
+    dayOfWeek() {
+      this.renderData();
+    },
   },
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
   },
   methods: {
     renderData() {
-      this.chartdata = stackedCardData(this.activities, this.listIds, this.fillBackLists);
+      this.chartdata = stackedCardData(
+        this.activities,
+        this.listIds,
+        this.fillBackLists,
+        [this.dateTypeSelector, this.dayOfWeek]
+      );
       this.$set(this.chartdata, 'labels', this.chartdata.labels);
       this.renderChart(this.chartdata, this.chartoptions);
     },
