@@ -2,7 +2,10 @@
   <div>
     <div v-for="board in boards" v-bind:key="board.id">
       <Board v-bind:board="board"/>
-      <BoardInfo v-bind:boardId="board.id"/>
+      <BoardInfo
+        v-bind:boardId="board.id"
+        v-bind:listIds="listIdsByBoard[board.id]"
+      />
     </div>
   </div>
 </template>
@@ -26,6 +29,17 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
       },
+      listIdsByBoard: {
+        '5bcf863f74837934564848be': [
+          '5bcf863f74837934564848c2',
+          '5bcf863f74837934564848c3',
+          '5bcf863f74837934564848c4',
+          '5bcf863f74837934564848c5',
+          '5bcf863f74837934564848c6',
+          '5bcf863f74837934564848c7',
+          '5bcf863f74837934564848c8',
+        ],
+      },
     };
   },
   mounted() {
@@ -37,8 +51,7 @@ export default {
       request(
         'members/me/boards',
         (response) => { self.boards = response.data.filter((element) => self.boardIds.includes(element.id)); },
-        (error) => {
-          console.log(error);
+        () => {
           onRequestError(self.getBoards);
         }
       );

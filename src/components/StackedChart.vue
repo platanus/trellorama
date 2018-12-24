@@ -13,6 +13,7 @@ export default {
       default: null,
     },
     listIds: Array,
+    fillBackLists: Boolean,
   },
   data() {
     return {
@@ -25,13 +26,21 @@ export default {
   },
   watch: {
     activities() {
-      this.chartdata = stackedCardData(this.activities, this.listIds);
-      this.$set(this.chartdata, 'labels', this.chartdata.labels);
-      this.renderChart(this.chartdata, this.chartoptions);
+      this.renderData();
+    },
+    fillBackLists() {
+      this.renderData();
     },
   },
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
+  },
+  methods: {
+    renderData() {
+      this.chartdata = stackedCardData(this.activities, this.listIds, this.fillBackLists);
+      this.$set(this.chartdata, 'labels', this.chartdata.labels);
+      this.renderChart(this.chartdata, this.chartoptions);
+    },
   },
 };
 </script>
