@@ -2,7 +2,7 @@
   <div>
     <h1>{{ board.name }}</h1>
     <h2>Tag Filter</h2>
-    <v-select multiple v-model="selectedCardLabels" v-bind:options="Object.keys(cardLabels)" />
+    <v-select multiple v-model="selectedLabelOptions" v-bind:options="cardLabels" />
     <h2>Board Status</h2>
     <BoardInfo
         v-bind:lists="lists"
@@ -76,13 +76,20 @@ export default {
       fillBackLists: true,
       dateTypeSelector: 'day',
       dayOfWeek: 'monday',
-      cardLabels: {},
+      selectedLabelOptions: [],
       selectedCardLabels: [],
     };
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
     this.getBoardLabels(this.$props.board.id);
+  },
+  watch: {
+    selectedLabelOptions() {
+      this.selectedCardLabels = this.selectedLabelOptions.map((option) => option.value);
+      console.log(this.selectedCardLabels);
+      this.lists.forEach((list) => this.getCards(list.id, this.listIncludesArchived.includes(list.id)));
+    },
   },
   methods: {
     getLists(boardId, listIds) {
@@ -130,7 +137,7 @@ export default {
       request(
         `boards/${boardId}/labels`,
         (response) => {
-          response.data.map((label) => self.$set(self.cardLabels, label.name, label.id));
+          self.cardLabels = response.data.map((label) => ({ label: label.name, value: label.id }));
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
