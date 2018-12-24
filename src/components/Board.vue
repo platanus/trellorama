@@ -112,8 +112,14 @@ export default {
       request(
         `lists/${listId}`,
         (response) => {
-          response.data.cards.forEach((card) => self.getCardActivities(card.id));
-          self.cardsByList[listId] = response.data.cards;
+          const filteredCards = [];
+          response.data.cards.forEach((card) => {
+            if (!card.labels.map((label) => label.id).some((cardLabel) => self.selectedCardLabels.includes(cardLabel))) {
+              filteredCards.push(card);
+              self.getCardActivities(card.id);
+            }
+          });
+          self.cardsByList[listId] = filteredCards;
         },
         () => {
           onRequestError(self.getCards, [listId, includeArchived]);
