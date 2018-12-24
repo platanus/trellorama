@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>{{ board.name }}</h1>
+    <h2>Tag Filter</h2>
+    <v-select multiple v-model="selectedCardLabels" v-bind:options="Object.keys(cardLabels)" />
+    <h2>Board Status</h2>
     <BoardInfo
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
@@ -40,6 +43,7 @@
 </template>
 
 <script>
+import vSelect from 'vue-select';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import StackedChart from './StackedChart.vue';
@@ -49,6 +53,7 @@ export default {
   components: {
     BoardInfo,
     StackedChart,
+    vSelect,
   },
   props: {
     board: Object,
@@ -71,10 +76,13 @@ export default {
       fillBackLists: true,
       dateTypeSelector: 'day',
       dayOfWeek: 'monday',
+      cardLabels: {},
+      selectedCardLabels: [],
     };
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
+    this.getBoardLabels(this.$props.board.id);
   },
   methods: {
     getLists(boardId, listIds) {
@@ -115,6 +123,18 @@ export default {
           onRequestError(self.getCardActivities, [cardId]);
         },
         { filter: 'createCard,updateCard:idList' }
+      );
+    },
+    getBoardLabels(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/labels`,
+        (response) => {
+          response.data.map((label) => self.$set(self.cardLabels, label.name, label.id));
+        },
+        () => {
+          onRequestError(self.getBoardLabels, [boardId]);
+        }
       );
     },
   },
