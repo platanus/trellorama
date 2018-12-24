@@ -13,6 +13,8 @@ const globalColors = [
 ];
 let globalColorIndex = 0;
 
+const zeroPadding = 2;
+
 function getColor() {
   const color = globalColors[globalColorIndex];
   globalColorIndex = (globalColorIndex + 1) % globalColors.length;
@@ -20,29 +22,52 @@ function getColor() {
   return color;
 }
 
-function getDate(date) {
-  const zeroPadding = 2;
-  const momentDate = moment(date);
-  const year = momentDate.year();
-
-  // 1 is added because moment.js months go from 0 to 11
-  const month = (momentDate.month() + 1).toString().padStart(zeroPadding, '0');
-  const day = momentDate.date().toString().padStart(zeroPadding, '0');
+function getDateByDay(date, year, month) {
+  const day = date.date().toString().padStart(zeroPadding, '0');
 
   return `${year}-${month}-${day}`;
 }
 
-function getActivityData(activity) {
+function getDateByWeek(date, year, month, dayOfWeek) {
+  date.day(dayOfWeek);
+  const day = date.date().toString().padStart(zeroPadding, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+function getDateByMonth(date, year, month) {
+  return `${year}-${month}`;
+}
+
+function getDate(date, dateTypeSelector, dayOfWeek) {
+  const momentDate = moment(date);
+  const year = momentDate.year();
+  // 1 is added because moment.js months go from 0 to 11
+  const month = (momentDate.month() + 1).toString().padStart(zeroPadding, '0');
+
+  switch (dateTypeSelector) {
+  case 'day':
+    return getDateByDay(momentDate, year, month);
+  case 'week':
+    return getDateByWeek(momentDate, year, month, dayOfWeek);
+  case 'month':
+    return getDateByMonth(momentDate, year, month);
+  default:
+    return getDateByDay(momentDate, year, month);
+  }
+}
+
+function getActivityData(activity, dateTypeSelector, dayOfWeek) {
   if (activity.type === 'updateCard') {
     return {
-      date: getDate(activity.date),
+      date: getDate(activity.date, dateTypeSelector, dayOfWeek),
       list: activity.data.listAfter,
       id: activity.data.card.id,
     };
   }
   if (activity.type === 'createCard') {
     return {
-      date: getDate(activity.date),
+      date: getDate(activity.date, dateTypeSelector, dayOfWeek),
       list: activity.data.list,
       id: activity.data.card.id,
     };
@@ -112,20 +137,20 @@ function fillRetroactively(activities, listIds) {
   });
 }
 
-export default function (activities, listIds, retroactiveFill) {
-  const activitiesData = activities.map(getActivityData)
+export default function (activities, listIds, retroactiveFill, dateParameters) {
+  const activitiesData = activities.map((activity) => getActivityData(activity, ...dateParameters))
     .filter((activity) => activity !== null)
     .filter((activity) => listIds.includes(activity.list.id));
   if (retroactiveFill) {
     fillRetroactively(activitiesData, listIds);
   }
 
-  const weekLabels = getLabels(activitiesData);
+  const dateLabels = getLabels(activitiesData);
 
-  const chartDataset = buildChartDataSets(activitiesData, weekLabels, listIds);
+  const chartDataset = buildChartDataSets(activitiesData, dateLabels, listIds);
 
   return {
-    labels: weekLabels,
+    labels: dateLabels,
     datasets: chartDataset,
   };
 }
