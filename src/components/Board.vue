@@ -87,7 +87,6 @@ export default {
   watch: {
     selectedLabelOptions() {
       this.selectedCardLabels = this.selectedLabelOptions.map((option) => option.value);
-      console.log(this.selectedCardLabels);
       this.lists.forEach((list) => this.getCards(list.id, this.listIncludesArchived.includes(list.id)));
     },
   },
