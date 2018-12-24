@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { request, onRequestError } from '../utils/trelloManager.js';
 import StackedChart from './StackedChart.vue';
 
 export default {
@@ -53,27 +54,46 @@ export default {
   methods: {
     getLists(boardId, listIds) {
       const self = this;
-      const url = `boards/${boardId}/lists`;
-      window.Trello.rest('get', url, (data) => {
-        self.lists = data.filter((element) => listIds.includes(element.id));
-        self.lists.forEach((element) => self.getCards(element.id, self.listIncludesArchived.includes(element.id)));
-      });
+      request(
+        `boards/${boardId}/lists`,
+        (response) => {
+          self.lists = response.data.filter((element) => listIds.includes(element.id));
+          self.lists.forEach((element) => self.getCards(element.id, self.listIncludesArchived.includes(element.id)));
+        },
+        (error) => {
+          console.log(error);
+          onRequestError(self.getLists, [boardId, listIds]);
+        }
+      );
     },
     getCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
       self.$set(self.cardsByList, listId, []);
-      window.Trello.lists.get(listId, { cards: cardsFilter }, (data) => {
-        data.cards.forEach((element) => self.getCardActivities(element.id));
-        self.cardsByList[listId] = data.cards;
-      });
+      request(
+        `lists/${listId}`,
+        (response) => {
+          response.data.cards.forEach((card) => self.getCardActivities(card.id));
+          self.cardsByList[listId] = response.data.cards;
+        },
+        (error) => {
+          console.log(error);
+          onRequestError(self.getCards, [listId, includeArchived]);
+        },
+        { cards: cardsFilter }
+      );
     },
     getCardActivities(cardId) {
       const self = this;
-      const url = `cards/${cardId}/actions`;
-      window.Trello.rest('get', url, { filter: 'createCard,updateCard:idList' }, (data) => {
-        self.cardActivities = self.cardActivities.concat(data);
-      });
+      request(
+        `cards/${cardId}/actions`,
+        (response) => { self.cardActivities = self.cardActivities.concat(response.data); },
+        (error) => {
+          console.log(error);
+          onRequestError(self.getCardActivities, [cardId]);
+        },
+        { filter: 'createCard,updateCard:idList' }
+      );
     },
   },
 };
