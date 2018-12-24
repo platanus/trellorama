@@ -14,8 +14,8 @@
       v-bind:cardActivities="cardActivities"
       v-bind:listIds="listIds"
     />
-    <TeamSpeed v-bind:speed="weeklySpeed(filterActivities(endListId))"/>
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
+    <TeamSpeed v-bind:endListId="endListId" v-bind:cardActivities="cardActivities"/>
   </div>
 </template>
 
