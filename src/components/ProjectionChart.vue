@@ -16,6 +16,7 @@ export default {
     speed: Number,
     timeUnitsForward: Number,
     endListId: String,
+    dateTypeSelector: String,
   },
   data() {
     return {
@@ -77,7 +78,7 @@ export default {
       let latestLabel = newLabels[newLabels.length - 1];
 
       [...Array(timeUnitsForward + 1).keys()].forEach((timeUnit) => {
-        latestLabel = addToDate(latestLabel, timeUnit + 1, 'week');
+        latestLabel = addToDate(latestLabel, timeUnit + 1, this.dateTypeSelector);
         newLabels.push(latestLabel);
       });
 

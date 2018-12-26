@@ -4,9 +4,6 @@
     <div>
       <b>Options:</b>
       &ensp;
-      <label for="fillBackLists">Fill lists retroactively</label>
-      <input type="checkbox" id="fillBackLists" v-model="fillBackLists">
-      &ensp;
       <label for="dateTypeSelector">Date Format: </label>
       <select id="dateTypeSelector" v-model="dateTypeSelector">
         <option value="day">Day</option>
@@ -22,29 +19,31 @@
         <option value="saturday">Saturday</option>
         <option value="sunday">Sunday</option>
       </select>
+      &ensp;
+      <label for="timeUnits">Time units to project: </label>
+      <input type="number" id="timeUnits" v-model="timeUnits">
     </div>
     <ProjectionChart
       v-bind:filteredActivities="filteredActivities"
       v-bind:endListId="endListId"
-      v-bind:speed="speed"
-      v-bind:timeUnitsForward="5"
+      v-bind:speed="parseFloat(speedProjection(filteredActivities))"
+      v-bind:timeUnitsForward="parseInt(timeUnits)"
+      v-bind:dateTypeSelector="dateTypeSelector"
     />
   </div>
 </template>
 
 <script>
 import ProjectionChart from './ProjectionChart.vue';
+import { getDate } from '../utils/dateManager.js';
 
 export default {
   name: 'ProjectionWrapper',
   props: {
-    filteredActivities: {
-      type: Array,
-      default: null,
-    },
     speed: Number,
     timeUnitsForward: Number,
     endListId: String,
+    cardActivities: Array,
   },
   components: {
     ProjectionChart,
@@ -53,7 +52,38 @@ export default {
     return {
       dateTypeSelector: 'week',
       dayOfWeek: 'monday',
+      timeUnits: 5,
+      filteredActivities: [],
     };
+  },
+  mounted() {
+    this.generateData();
+  },
+  watch: {
+    cardActivities() {
+      this.generateData();
+    },
+    dayOfWeek() {
+      this.generateData();
+    },
+    dateTypeSelector() {
+      this.generateData();
+    },
+  },
+  methods: {
+    filterActivities(endListId) {
+      return this.cardActivities.filter((activity) => activity.type === 'updateCard')
+        .filter((activity) => activity.data.listAfter.id === endListId)
+        .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, this.dateTypeSelector, this.dayOfWeek) }))
+        .sort((card) => card.date);
+    },
+    speedProjection(filteredActivities) {
+      return (filteredActivities.length / [...new Set(filteredActivities
+        .map((card) => card.date))].length).toFixed(1);
+    },
+    generateData() {
+      this.filteredActivities = this.filterActivities(this.endListId);
+    },
   },
 };
 
