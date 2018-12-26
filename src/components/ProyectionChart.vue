@@ -1,5 +1,6 @@
 <script>
 import { Line, mixins } from 'vue-chartjs';
+import { getLabels, buildChartDataSet } from '../utils/chartUtils.js';
 
 const { reactiveData } = mixins;
 
@@ -7,12 +8,13 @@ export default {
   name: 'ProyectionChart',
   mixins: [Line, reactiveData],
   props: {
-    cardActivities: {
+    filteredActivities: {
       type: Array,
       default: null,
     },
     speed: Number,
     timeUnitsForward: Number,
+    endListId: String,
   },
   data() {
     return {
@@ -24,7 +26,7 @@ export default {
     };
   },
   watch: {
-    cardActivities() {
+    filteredActivities() {
       this.renderData();
     },
     speed() {
@@ -39,7 +41,16 @@ export default {
   },
   methods: {
     renderData() {
+      this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
+    },
+    buildChartData() {
+      const dateLabels = getLabels(this.filteredActivities);
+      const chartDataset = buildChartDataSet(this.filteredActivities, dateLabels, 'Current Progression', { color: 'default', fill: false });
+      this.chartdata = {
+        labels: dateLabels,
+        datasets: [chartDataset],
+      };
     },
   },
 };
