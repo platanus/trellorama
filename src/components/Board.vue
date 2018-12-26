@@ -13,6 +13,7 @@
       v-bind:listIds="listIds"
     />
     <TeamSpeed v-bind:speed="weeklySpeed(filterActivities(endListId))"/>
+    <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import { request, onRequestError } from '../utils/trelloManager.js';
 import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
 import getDate from '../utils/getDate.js';
+import LeadTime from './LeadTime.vue';
 
 export default {
   name: 'Board',
@@ -31,6 +33,7 @@ export default {
     TeamSpeed,
     CumulativeWrapper,
     vSelect,
+    LeadTime,
   },
   props: {
     board: Object,
