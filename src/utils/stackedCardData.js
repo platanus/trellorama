@@ -1,4 +1,4 @@
-import getDate from './getDate.js';
+import { getDate } from './dateManager.js';
 import { getLabels, buildChartDataSets } from './chartUtils.js';
 
 function getActivityData(activity, dateTypeSelector, dayOfWeek) {

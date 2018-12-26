@@ -16,8 +16,11 @@ function getColor(color) {
     colorArray = globalColors[globalColorIndex];
     globalColorIndex = (globalColorIndex + 1) % globalColors.length;
     break;
-  case 'default':
-    colorArray = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.5)'];
+  case 'blue':
+    colorArray = ['rgba(0, 0, 255, 1)', 'rgba(0, 0, 255, 1)'];
+    break;
+  case 'black':
+    colorArray = ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 1)'];
     break;
   default:
     colorArray = globalColors[globalColorIndex];
@@ -74,4 +77,5 @@ export {
   getLabels,
   buildChartDataSets,
   buildChartDataSet,
+  getColor,
 };
