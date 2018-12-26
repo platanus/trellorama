@@ -7,6 +7,7 @@
     <BoardInfo
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
+        v-bind:cardActivities="cardActivities"
     />
     <CumulativeWrapper
       v-bind:cardActivities="cardActivities"
