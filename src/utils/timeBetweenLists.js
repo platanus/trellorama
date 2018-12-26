@@ -44,15 +44,21 @@ function getAverageTime(createdCards, finishedCards) {
     .reduce((a, b) => a + b, 0) / finishedCards.length;
 }
 
-export default function (cardActivities, endListId) {
+export default function (cardActivities, listId, leadTIme = true) {
   const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
-    .filter((activity) => activity.data.listAfter.id === endListId)
+    .filter((activity) => (leadTIme ? activity.data.listAfter.id : activity.data.listBefore.id) === listId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
     .filter((card, _, self) => filterDuplicates(card, _, self));
 
   const createdCards = cardActivities.filter((acitvity) => acitvity.type === 'createCard')
     .filter((activity) => finishedCards.map((card) => card.id).includes(activity.data.card.id))
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }));
+  if (!leadTIme) {
+    createdCards.concat(cardActivities.filter((activity) => activity.type === 'updateCard')
+      .filter((activity) => activity.data.listAfter.id === listId)
+      .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
+      .filter((card, _, self) => filterDuplicates(card, _, self)));
+  }
 
   return parseTime(getAverageTime(createdCards, finishedCards));
 }

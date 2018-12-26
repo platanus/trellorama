@@ -4,6 +4,7 @@
     <BoardInfo
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
+        v-bind:cardActivities="cardActivities"
     />
     <h2>Cumulative Chart</h2>
     <div>
