@@ -21,8 +21,13 @@ function getDateByMonth(date, year, month) {
   return `${year}-${month}`;
 }
 
-export default function (date, dateTypeSelector, dayOfWeek = 'monday') {
-  const momentDate = moment(date);
+function getDate(date, dateTypeSelector, dayOfWeek = 'monday', toMoment = true) {
+  let momentDate;
+  if (toMoment) {
+    momentDate = moment(date);
+  } else {
+    momentDate = date;
+  }
   const year = momentDate.year();
   // 1 is added because moment.js months go from 0 to 11
   const month = (momentDate.month() + 1).toString().padStart(zeroPadding, '0');
@@ -38,3 +43,15 @@ export default function (date, dateTypeSelector, dayOfWeek = 'monday') {
     return getDateByDay(momentDate, year, month);
   }
 }
+
+function addToDate(date, value, unit, dayOfWeek = 'monday') {
+  const momentDate = moment(date);
+  momentDate.add(value, `${unit}s`);
+
+  return getDate(momentDate, unit, dayOfWeek, false);
+}
+
+export {
+  getDate,
+  addToDate,
+};
