@@ -36,6 +36,7 @@
       v-bind:dateTypeSelector="dateTypeSelector"
       v-bind:dayOfWeek="dayOfWeek"
     />
+    <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
   </div>
 </template>
 
@@ -43,12 +44,14 @@
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import StackedChart from './StackedChart.vue';
+import LeadTime from './LeadTime.vue';
 
 export default {
   name: 'Board',
   components: {
     BoardInfo,
     StackedChart,
+    LeadTime,
   },
   props: {
     board: Object,
@@ -71,6 +74,7 @@ export default {
       fillBackLists: true,
       dateTypeSelector: 'day',
       dayOfWeek: 'monday',
+      endListId: '5bcf863f74837934564848c8',
     };
   },
   mounted() {
