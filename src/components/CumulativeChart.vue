@@ -51,7 +51,6 @@ export default {
         this.fillBackLists,
         [this.dateTypeSelector, this.dayOfWeek]
       );
-      this.$set(this.chartdata, 'labels', this.chartdata.labels);
       this.renderChart(this.chartdata, this.chartoptions);
     },
   },
