@@ -51,35 +51,51 @@ export default {
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
-        { dataset: currentDataset, labels: dateLabels },
+        currentDataset,
         { colors: getColor('blue'), label: 'Current Projection' }
       );
-      dateLabels = currentProjection.labels;
+      const optimistProjection = this.projectData(
+        this.speed + 1,
+        this.timeUnitsForward,
+        currentDataset,
+        { colors: getColor('green'), label: 'Optimist Projection' }
+      );
+      const pesimistProjection = this.projectData(
+        this.speed - 1,
+        this.timeUnitsForward,
+        currentDataset,
+        { colors: getColor('red'), label: 'Pesimist Projection' }
+      );
+      dateLabels = this.extendLabels(dateLabels, this.timeUnitsForward);
       this.chartdata = {
         labels: dateLabels,
-        datasets: [currentDataset, currentProjection.dataset],
+        datasets: [currentDataset, currentProjection, optimistProjection, pesimistProjection],
       };
     },
-    projectData(projectionRate, timeUnitsForward, baseDataset, datasetOptions) {
-      const newLabels = baseDataset.labels.slice();
+    extendLabels(currentLabels, timeUnitsForward) {
+      const newLabels = currentLabels.slice();
       let latestLabel = newLabels[newLabels.length - 1];
-      const projectedDataset = JSON.parse(JSON.stringify(baseDataset.dataset));
+
+      [...Array(timeUnitsForward + 1).keys()].forEach((timeUnit) => {
+        latestLabel = addToDate(latestLabel, timeUnit + 1, 'week');
+        newLabels.push(latestLabel);
+      });
+
+      return newLabels;
+    },
+    projectData(projectionRate, timeUnitsForward, baseDataset, datasetOptions) {
+      const projectedDataset = JSON.parse(JSON.stringify(baseDataset));
 
       projectedDataset.borderColor = datasetOptions.colors[0];
       projectedDataset.backgroundColor = datasetOptions.colors[1];
       projectedDataset.label = datasetOptions.label;
 
-      const lastValue = baseDataset.dataset.data[baseDataset.dataset.data.length - 1];
+      const lastValue = baseDataset.data[baseDataset.data.length - 1];
       [...Array(timeUnitsForward + 1).keys()].forEach((timeUnit) => {
-        latestLabel = addToDate(latestLabel, timeUnit + 1, 'week');
-        newLabels.push(latestLabel);
-        projectedDataset.data.push(lastValue + (projectionRate * (timeUnit + 1)));
+        projectedDataset.data.push(Math.floor(lastValue + (projectionRate * (timeUnit + 1))));
       });
 
-      return {
-        labels: newLabels,
-        dataset: projectedDataset,
-      };
+      return projectedDataset;
     },
   },
 };

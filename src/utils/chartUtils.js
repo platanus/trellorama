@@ -19,6 +19,12 @@ function getColor(color) {
   case 'blue':
     colorArray = ['rgba(0, 0, 255, 1)', 'rgba(0, 0, 255, 1)'];
     break;
+  case 'red':
+    colorArray = ['rgba(255, 0, 0, 1)', 'rgba(255, 0, 0, 1)'];
+    break;
+  case 'green':
+    colorArray = ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'];
+    break;
   case 'black':
     colorArray = ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 1)'];
     break;
