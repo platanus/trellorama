@@ -5,10 +5,31 @@
   </div>
 </template>
 <script>
+import { filterActivities, speedProjection } from '../utils/speedUtil.js';
+
 export default {
   name: 'TeamSpeed',
   props: {
-    speed: String,
+    cardActivities: Array,
+    endListId: String,
+  },
+  data() {
+    return {
+      speed: 0,
+    };
+  },
+  mounted() {
+    this.speed = this.getSpeed();
+  },
+  watch: {
+    cardActivities() {
+      this.speed = this.getSpeed();
+    },
+  },
+  methods: {
+    getSpeed() {
+      return speedProjection(filterActivities(this.cardActivities, this.endListId, 'week'));
+    },
   },
 };
 

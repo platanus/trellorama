@@ -26,7 +26,7 @@
     <ProjectionChart
       v-bind:filteredActivities="filteredActivities"
       v-bind:endListId="endListId"
-      v-bind:speed="parseFloat(speedProjection(filteredActivities))"
+      v-bind:speed="parseFloat(localSpeedProjection(filteredActivities))"
       v-bind:timeUnitsForward="parseInt(timeUnits)"
       v-bind:dateTypeSelector="dateTypeSelector"
     />
@@ -35,12 +35,11 @@
 
 <script>
 import ProjectionChart from './ProjectionChart.vue';
-import { getDate } from '../utils/dateManager.js';
+import { filterActivities, speedProjection } from '../utils/speedUtil.js';
 
 export default {
   name: 'ProjectionWrapper',
   props: {
-    speed: Number,
     timeUnitsForward: Number,
     endListId: String,
     cardActivities: Array,
@@ -71,18 +70,11 @@ export default {
     },
   },
   methods: {
-    filterActivities(endListId) {
-      return this.cardActivities.filter((activity) => activity.type === 'updateCard')
-        .filter((activity) => activity.data.listAfter.id === endListId)
-        .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, this.dateTypeSelector, this.dayOfWeek) }))
-        .sort((card) => card.date);
-    },
-    speedProjection(filteredActivities) {
-      return (filteredActivities.length / [...new Set(filteredActivities
-        .map((card) => card.date))].length).toFixed(1);
+    localSpeedProjection(filteredActivities) {
+      return speedProjection(filteredActivities);
     },
     generateData() {
-      this.filteredActivities = this.filterActivities(this.endListId);
+      this.filteredActivities = filterActivities(this.cardActivities, this.endListId, this.dateTypeSelector, this.dayOfWeek);
     },
   },
 };
