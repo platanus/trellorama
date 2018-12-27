@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <StackedChart
+    <CumulativeChart
       v-bind:activities="cardActivities"
       v-bind:listIds="listIds"
       v-bind:fillBackLists="fillBackLists"
@@ -59,7 +59,7 @@ import vSelect from 'vue-select';
 import Datepicker from 'vuejs-datepicker';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
-import StackedChart from './StackedChart.vue';
+import CumulativeChart from './CumulativeChart.vue';
 import TeamSpeed from './TeamSpeed';
 import getDate from '../utils/getDate.js';
 
@@ -69,10 +69,10 @@ export default {
   name: 'Board',
   components: {
     BoardInfo,
-    StackedChart,
     vSelect,
     Datepicker,
     TeamSpeed,
+    CumulativeChart,
   },
   props: {
     board: Object,
