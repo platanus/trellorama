@@ -4,19 +4,17 @@ moment().format();
 
 const decimalPadding = 2;
 
+function filterCardsByMovedTwiceInSameList(card, _, array) {
+  return array.filter((filterCard) => filterCard.id === card.id)
+    .sort((card1, card2) => card2.date - card1.date)[0].activityId === card.activityId;
+}
+
 function filterDuplicates(card, _, array) {
   if (array.filter((filterCard) => filterCard.id === card.id).length === 1) {
     return true;
   }
-  if (array.filter(
-    (filterCard) => filterCard.id === card.id).sort(
-    (card1, card2) => card2.date - card1.date
-  )[0].activityId === card.activityId
-  ) {
-    return true;
-  }
 
-  return false;
+  return filterCardsByMovedTwiceInSameList(card, _, array);
 }
 
 function getAverageTime(createdCards, finishedCards) {
