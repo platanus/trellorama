@@ -8,71 +8,29 @@
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
     />
-    <h2>Cumulative Chart</h2>
-    <div>
-      <b>Options:</b>
-      &ensp;
-      <label for="fillBackLists">Fill lists retroactively</label>
-      <input type="checkbox" id="fillBackLists" v-model="fillBackLists">
-      &ensp;
-      <label for="dateTypeSelector">Date Format: </label>
-      <select id="dateTypeSelector" v-model="dateTypeSelector">
-        <option value="day">Day</option>
-        <option value="week">Week</option>
-        <option value="month">Month</option>
-      </select>
-      &ensp;
-      <select id="dayOfWeek" v-model="dayOfWeek" v-if="dateTypeSelector === 'week'">
-        <option value="monday">Monday</option>
-        <option value="tuesday">Tuesday</option>
-        <option value="wednesday">Wednesday</option>
-        <option value="thursday">Thursday</option>
-        <option value="friday">Friday</option>
-        <option value="saturday">Saturday</option>
-        <option value="sunday">Sunday</option>
-      </select>
-      <div class="date-selector">
-        <div class="date-selector--input">
-          <label for="startDate">Start Date: </label>
-          <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
-        </div>
-        <div class="date-selector--input">
-          <label for="endDate">End Date (Not inclusive): </label>
-          <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
-        </div>
-      </div>
-    </div>
-    <CumulativeChart
-      v-bind:activities="cardActivities"
+    <CumulativeWrapper
+      v-bind:cardActivities="cardActivities"
       v-bind:listIds="listIds"
-      v-bind:fillBackLists="fillBackLists"
-      v-bind:dateTypeSelector="dateTypeSelector"
-      v-bind:dayOfWeek="dayOfWeek"
     />
     <TeamSpeed v-bind:speed="weeklySpeed(filterActivities(endListId))"/>
   </div>
 </template>
 
 <script>
-import moment from 'moment';
 import vSelect from 'vue-select';
-import Datepicker from 'vuejs-datepicker';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
-import CumulativeChart from './CumulativeChart.vue';
+import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
 import getDate from '../utils/getDate.js';
-
-moment().format('yyyy-MM-dd');
 
 export default {
   name: 'Board',
   components: {
     BoardInfo,
-    vSelect,
-    Datepicker,
     TeamSpeed,
-    CumulativeChart,
+    CumulativeWrapper,
+    vSelect,
   },
   props: {
     board: Object,
@@ -94,13 +52,8 @@ export default {
       listIncludesArchived: ['5bcf863f74837934564848c8'],
       allCardsActivities: [],
       cardActivities: [],
-      fillBackLists: true,
-      dateTypeSelector: 'day',
-      dayOfWeek: 'monday',
       selectedLabelOptions: [],
       selectedCardLabels: [],
-      startDate: null,
-      endDate: null,
       endListId: '5bcf863f74837934564848c8',
     };
   },
@@ -114,21 +67,8 @@ export default {
       this.getSelectedCards();
       this.getSelectedActivities();
     },
-    startDate() {
-      this.cardActivities = this.filterActivitiesByDate(this.startDate, true);
-    },
-    endDate() {
-      this.cardActivities = this.filterActivitiesByDate(this.endDate, false);
-    },
   },
   methods: {
-    filterActivitiesByDate(date, isStartDate) {
-      if (isStartDate) {
-        return this.cardActivities.filter((activity) => moment(activity.date).isSameOrAfter(date, 'day'));
-      }
-
-      return this.cardActivities.filter((activity) => moment(date).isSameOrAfter(activity.date, 'day'));
-    },
     getSelectedCards() {
       this.lists.forEach((list) => {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
@@ -187,8 +127,6 @@ export default {
         },
         {
           filter: 'createCard,updateCard:idList',
-          since: self.extractDate(self.startDate),
-          before: self.extractDate(self.endDate),
         }
       );
     },

@@ -5,7 +5,7 @@ import stackedCardData from '../utils/stackedCardData.js';
 const { reactiveData } = mixins;
 
 export default {
-  name: 'StackedChart',
+  name: 'CumulativeChart',
   mixins: [Line, reactiveData],
   props: {
     activities: {
