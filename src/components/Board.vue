@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>{{ board.name }}</h1>
+    <h2>Tag Filter</h2>
+    <v-select multiple v-model="selectedCardLabels" v-bind:options="selectedLabelOptions" />
+    <h2>Board Status</h2>
     <BoardInfo
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
@@ -40,6 +43,7 @@
 </template>
 
 <script>
+import vSelect from 'vue-select';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import StackedChart from './StackedChart.vue';
@@ -49,6 +53,7 @@ export default {
   components: {
     BoardInfo,
     StackedChart,
+    vSelect,
   },
   props: {
     board: Object,
@@ -65,56 +70,99 @@ export default {
         '5bcf863f74837934564848c8',
       ],
       lists: [],
+      allCardsByList: {},
       cardsByList: {},
       listIncludesArchived: ['5bcf863f74837934564848c8'],
+      allCardsActivities: [],
       cardActivities: [],
       fillBackLists: true,
       dateTypeSelector: 'day',
       dayOfWeek: 'monday',
+      selectedLabelOptions: [],
+      selectedCardLabels: [],
     };
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
+    this.getBoardLabels(this.$props.board.id);
+    this.getSelectedCards();
+  },
+  watch: {
+    selectedCardLabels() {
+      this.getSelectedCards();
+      this.getSelectedActivities();
+    },
   },
   methods: {
+    getSelectedCards() {
+      this.lists.forEach((list) => {
+        this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
+          (card) => !card.labels.map((label) => label.id).some((cardLabel) => this.selectedCardLabels.map((selectedLabel) => selectedLabel.value).includes(cardLabel)));
+      });
+    },
+    getSelectedActivities() {
+      this.cardActivities = this.allCardsActivities.filter(
+        (activity) => Object.values(this.cardsByList).flat().map((card) => card.id)
+          .includes(activity.data.card.id)
+      );
+    },
     getLists(boardId, listIds) {
       const self = this;
       request(
         `boards/${boardId}/lists`,
         (response) => {
           self.lists = response.data.filter((element) => listIds.includes(element.id));
-          self.lists.forEach((element) => self.getCards(element.id, self.listIncludesArchived.includes(element.id)));
+          self.lists.forEach((element) => self.getAllCards(element.id, self.listIncludesArchived.includes(element.id)));
         },
         () => {
           onRequestError(self.getLists, [boardId, listIds]);
         }
       );
     },
-    getCards(listId, includeArchived) {
+    getAllCards(listId, includeArchived) {
       const cardsFilter = includeArchived ? 'all' : 'open';
       const self = this;
-      self.$set(self.cardsByList, listId, []);
+      self.$set(self.allCardsByList, listId, []);
+      self.$set(this.cardsByList, listId, []);
       request(
         `lists/${listId}`,
         (response) => {
-          response.data.cards.forEach((card) => self.getCardActivities(card.id));
+          response.data.cards.forEach((card) => {
+            self.getAllCardsActivities(card.id);
+          });
+          self.allCardsByList[listId] = response.data.cards;
           self.cardsByList[listId] = response.data.cards;
         },
         () => {
-          onRequestError(self.getCards, [listId, includeArchived]);
+          onRequestError(self.getAllCards, [listId, includeArchived]);
         },
         { cards: cardsFilter }
       );
     },
-    getCardActivities(cardId) {
+    getAllCardsActivities(cardId) {
       const self = this;
       request(
         `cards/${cardId}/actions`,
-        (response) => { self.cardActivities = self.cardActivities.concat(response.data); },
+        (response) => {
+          self.allCardsActivities = self.allCardsActivities.concat(response.data);
+          self.cardActivities = self.cardActivities.concat(response.data);
+        },
         () => {
-          onRequestError(self.getCardActivities, [cardId]);
+          onRequestError(self.getAllCardsActivities, [cardId]);
         },
         { filter: 'createCard,updateCard:idList' }
+      );
+    },
+    getBoardLabels(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/labels`,
+        (response) => {
+          self.selectedLabelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+        },
+        () => {
+          onRequestError(self.getBoardLabels, [boardId]);
+        }
       );
     },
   },
