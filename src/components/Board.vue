@@ -31,6 +31,16 @@
         <option value="saturday">Saturday</option>
         <option value="sunday">Sunday</option>
       </select>
+      <div class="date-selector">
+        <div class="date-selector--input">
+          <label for="startDate">Start Date: </label>
+          <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
+        </div>
+        <div class="date-selector--input">
+          <label for="endDate">End Date (Not inclusive): </label>
+          <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
+        </div>
+      </div>
     </div>
     <StackedChart
       v-bind:activities="cardActivities"
@@ -43,10 +53,14 @@
 </template>
 
 <script>
+import moment from 'moment';
 import vSelect from 'vue-select';
+import Datepicker from 'vuejs-datepicker';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import StackedChart from './StackedChart.vue';
+
+moment().format('yyyy-MM-dd');
 
 export default {
   name: 'Board',
@@ -54,6 +68,7 @@ export default {
     BoardInfo,
     StackedChart,
     vSelect,
+    Datepicker,
   },
   props: {
     board: Object,
@@ -80,6 +95,8 @@ export default {
       dayOfWeek: 'monday',
       selectedLabelOptions: [],
       selectedCardLabels: [],
+      startDate: null,
+      endDate: null,
     };
   },
   mounted() {
@@ -92,8 +109,21 @@ export default {
       this.getSelectedCards();
       this.getSelectedActivities();
     },
+    startDate() {
+      this.cardActivities = this.filterActivitiesByDate(this.startDate, true);
+    },
+    endDate() {
+      this.cardActivities = this.filterActivitiesByDate(this.endDate, false);
+    },
   },
   methods: {
+    filterActivitiesByDate(date, isStartDate) {
+      if (isStartDate) {
+        return this.cardActivities.filter((activity) => moment(activity.date).isSameOrAfter(date, 'day'));
+      }
+
+      return this.cardActivities.filter((activity) => moment(date).isSameOrAfter(activity.date, 'day'));
+    },
     getSelectedCards() {
       this.lists.forEach((list) => {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
@@ -150,7 +180,11 @@ export default {
         () => {
           onRequestError(self.getAllCardsActivities, [cardId]);
         },
-        { filter: 'createCard,updateCard:idList' }
+        {
+          filter: 'createCard,updateCard:idList',
+          since: self.extractDate(self.startDate),
+          before: self.extractDate(self.endDate),
+        }
       );
     },
     getBoardLabels(boardId) {
@@ -165,6 +199,24 @@ export default {
         }
       );
     },
+    extractDate(date) {
+      if (date !== null) {
+        return date.toISOString().split('T')[0];
+      }
+
+      return null;
+    },
   },
 };
 </script>
+
+<style>
+.date-selector {
+  display: flex;
+  justify-content: center;
+}
+.date-selector--input {
+  margin: 10px;
+  display: flex;
+}
+</style>
