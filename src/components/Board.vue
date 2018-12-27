@@ -49,6 +49,7 @@
       v-bind:dateTypeSelector="dateTypeSelector"
       v-bind:dayOfWeek="dayOfWeek"
     />
+    <TeamSpeed v-bind:speed="weeklySpeed(filterActivities(endListId))"/>
   </div>
 </template>
 
@@ -59,6 +60,8 @@ import Datepicker from 'vuejs-datepicker';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import StackedChart from './StackedChart.vue';
+import TeamSpeed from './TeamSpeed';
+import getDate from '../utils/getDate.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -69,6 +72,7 @@ export default {
     StackedChart,
     vSelect,
     Datepicker,
+    TeamSpeed,
   },
   props: {
     board: Object,
@@ -97,6 +101,7 @@ export default {
       selectedCardLabels: [],
       startDate: null,
       endDate: null,
+      endListId: '5bcf863f74837934564848c8',
     };
   },
   mounted() {
@@ -205,6 +210,16 @@ export default {
       }
 
       return null;
+    },
+    filterActivities(endListId) {
+      return this.cardActivities.filter((activity) => activity.type === 'updateCard')
+        .filter((activity) => activity.data.listAfter.id === endListId)
+        .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, 'week') }))
+        .sort((card) => card.date);
+    },
+    weeklySpeed(filteredActivities) {
+      return (filteredActivities.length / [...new Set(filteredActivities
+        .map((card) => card.date))].length).toFixed(1);
     },
   },
 };

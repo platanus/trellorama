@@ -1,6 +1,4 @@
-import moment from 'moment';
-
-moment().format();
+import getDate from './getDate.js';
 
 const globalColors = [
   ['rgba(255, 0, 0, 0.1)', 'rgba(255, 0, 0, 0.5)'],
@@ -13,48 +11,11 @@ const globalColors = [
 ];
 let globalColorIndex = 0;
 
-const zeroPadding = 2;
-
 function getColor() {
   const color = globalColors[globalColorIndex];
   globalColorIndex = (globalColorIndex + 1) % globalColors.length;
 
   return color;
-}
-
-function getDateByDay(date, year, month) {
-  const day = date.date().toString().padStart(zeroPadding, '0');
-
-  return `${year}-${month}-${day}`;
-}
-
-function getDateByWeek(date, year, month, dayOfWeek) {
-  date.day(dayOfWeek);
-  const day = date.date().toString().padStart(zeroPadding, '0');
-
-  return `${year}-${month}-${day}`;
-}
-
-function getDateByMonth(date, year, month) {
-  return `${year}-${month}`;
-}
-
-function getDate(date, dateTypeSelector, dayOfWeek) {
-  const momentDate = moment(date);
-  const year = momentDate.year();
-  // 1 is added because moment.js months go from 0 to 11
-  const month = (momentDate.month() + 1).toString().padStart(zeroPadding, '0');
-
-  switch (dateTypeSelector) {
-  case 'day':
-    return getDateByDay(momentDate, year, month);
-  case 'week':
-    return getDateByWeek(momentDate, year, month, dayOfWeek);
-  case 'month':
-    return getDateByMonth(momentDate, year, month);
-  default:
-    return getDateByDay(momentDate, year, month);
-  }
 }
 
 function getActivityData(activity, dateTypeSelector, dayOfWeek) {
