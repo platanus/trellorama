@@ -2,7 +2,6 @@ import moment from 'moment';
 
 moment().format();
 
-const millisecondsPerDay = 86400000;
 const decimalPadding = 2;
 
 function filterDuplicates(card, _, array) {
@@ -20,15 +19,9 @@ function filterDuplicates(card, _, array) {
   return false;
 }
 
-function parseTime(milliseconds) {
-  const days = (milliseconds / millisecondsPerDay).toFixed(decimalPadding);
-
-  return days;
-}
-
 function getAverageTime(createdCards, finishedCards) {
-  return finishedCards.map((finishedCard) => finishedCard.date - createdCards.filter((card) => card.id === finishedCard.id)[0].date)
-    .reduce((a, b) => a + b, 0) / finishedCards.length;
+  return (finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+    .reduce((a, b) => a + b, 0) / finishedCards.length).toFixed(decimalPadding);
 }
 
 function leadTime(cardActivities, listId) {
@@ -41,7 +34,7 @@ function leadTime(cardActivities, listId) {
     .filter((activity) => finishedCards.map((card) => card.id).includes(activity.data.card.id))
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }));
 
-  return parseTime(getAverageTime(createdCards, finishedCards));
+  return getAverageTime(createdCards, finishedCards);
 }
 
 function timeInList(cardActivities, listId) {
@@ -63,7 +56,7 @@ function timeInList(cardActivities, listId) {
     .filter((card, _, self) => filterDuplicates(card, _, self))
     .filter((card) => finishedCards.map((finishedCard) => finishedCard.id).includes(card.id));
 
-  return parseTime(getAverageTime(initialCards, finishedCards));
+  return getAverageTime(initialCards, finishedCards);
 }
 
 export {
