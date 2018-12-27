@@ -75,6 +75,9 @@ export default {
     };
   },
   watch: {
+    cardActivities() {
+      this.activities = this.cardActivities;
+    },
     startDate() {
       this.activities = this.filterActivitiesByDate(this.startDate, true);
     },
