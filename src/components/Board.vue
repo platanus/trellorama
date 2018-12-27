@@ -8,6 +8,7 @@
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
         v-bind:cardActivities="cardActivities"
+        v-bind:endListId="endListId"
     />
     <CumulativeWrapper
       v-bind:cardActivities="cardActivities"

@@ -12,12 +12,9 @@
         <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardsByList[list.id].length }}</td>
       </tr>
       <tr>
-        <th>Time in List</th>
+        <th>Time in List (days)</th>
         <td v-for="list in lists" v-bind:key="list.id + '_time'">
-          <b>Days: </b> {{ averageTimeByList[list.id][0] }}
-          <b>Hours: </b> {{ averageTimeByList[list.id][1] }}
-          <b>Minutes: </b> {{ averageTimeByList[list.id][2] }}
-          <b>Seconds: </b> {{ averageTimeByList[list.id][3] }}
+          {{ averageTimeByList[list.id] }}
         </td>
       </tr>
     </tbody>
@@ -25,7 +22,7 @@
 </template>
 
 <script>
-import timeBetweenLists from '../utils/timeBetweenLists.js';
+import { timeInList } from '../utils/timeBetweenLists.js';
 
 export default {
   name: 'BoardInfo',
@@ -35,6 +32,7 @@ export default {
     lists: Array,
     cardsByList: Object,
     cardActivities: Array,
+    endListId: String,
   },
   data() {
     return {
@@ -44,7 +42,7 @@ export default {
   watch: {
     cardActivities() {
       this.lists.forEach((list) => {
-        this.$set(this.averageTimeByList, list.id, timeBetweenLists(this.cardActivities, list.id, false));
+        this.$set(this.averageTimeByList, list.id, ((list.id !== this.endListId) ? timeInList(this.cardActivities, list.id) : '-'));
       });
     },
   },
@@ -60,7 +58,7 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #aaaaaa;
   text-align: left;
   padding: 8px;
 }
