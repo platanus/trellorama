@@ -3,9 +3,7 @@ import moment from 'moment';
 moment().format();
 
 const millisecondsPerDay = 86400000;
-const millisecondsPerHour = 3600000;
-const millisecondsPerMinute = 60000;
-const millisecondsPerSecond = 1000;
+const decimalPadding = 2;
 
 function filterDuplicates(card, _, array) {
   if (array.filter((filterCard) => filterCard.id === card.id).length === 1) {
@@ -22,21 +20,10 @@ function filterDuplicates(card, _, array) {
   return false;
 }
 
-function parseTime(timeDifference) {
-  let milliseconds = timeDifference;
+function parseTime(milliseconds) {
+  const days = (milliseconds / millisecondsPerDay).toFixed(decimalPadding);
 
-  const days = Math.floor(milliseconds / millisecondsPerDay);
-  milliseconds -= (days * millisecondsPerDay);
-
-  const hours = Math.floor(milliseconds / millisecondsPerHour);
-  milliseconds -= (hours * millisecondsPerHour);
-
-  const minutes = Math.floor(milliseconds / millisecondsPerMinute);
-  milliseconds -= (minutes * millisecondsPerMinute);
-
-  const seconds = Math.floor(milliseconds / millisecondsPerSecond);
-
-  return [days, hours, minutes, seconds];
+  return days;
 }
 
 function getAverageTime(createdCards, finishedCards) {

@@ -2,10 +2,7 @@
   <div>
     <h2>Lead Time</h2>
     <p>
-      <b>Days: </b> {{ leadTime[0] }}
-      <b>Hours: </b> {{ leadTime[1] }}
-      <b>Minutes: </b> {{ leadTime[2] }}
-      <b>Seconds: </b> {{ leadTime[3] }}
+      <b>Days: </b> {{ leadTime }}
     </p>
   </div>
 </template>
@@ -21,7 +18,7 @@ export default {
   },
   data() {
     return {
-      leadTime: [0, 0, 0, 0],
+      leadTime: 0,
     };
   },
   watch: {
