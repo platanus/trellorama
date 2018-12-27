@@ -42,7 +42,7 @@ export default {
   watch: {
     cardActivities() {
       this.lists.forEach((list) => {
-        this.$set(this.averageTimeByList, list.id, ((list.id !== this.endListId) ? timeInList(this.cardActivities, list.id) : '-'));
+        this.$set(this.averageTimeByList, list.id, ((list.id === this.endListId) ? '-' : timeInList(this.cardActivities, list.id)));
       });
     },
   },
