@@ -78,11 +78,7 @@ export default {
       let latestLabel = newLabels[newLabels.length - 1];
 
       [...Array(timeUnitsForward + 1).keys()].forEach((timeUnit) => {
-<<<<<<< HEAD
         latestLabel = addToDate(latestLabel, timeUnit + 1, this.dateTypeSelector);
-=======
-        latestLabel = addToDate(latestLabel, timeUnit + 1, 'week');
->>>>>>> 4b76b3e... feat(projections): implement optimist/pesimist projections
         newLabels.push(latestLabel);
       });
 
