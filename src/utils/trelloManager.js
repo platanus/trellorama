@@ -28,7 +28,9 @@ function isAuthorized() {
 }
 
 function redirectAuthorization(apiKey) {
-  const returnUrl = window.location.origin;
+  /* eslint-disable */
+  const returnUrl = `${window.location.origin}${process.env.VUE_APP_TRELLO_PATH}`;
+  /* eslint-disable */
   const scope = 'read';
   const expiration = 'never';
   const name = 'Trello Statistics';

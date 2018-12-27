@@ -20,6 +20,10 @@ npm run serve
 ```
 npm run build
 ```
+If you want to deploy to Github Pages, you have to create the file **.env.production.local** where you have to write:
+```
+VUE_APP_TRELLO_PATH=/REPOSITORY_NAME/
+```
 
 ### Run your tests
 ```
