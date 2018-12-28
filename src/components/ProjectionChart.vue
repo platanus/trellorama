@@ -91,7 +91,6 @@ export default {
         latestLabel = addToDate(latestLabel, 1, this.dateTypeSelector);
         newLabels.push(latestLabel);
       });
-      console.log(newLabels);
 
       return newLabels;
     },
