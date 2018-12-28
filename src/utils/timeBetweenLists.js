@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { std } from 'mathjs';
 
 moment().format();
 
@@ -25,12 +26,8 @@ function getAverageTime(createdCards, finishedCards) {
 }
 
 function getStandardDeviation(createdCards, finishedCards) {
-  const mean = getAverageTime(createdCards, finishedCards);
-
-  return Math.sqrt(finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
-    .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
-    .map((diff) => Math.pow(diff - mean, powerOfTwo))
-    .reduce((a, b) => a + b, 0) / finishedCards.length).toFixed(decimalPadding);
+  return std(finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+    .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))).toFixed(decimalPadding);
 }
 
 function getBoardCards(cardActivities, listId) {
