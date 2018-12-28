@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { leadTime } from '../utils/timeBetweenLists.js';
+import { getBoardCards, getAverageTime } from '../utils/timeBetweenLists.js';
 
 export default {
   name: 'LeadTime',
@@ -23,7 +23,7 @@ export default {
   },
   watch: {
     cardActivities() {
-      this.leadTime = leadTime(this.cardActivities, this.endListId);
+      this.leadTime = getAverageTime(...getBoardCards(this.cardActivities, this.endListId));
     },
   },
 };

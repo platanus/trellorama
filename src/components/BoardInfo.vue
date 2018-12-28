@@ -12,9 +12,21 @@
         <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardsByList[list.id].length }}</td>
       </tr>
       <tr>
-        <th>Time in List (days)</th>
+        <th>Time in List Average (days)</th>
         <td v-for="list in lists" v-bind:key="list.id + '_time'">
           {{ averageTimeByList[list.id] }}
+        </td>
+      </tr>
+      <tr>
+        <th>Time in List Standard Deviation (days)</th>
+        <td v-for="list in lists" v-bind:key="list.id + '_time'">
+          {{ standardDeviationByList[list.id] }}
+        </td>
+      </tr>
+      <tr>
+        <th>Time in List Mode (days)</th>
+        <td v-for="list in lists" v-bind:key="list.id + '_time'">
+          {{ modeByList[list.id].toString() }}
         </td>
       </tr>
     </tbody>
@@ -22,7 +34,7 @@
 </template>
 
 <script>
-import { timeInList } from '../utils/timeBetweenLists.js';
+import { getListCards, getAverageTime, getStandardDeviation, getMode } from '../utils/timeBetweenLists.js';
 
 export default {
   name: 'BoardInfo',
@@ -37,12 +49,16 @@ export default {
   data() {
     return {
       averageTimeByList: {},
+      standardDeviationByList: {},
+      modeByList: {},
     };
   },
   watch: {
     cardActivities() {
       this.lists.forEach((list) => {
-        this.$set(this.averageTimeByList, list.id, ((list.id === this.endListId) ? '-' : timeInList(this.cardActivities, list.id)));
+        this.$set(this.averageTimeByList, list.id, ((list.id === this.endListId) ? '-' : getAverageTime(...getListCards(this.cardActivities, list.id))));
+        this.$set(this.standardDeviationByList, list.id, ((list.id === this.endListId) ? '-' : getStandardDeviation(...getListCards(this.cardActivities, list.id))));
+        this.$set(this.modeByList, list.id, ((list.id === this.endListId) ? '-' : getMode(...getListCards(this.cardActivities, list.id))));
       });
     },
   },
