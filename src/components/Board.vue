@@ -153,13 +153,6 @@ export default {
         }
       );
     },
-    extractDate(date) {
-      if (date !== null) {
-        return date.toISOString().split('T')[0];
-      }
-
-      return null;
-    },
   },
 };
 </script>
