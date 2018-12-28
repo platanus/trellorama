@@ -23,7 +23,7 @@ function getAverageTime(createdCards, finishedCards) {
     .reduce((a, b) => a + b, 0) / finishedCards.length).toFixed(decimalPadding);
 }
 
-function leadTime(cardActivities, listId) {
+function getBoardCards(cardActivities, listId) {
   const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listAfter.id === listId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
@@ -33,10 +33,10 @@ function leadTime(cardActivities, listId) {
     .filter((activity) => finishedCards.map((card) => card.id).includes(activity.data.card.id))
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }));
 
-  return getAverageTime(createdCards, finishedCards);
+  return [createdCards, finishedCards];
 }
 
-function timeInList(cardActivities, listId) {
+function getListCards(cardActivities, listId) {
   const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listBefore.id === listId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
@@ -55,10 +55,11 @@ function timeInList(cardActivities, listId) {
     .filter((card, _, self) => filterDuplicates(card, _, self))
     .filter((card) => finishedCards.map((finishedCard) => finishedCard.id).includes(card.id));
 
-  return getAverageTime(initialCards, finishedCards);
+  return [initialCards, finishedCards];
 }
 
 export {
-  leadTime,
-  timeInList,
+  getListCards,
+  getBoardCards,
+  getAverageTime,
 };
