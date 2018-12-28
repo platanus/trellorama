@@ -87,7 +87,7 @@ export default {
       const newLabels = currentLabels.slice();
       let latestLabel = newLabels[newLabels.length - 1];
 
-      [...Array(timeUnitsForward).keys()].forEach((timeUnit) => {
+      [...Array(timeUnitsForward).keys()].forEach(() => {
         latestLabel = addToDate(latestLabel, 1, this.dateTypeSelector);
         newLabels.push(latestLabel);
       });
