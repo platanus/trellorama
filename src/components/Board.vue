@@ -14,8 +14,13 @@
       v-bind:cardActivities="cardActivities"
       v-bind:listIds="listIds"
     />
-    <TeamSpeed v-bind:speed="weeklySpeed(filterActivities(endListId))"/>
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
+    <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
+    <ProjectionWrapper
+        v-bind:cardActivities="cardActivities"
+        v-bind:endListId="endListId"
+        v-bind:timeUnitsForward="5"
+      />
   </div>
 </template>
 
@@ -25,8 +30,8 @@ import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
-import getDate from '../utils/getDate.js';
 import LeadTime from './LeadTime.vue';
+import ProjectionWrapper from './ProjectionWrapper.vue';
 
 export default {
   name: 'Board',
@@ -36,6 +41,7 @@ export default {
     CumulativeWrapper,
     vSelect,
     LeadTime,
+    ProjectionWrapper,
   },
   props: {
     board: Object,
@@ -146,23 +152,6 @@ export default {
           onRequestError(self.getBoardLabels, [boardId]);
         }
       );
-    },
-    extractDate(date) {
-      if (date !== null) {
-        return date.toISOString().split('T')[0];
-      }
-
-      return null;
-    },
-    filterActivities(endListId) {
-      return this.cardActivities.filter((activity) => activity.type === 'updateCard')
-        .filter((activity) => activity.data.listAfter.id === endListId)
-        .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, 'week') }))
-        .sort((card) => card.date);
-    },
-    weeklySpeed(filteredActivities) {
-      return (filteredActivities.length / [...new Set(filteredActivities
-        .map((card) => card.date))].length).toFixed(1);
     },
   },
 };
