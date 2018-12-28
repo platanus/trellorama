@@ -1,3 +1,5 @@
+/* global process */
+
 import axios from 'axios';
 
 const baseUrl = 'https://trello.com/1/';
@@ -28,9 +30,7 @@ function isAuthorized() {
 }
 
 function redirectAuthorization(apiKey) {
-  /* eslint-disable */
   const returnUrl = `${window.location.origin}${process.env.VUE_APP_TRELLO_PATH}`;
-  /* eslint-disable */
   const scope = 'read';
   const expiration = 'never';
   const name = 'Trello Statistics';
