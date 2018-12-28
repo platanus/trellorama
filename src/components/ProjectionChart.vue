@@ -5,6 +5,8 @@ import { addToDate } from '../utils/dateManager.js';
 
 const { reactiveData } = mixins;
 
+const daysInAWeek = 7;
+
 export default {
   name: 'ProjectionChart',
   mixins: [Line, reactiveData],
@@ -92,6 +94,16 @@ export default {
 
       return newLabels;
     },
+    adaptProjectionRate(projectionRate, dateType) {
+      switch (dateType) {
+      case 'week':
+        return projectionRate;
+      case 'day':
+        return projectionRate / daysInAWeek;
+      default:
+        return projectionRate;
+      }
+    },
     projectData(projectionRate, timeUnitsForward, baseDataset, datasetOptions) {
       const projectedDataset = JSON.parse(JSON.stringify(baseDataset));
 
@@ -101,7 +113,7 @@ export default {
 
       const lastValue = baseDataset.data[baseDataset.data.length - 1];
       [...Array(timeUnitsForward + 1).keys()].forEach((timeUnit) => {
-        projectedDataset.data.push(Math.floor(lastValue + (projectionRate * (timeUnit + 1))));
+        projectedDataset.data.push(Math.floor(lastValue + (this.adaptProjectionRate(projectionRate, this.dateTypeSelector) * (timeUnit + 1))));
       });
 
       return projectedDataset;
