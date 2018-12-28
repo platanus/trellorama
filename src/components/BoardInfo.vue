@@ -55,7 +55,6 @@ export default {
   },
   watch: {
     cardActivities() {
-      console.log('------------------------');
       this.lists.forEach((list) => {
         this.$set(this.averageTimeByList, list.id, ((list.id === this.endListId) ? '-' : getAverageTime(...getListCards(this.cardActivities, list.id))));
         this.$set(this.standardDeviationByList, list.id, ((list.id === this.endListId) ? '-' : getStandardDeviation(...getListCards(this.cardActivities, list.id))));
