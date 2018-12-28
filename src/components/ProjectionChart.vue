@@ -17,6 +17,8 @@ export default {
     timeUnitsForward: Number,
     endListId: String,
     dateTypeSelector: String,
+    optimistValue: Number,
+    pesimistValue: Number,
   },
   data() {
     return {
@@ -35,6 +37,12 @@ export default {
       this.renderData();
     },
     timeUnitsForward() {
+      this.renderData();
+    },
+    optimistValue() {
+      this.renderData();
+    },
+    pesimistValue() {
       this.renderData();
     },
   },
@@ -56,13 +64,13 @@ export default {
         { colors: getColor('blue'), label: 'Current Projection' }
       );
       const optimistProjection = this.projectData(
-        this.speed + 1,
+        this.speed + this.optimistValue,
         this.timeUnitsForward,
         currentDataset,
         { colors: getColor('green'), label: 'Optimist Projection' }
       );
       const pesimistProjection = this.projectData(
-        this.speed - 1,
+        this.speed - this.pesimistValue,
         this.timeUnitsForward,
         currentDataset,
         { colors: getColor('red'), label: 'Pesimist Projection' }

@@ -19,7 +19,6 @@
     <ProjectionWrapper
         v-bind:cardActivities="cardActivities"
         v-bind:endListId="endListId"
-        v-bind:timeUnitsForward="5"
       />
   </div>
 </template>
