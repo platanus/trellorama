@@ -1,5 +1,6 @@
 <template>
   <div>
+    <hr>
     <h1>{{ board.name }}</h1>
     <h2>Label Filter</h2>
     <label for="labelFilterOption">Label Filter Option: </label>
