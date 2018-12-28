@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <BoardList/>
+    <BoardSelector @changed="selectBoards"/>
+    <BoardList v-bind:boards="boards"/>
   </div>
 </template>
 <script>
 import BoardList from './components/BoardList.vue';
+import BoardSelector from './components/BoardSelector.vue';
 import { authorize } from './utils/trelloManager.js';
 
 /* global process */
@@ -15,6 +17,17 @@ export default {
   name: 'app',
   components: {
     BoardList,
+    BoardSelector,
+  },
+  data() {
+    return {
+      boards: [],
+    };
+  },
+  methods: {
+    selectBoards(value) {
+      this.boards = value;
+    },
   },
 };
 </script>
