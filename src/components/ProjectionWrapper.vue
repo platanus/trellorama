@@ -37,6 +37,7 @@
       v-bind:dateTypeSelector="dateTypeSelector"
       v-bind:optimistValue="parseInt(optimistValue)"
       v-bind:pesimistValue="parseInt(pesimistValue)"
+      v-bind:numberOfCards="numberOfCards"
     />
   </div>
 </template>
@@ -50,6 +51,7 @@ export default {
   props: {
     endListId: String,
     cardActivities: Array,
+    numberOfCards: Number,
   },
   components: {
     ProjectionChart,
