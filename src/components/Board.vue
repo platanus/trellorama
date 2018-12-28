@@ -1,8 +1,21 @@
 <template>
   <div>
     <h1>{{ board.name }}</h1>
-    <h2>Tag Filter</h2>
-    <v-select multiple v-model="selectedCardLabels" v-bind:options="selectedLabelOptions" />
+    <h2>Label Filter</h2>
+    <label for="labelFilterOption">Label Filter Option: </label>
+    <select id="labelFilterOption" v-model="labelFilterOptionModel">
+      <option value="filter">Filter</option>
+      <option value="select">Select</option>
+    </select>
+    <div v-if="labelFilterOptionModel === 'select'">
+      <select id="labelFilterOption" v-model="labelSelect">
+        <option
+          v-for="labelOption in selectedLabelOptions"
+          v-bind:value="labelOption.value"
+          v-bind:key="labelOption.value">{{labelOption.label}}</option>
+      </select>
+    </div>
+    <v-select v-if="labelFilterOptionModel === 'filter'" multiple v-model="selectedCardLabels" v-bind:options="selectedLabelOptions" />
     <h2>Board Status</h2>
     <BoardInfo
         v-bind:lists="lists"
@@ -65,6 +78,8 @@ export default {
       selectedLabelOptions: [],
       selectedCardLabels: [],
       endListId: '5bcf863f74837934564848c8',
+      labelFilterOptionModel: 'filter',
+      labelSelect: null,
     };
   },
   mounted() {
@@ -77,12 +92,38 @@ export default {
       this.getSelectedCards();
       this.getSelectedActivities();
     },
+    labelFilterOptionModel() {
+      console.log(this.labelFilterOptionModel);
+      if (this.labelFilterOptionModel === 'filter') {
+        this.selectedCardLabels = [];
+        this.getSelectedCards();
+      } else {
+        this.labelSelect = null;
+        this.getFilteredCards();
+      }
+      this.getSelectedActivities();
+    },
+    labelSelect() {
+      this.getFilteredCards();
+      this.getSelectedActivities();
+    },
   },
   methods: {
     getSelectedCards() {
       this.lists.forEach((list) => {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
           (card) => !card.labels.map((label) => label.id).some((cardLabel) => this.selectedCardLabels.map((selectedLabel) => selectedLabel.value).includes(cardLabel)));
+      });
+    },
+    getFilteredCards() {
+      if (this.labelSelect === null) {
+        this.cardsByList = this.allCardsByList;
+
+        return;
+      }
+      this.lists.forEach((list) => {
+        this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
+          (card) => card.labels.map((label) => label.id).some((cardLabel) => this.labelSelect === cardLabel));
       });
     },
     getSelectedActivities() {
