@@ -22,6 +22,12 @@
       &ensp;
       <label for="timeUnits">Time units to project: </label>
       <input type="number" id="timeUnits" v-model="timeUnits">
+      &ensp;
+      <label for="optimistValue">Optimist increase: </label>
+      <input type="number" id="optimistValue" v-model="optimistValue">
+      &ensp;
+      <label for="pesimistValue">Pesimist decrease: </label>
+      <input type="number" id="timeUpesimistValuenits" v-model="pesimistValue">
     </div>
     <ProjectionChart
       v-bind:filteredActivities="filteredActivities"
@@ -29,6 +35,8 @@
       v-bind:speed="parseFloat(localSpeedProjection(filteredActivities))"
       v-bind:timeUnitsForward="parseInt(timeUnits)"
       v-bind:dateTypeSelector="dateTypeSelector"
+      v-bind:optimistValue="parseInt(optimistValue)"
+      v-bind:pesimistValue="parseInt(pesimistValue)"
     />
   </div>
 </template>
@@ -40,7 +48,6 @@ import { filterActivities, speedProjection } from '../utils/speedUtil.js';
 export default {
   name: 'ProjectionWrapper',
   props: {
-    timeUnitsForward: Number,
     endListId: String,
     cardActivities: Array,
   },
@@ -53,6 +60,8 @@ export default {
       dayOfWeek: 'monday',
       timeUnits: 5,
       filteredActivities: [],
+      optimistValue: 1,
+      pesimistValue: 1,
     };
   },
   mounted() {
