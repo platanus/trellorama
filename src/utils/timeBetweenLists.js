@@ -3,6 +3,7 @@ import moment from 'moment';
 moment().format();
 
 const decimalPadding = 2;
+const powerOfTwo = 2;
 
 function filterCardsByMovedTwiceInSameList(card, _, array) {
   return array.filter((filterCard) => filterCard.id === card.id)
@@ -20,6 +21,15 @@ function filterDuplicates(card, _, array) {
 function getAverageTime(createdCards, finishedCards) {
   return (finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
     .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
+    .reduce((a, b) => a + b, 0) / finishedCards.length).toFixed(decimalPadding);
+}
+
+function getStandardDeviation(createdCards, finishedCards) {
+  const mean = getAverageTime(createdCards, finishedCards);
+
+  return Math.sqrt(finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+    .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
+    .map((diff) => Math.pow(diff - mean, powerOfTwo))
     .reduce((a, b) => a + b, 0) / finishedCards.length).toFixed(decimalPadding);
 }
 
@@ -62,4 +72,5 @@ export {
   getListCards,
   getBoardCards,
   getAverageTime,
+  getStandardDeviation,
 };
