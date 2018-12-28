@@ -4,7 +4,6 @@ import { std } from 'mathjs';
 moment().format();
 
 const decimalPadding = 2;
-const powerOfTwo = 2;
 
 function filterCardsByMovedTwiceInSameList(card, _, array) {
   return array.filter((filterCard) => filterCard.id === card.id)
