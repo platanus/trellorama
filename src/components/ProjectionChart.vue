@@ -46,9 +46,33 @@ export default {
       this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
     },
+    increaseDataset(dateLabels, datasetData, index, nextLabel) {
+      dateLabels.splice(index + 1, 0, nextLabel);
+      datasetData.splice(index + 1, 0, datasetData[index]);
+    },
+    getSecondToLastItem(array) {
+      const numberTwo = 2;
+
+      return array[array.length - numberTwo];
+    },
+    fillDatasetGaps(dateLabels, datasetData) {
+      let index = 0;
+      const lastLabel = this.getSecondToLastItem(dateLabels);
+      let currentLabel;
+      let nextLabel;
+      while (currentLabel !== lastLabel) {
+        currentLabel = dateLabels[index];
+        nextLabel = addToDate(currentLabel, 1, this.dateTypeSelector);
+        if (!dateLabels.includes(nextLabel)) {
+          this.increaseDataset(dateLabels, datasetData, index, nextLabel);
+        }
+        index++;
+      }
+    },
     buildChartData() {
       let dateLabels = getLabels(this.filteredActivities);
       const currentDataset = buildChartDataSet(this.filteredActivities, dateLabels, 'Current Progression', { color: 'black', fill: false });
+      this.fillDatasetGaps(dateLabels, currentDataset.data);
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
