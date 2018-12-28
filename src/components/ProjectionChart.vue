@@ -111,7 +111,7 @@ export default {
       const newLabels = currentLabels.slice();
       let latestLabel = newLabels[newLabels.length - 1];
 
-      [...Array(timeUnitsForward + 1).keys()].forEach(() => {
+      [...Array(timeUnitsForward).keys()].forEach(() => {
         latestLabel = addToDate(latestLabel, 1, this.dateTypeSelector);
         newLabels.push(latestLabel);
       });
@@ -136,7 +136,7 @@ export default {
       projectedDataset.label = datasetOptions.label;
 
       const lastValue = baseDataset.data[baseDataset.data.length - 1];
-      [...Array(timeUnitsForward + 1).keys()].forEach((timeUnit) => {
+      [...Array(timeUnitsForward).keys()].forEach((timeUnit) => {
         projectedDataset.data.push(Math.floor(lastValue + (this.adaptProjectionRate(projectionRate, this.dateTypeSelector) * (timeUnit + 1))));
       });
 
