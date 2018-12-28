@@ -5,6 +5,8 @@ import { addToDate } from '../utils/dateManager.js';
 
 const { reactiveData } = mixins;
 
+const daysInAWeek = 7;
+
 export default {
   name: 'ProjectionChart',
   mixins: [Line, reactiveData],
@@ -89,7 +91,7 @@ export default {
       case 'week':
         return projectionRate;
       case 'day':
-        return projectionRate / 7;
+        return projectionRate / daysInAWeek;
       default:
         return projectionRate;
       }
