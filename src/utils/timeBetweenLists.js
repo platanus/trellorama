@@ -32,7 +32,7 @@ function getStandardDeviation(createdCards, finishedCards) {
 function getMode(createdCards, finishedCards) {
   return mode(finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
     .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
-    .map((diff) => Math.round(diff)))[0].toFixed(decimalPadding);
+    .map((diff) => Math.round(diff)));
 }
 
 function getBoardCards(cardActivities, listId) {
