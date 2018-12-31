@@ -45,6 +45,7 @@ import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
+import { get } from '../utils/configurationPersistance.js';
 
 export default {
   name: 'Board',
@@ -61,24 +62,16 @@ export default {
   },
   data() {
     return {
-      listIds: [
-        '5bcf863f74837934564848c2',
-        '5bcf863f74837934564848c3',
-        '5bcf863f74837934564848c4',
-        '5bcf863f74837934564848c5',
-        '5bcf863f74837934564848c6',
-        '5bcf863f74837934564848c7',
-        '5bcf863f74837934564848c8',
-      ],
+      listIds: get(`lists_${this.$props.board.id}`, []),
       lists: [],
       allCardsByList: {},
       cardsByList: {},
-      listIncludesArchived: ['5bcf863f74837934564848c8'],
+      listIncludesArchived: get(`archived_${this.$props.board.id}`, []),
       allCardsActivities: [],
       cardActivities: [],
       selectedLabelOptions: [],
       selectedCardLabels: [],
-      endListId: '5bcf863f74837934564848c8',
+      endListId: get(`end_${this.$props.board.id}`, null),
       labelFilterOptionModel: 'filter',
       labelSelect: null,
     };

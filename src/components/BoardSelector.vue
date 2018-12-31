@@ -8,6 +8,8 @@
     <div v-if="selectedBoard !== null">
       <h3>Lists to Show</h3>
       <v-select multiple v-model="selectedLists" v-bind:options="listLabels" />
+      <h3>Include Archived</h3>
+      <v-select multiple v-model="archivedLists" v-bind:options="selectedLists" />
       <h3>Finished List</h3>
       <v-select v-model="endList" v-bind:options="selectedLists" />
       <button v-on:click="saveLists" >Save Lists</button>
@@ -35,6 +37,7 @@ export default {
       selectedBoard: null,
       listLabels: [],
       selectedLists: [],
+      archivedLists: [],
       lists: [],
       endList: null,
     };
@@ -49,8 +52,18 @@ export default {
     },
     selectedBoard() {
       this.getLists(this.selectedBoard.value);
-      this.selectedLists = [];
       this.endList = null;
+      this.archivedLists = [];
+    },
+    listLabels() {
+      const selectedListsIds = get(`lists_${this.selectedBoard.value}`, []);
+      this.selectedLists = this.listLabels.filter((list) => selectedListsIds.includes(list.value));
+
+      const archivedListsIds = get(`archived_${this.selectedBoard.value}`, []);
+      this.archivedLists = this.listLabels.filter((list) => archivedListsIds.includes(list.value));
+
+      const endListId = get(`end_${this.selectedBoard.value}`, null);
+      this.endList = this.listLabels.find((list) => endListId === list.value);
     },
   },
   methods: {
@@ -73,6 +86,7 @@ export default {
     saveLists() {
       save(`end_${this.selectedBoard.value}`, this.endList.value);
       save(`lists_${this.selectedBoard.value}`, this.selectedLists.map((list) => list.value));
+      save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
     },
   },
 };
