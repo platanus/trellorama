@@ -1,6 +1,6 @@
 <script>
 import { Line, mixins } from 'vue-chartjs';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { getLabels, buildChartDataSet, getColor } from '../utils/chartUtils.js';
 import { addToDate } from '../utils/dateManager.js';
 
@@ -142,7 +142,7 @@ export default {
       }
     },
     projectData(projectionRate, timeUnitsForward, baseDataset, datasetOptions) {
-      const projectedDataset = _.cloneDeep(baseDataset);
+      const projectedDataset = cloneDeep(baseDataset);
 
       projectedDataset.borderColor = datasetOptions.colors[0];
       projectedDataset.backgroundColor = datasetOptions.colors[1];
@@ -156,7 +156,7 @@ export default {
       return projectedDataset;
     },
     generateTotalCardsLine(baseDataset, dataLength, value, datasetOptions) {
-      const cardsDataset = _.cloneDeep(baseDataset);
+      const cardsDataset = cloneDeep(baseDataset);
 
       cardsDataset.borderColor = datasetOptions.colors[0];
       cardsDataset.backgroundColor = datasetOptions.colors[1];
