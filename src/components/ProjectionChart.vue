@@ -1,9 +1,11 @@
 <script>
 import { Line, mixins } from 'vue-chartjs';
+import cloneDeep from 'lodash/cloneDeep';
 import { getLabels, buildChartDataSet, getColor } from '../utils/chartUtils.js';
 import { addToDate } from '../utils/dateManager.js';
 
 const { reactiveData } = mixins;
+const lineDashSize = 5;
 
 const daysInAWeek = 7;
 
@@ -21,6 +23,7 @@ export default {
     dateTypeSelector: String,
     optimistValue: Number,
     pesimistValue: Number,
+    numberOfCards: Number,
   },
   data() {
     return {
@@ -101,10 +104,20 @@ export default {
         currentDataset,
         { colors: getColor('red'), label: 'Pesimist Projection' }
       );
+      const cardsLine = this.generateTotalCardsLine(
+        currentDataset,
+        currentProjection.data.length,
+        this.numberOfCards,
+        {
+          colors: getColor('orange'),
+          label: 'Number of Cards',
+          borderDash: [lineDashSize, lineDashSize],
+        }
+      );
       dateLabels = this.extendLabels(dateLabels, this.timeUnitsForward);
       this.chartdata = {
         labels: dateLabels,
-        datasets: [currentDataset, currentProjection, optimistProjection, pesimistProjection],
+        datasets: [currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine],
       };
     },
     extendLabels(currentLabels, timeUnitsForward) {
@@ -129,7 +142,7 @@ export default {
       }
     },
     projectData(projectionRate, timeUnitsForward, baseDataset, datasetOptions) {
-      const projectedDataset = JSON.parse(JSON.stringify(baseDataset));
+      const projectedDataset = cloneDeep(baseDataset);
 
       projectedDataset.borderColor = datasetOptions.colors[0];
       projectedDataset.backgroundColor = datasetOptions.colors[1];
@@ -141,6 +154,19 @@ export default {
       });
 
       return projectedDataset;
+    },
+    generateTotalCardsLine(baseDataset, dataLength, value, datasetOptions) {
+      const cardsDataset = cloneDeep(baseDataset);
+
+      cardsDataset.borderColor = datasetOptions.colors[0];
+      cardsDataset.backgroundColor = datasetOptions.colors[1];
+      cardsDataset.label = datasetOptions.label;
+      cardsDataset.borderDash = datasetOptions.borderDash;
+      cardsDataset.radius = 0;
+
+      cardsDataset.data = Array(dataLength).fill(value);
+
+      return cardsDataset;
     },
   },
 };

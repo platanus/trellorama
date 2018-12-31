@@ -32,6 +32,7 @@
     <ProjectionWrapper
         v-bind:cardActivities="cardActivities"
         v-bind:endListId="endListId"
+        v-bind:numberOfCards="getNumberOfCards()"
       />
   </div>
 </template>
@@ -109,6 +110,9 @@ export default {
     },
   },
   methods: {
+    getNumberOfCards() {
+      return this.lists.map((list) => this.cardsByList[list.id]).flat().length;
+    },
     getSelectedCards() {
       this.lists.forEach((list) => {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(

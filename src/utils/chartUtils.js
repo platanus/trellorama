@@ -28,6 +28,9 @@ function getColor(color) {
   case 'black':
     colorArray = ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 1)'];
     break;
+  case 'orange':
+    colorArray = ['rgba(242, 132, 14, 0.5)', 'rgba(242, 132, 14, 0.5)'];
+    break;
   default:
     colorArray = globalColors[globalColorIndex];
     globalColorIndex = (globalColorIndex + 1) % globalColors.length;
