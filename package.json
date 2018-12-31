@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "./publisher.sh master gh-pages 'npm run build' 'feat(publish): publish updated page'"
   },
   "dependencies": {
     "axios": "^0.18.0",
