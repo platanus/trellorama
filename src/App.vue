@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <BoardSelector @changed="selectBoards"/>
-    <BoardList v-bind:boards="boards"/>
+    <button v-on:click="swichSettings">Settings</button>
+    <Settings v-if="seeSettings"/>
+    <BoardList v-if="!seeSettings"/>
   </div>
 </template>
 <script>
 import BoardList from './components/BoardList.vue';
-import BoardSelector from './components/BoardSelector.vue';
+import Settings from './components/Settings.vue';
 import { authorize } from './utils/trelloManager.js';
 
 /* global process */
@@ -17,16 +18,16 @@ export default {
   name: 'app',
   components: {
     BoardList,
-    BoardSelector,
+    Settings,
   },
   data() {
     return {
-      boards: [],
+      seeSettings: false,
     };
   },
   methods: {
-    selectBoards(value) {
-      this.boards = value;
+    swichSettings() {
+      this.seeSettings = !this.seeSettings;
     },
   },
 };
