@@ -1,5 +1,5 @@
 <template>
-  <BoardSelector/>
+  <BoardSelector v-bind:boards="boards"/>
 </template>
 
 <script>
@@ -9,6 +9,9 @@ export default {
   name: 'Settings',
   components: {
     BoardSelector,
+  },
+  props: {
+    boards: Array,
   },
 };
 

@@ -2,12 +2,12 @@
   <div>
     <h1>Select Boards</h1>
     <v-select multiple v-model="selectedBoards" v-bind:options="boardLabels" />
+    <button v-on:click="save" >Save</button>
   </div>
 </template>
 
 <script>
 import vSelect from 'vue-select';
-import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 
 export default {
@@ -15,39 +15,27 @@ export default {
   components: {
     vSelect,
   },
+  props: {
+    boards: Array,
+  },
   data() {
     return {
       boardLabels: [],
-      selectedBoards: get('boards', []),
-      boards: [],
+      selectedBoards: [],
     };
   },
   mounted() {
-    this.getBoards();
+    this.boardLabels = this.boards.map((board) => ({ label: board.name, value: board.id }));
   },
   watch: {
-    selectedBoards() {
-      save('boards', this.selectedBoards);
-      this.sendBoards();
+    boardLabels() {
+      const selectedIds = get('boards', []);
+      this.selectedBoards = this.boardLabels.filter((board) => selectedIds.includes(board.value));
     },
   },
   methods: {
-    getBoards() {
-      const self = this;
-      request(
-        'members/me/boards',
-        (response) => {
-          self.boardLabels = response.data.map((board) => ({ label: board.name, value: board.id }));
-          self.boards = response.data;
-          self.sendBoards();
-        },
-        () => {
-          onRequestError(self.getBoards);
-        }
-      );
-    },
-    sendBoards() {
-      this.$emit('changed', this.boards.filter((board) => this.selectedBoards.map((sBoard) => sBoard.value).includes(board.id)));
+    save() {
+      save('boards', this.selectedBoards.map((board) => board.value));
     },
   },
 };
