@@ -16,6 +16,17 @@
       </select>
     </div>
     <v-select v-if="labelFilterOptionModel === 'filter'" multiple v-model="selectedCardLabels" v-bind:options="selectedLabelOptions" />
+    <h2>Date Filter</h2>
+    <div class="date-selector">
+        <div class="date-selector--input">
+          <label for="startDate">Start Date: </label>
+          <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
+        </div>
+        <div class="date-selector--input">
+          <label for="endDate">End Date (Not inclusive): </label>
+          <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
+        </div>
+      </div>
     <h2>Board Status</h2>
     <BoardInfo
         v-bind:lists="lists"
@@ -39,12 +50,16 @@
 
 <script>
 import vSelect from 'vue-select';
+import moment from 'moment';
+import Datepicker from 'vuejs-datepicker';
 import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
+
+moment().format('yyyy-MM-dd');
 
 export default {
   name: 'Board',
@@ -55,6 +70,7 @@ export default {
     vSelect,
     LeadTime,
     ProjectionWrapper,
+    Datepicker,
   },
   props: {
     board: Object,
@@ -81,6 +97,8 @@ export default {
       endListId: '5bcf863f74837934564848c8',
       labelFilterOptionModel: 'filter',
       labelSelect: null,
+      startDate: null,
+      endDate: null,
     };
   },
   mounted() {
@@ -107,6 +125,12 @@ export default {
     labelSelect() {
       this.getFilteredCards();
       this.getSelectedActivities();
+    },
+    startDate() {
+      this.cardActivities = this.filterActivitiesByDate(this.startDate, true);
+    },
+    endDate() {
+      this.cardActivities = this.filterActivitiesByDate(this.endDate, false);
     },
   },
   methods: {
@@ -196,6 +220,13 @@ export default {
           onRequestError(self.getBoardLabels, [boardId]);
         }
       );
+    },
+    filterActivitiesByDate(date, isStartDate) {
+      if (isStartDate) {
+        return this.cardActivities.filter((activity) => moment(activity.date).isSameOrAfter(date, 'day'));
+      }
+
+      return this.cardActivities.filter((activity) => moment(date).isSameOrAfter(activity.date, 'day'));
     },
   },
 };
