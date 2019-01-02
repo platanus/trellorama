@@ -25,14 +25,20 @@ function getAverageTime(createdCards, finishedCards) {
 }
 
 function getStandardDeviation(createdCards, finishedCards) {
-  return std(finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
-    .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))).toFixed(decimalPadding);
+  const querySet = finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+    .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0));
+  if (querySet.length === 0) return 0;
+
+  return std(querySet).toFixed(decimalPadding);
 }
 
 function getMode(createdCards, finishedCards) {
-  return mode(finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+  const querySet = finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
     .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
-    .map((diff) => Math.round(diff)));
+    .map((diff) => Math.round(diff));
+  if (querySet.length === 0) return 0;
+
+  return mode(querySet).toString();
 }
 
 function getBoardCards(cardActivities, listId) {
