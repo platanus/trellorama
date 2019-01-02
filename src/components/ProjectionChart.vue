@@ -2,7 +2,7 @@
 import { Line, mixins } from 'vue-chartjs';
 import cloneDeep from 'lodash/cloneDeep';
 import { getLabels, buildChartDataSet, getColor } from '../utils/chartUtils.js';
-import { addToDate } from '../utils/dateManager.js';
+import { addToDate, getDate, getCurrentDate, substractToDate } from '../utils/dateManager.js';
 
 const { reactiveData } = mixins;
 const lineDashSize = 5;
@@ -24,6 +24,7 @@ export default {
     optimistValue: Number,
     pesimistValue: Number,
     numberOfCards: Number,
+    dayOfWeek: String,
   },
   data() {
     return {
@@ -69,16 +70,15 @@ export default {
       return array[array.length - numberTwo];
     },
     fillDatasetGaps(dateLabels, datasetData) {
+      if (dateLabels.length === 0) return;
       let index = 0;
-      const lastLabel = this.getSecondToLastItem(dateLabels);
+      const lastLabel = getDate(substractToDate(getCurrentDate(), 1, this.dateTypeSelector, this.dayOfWeek), this.dateTypeSelector, this.dayOfWeek, true);
       let currentLabel;
       let nextLabel;
       while (currentLabel !== lastLabel) {
         currentLabel = dateLabels[index];
-        nextLabel = addToDate(currentLabel, 1, this.dateTypeSelector);
-        if (!dateLabels.includes(nextLabel)) {
-          this.increaseDataset(dateLabels, datasetData, index, nextLabel);
-        }
+        nextLabel = addToDate(currentLabel, 1, this.dateTypeSelector, this.dayOfWeek);
+        if (!dateLabels.includes(nextLabel)) this.increaseDataset(dateLabels, datasetData, index, nextLabel);
         index++;
       }
     },

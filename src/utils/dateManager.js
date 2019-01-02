@@ -53,7 +53,20 @@ function addToDate(date, value, unit, dayOfWeek = 'monday') {
   return getDate(momentDate, unit, dayOfWeek, false);
 }
 
+function getCurrentDate() {
+  return moment();
+}
+
+function substractToDate(date, value, unit, dayOfWeek = 'monday') {
+  const momentDate = moment(date);
+  momentDate.subtract(value, `${unit}s`);
+
+  return getDate(momentDate, unit, dayOfWeek, false);
+}
+
 export {
   getDate,
   addToDate,
+  getCurrentDate,
+  substractToDate,
 };

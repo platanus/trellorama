@@ -38,6 +38,7 @@
       v-bind:optimistValue="parseInt(optimistValue)"
       v-bind:pesimistValue="parseInt(pesimistValue)"
       v-bind:numberOfCards="numberOfCards"
+      v-bind:dayOfWeek="dayOfWeek"
     />
   </div>
 </template>
