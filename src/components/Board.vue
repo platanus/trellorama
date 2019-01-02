@@ -4,7 +4,7 @@
     <h1>{{ board.name }}</h1>
     <h2>Label Filter</h2>
     <div class="label-box-conatiner">
-      <div v-for="labelOption in labelOptions" class="label-box">
+      <div v-for="labelOption in labelOptions" class="label-box" v-bind:key="labelOption.value">
         <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
         <label :for="labelOption.value">{{labelOption.label}}</label>
       </div>
