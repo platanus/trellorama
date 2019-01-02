@@ -52,6 +52,8 @@ export default {
     endListId: String,
     cardActivities: Array,
     numberOfCards: Number,
+    endDate: String,
+    startDate: String,
   },
   components: {
     ProjectionChart,
@@ -82,7 +84,7 @@ export default {
   },
   methods: {
     localSpeedProjection(filteredActivities) {
-      return speedProjection(filteredActivities);
+      return speedProjection(filteredActivities, this.startDate, this.endDate);
     },
     generateData() {
       this.filteredActivities = filterActivities(this.cardActivities, this.endListId, this.dateTypeSelector, this.dayOfWeek);

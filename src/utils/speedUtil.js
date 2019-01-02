@@ -14,8 +14,21 @@ function filterActivities(activities, endListId, dateTypeSelector, dayOfWeek = '
     .sort(sortDate);
 }
 
-function speedProjection(filteredActivities) {
-  return (filteredActivities.length / (filteredActivities.length === 0 ? 1 : moment().diff(filteredActivities[0].date, 'weeks'))).toFixed(1);
+function speedProjection(filteredActivities, startDate, endDate) {
+  let finalDate;
+  if (endDate === null) {
+    finalDate = moment();
+  } else {
+    finalDate = moment(endDate);
+  }
+  let initialDate;
+  if (startDate === null) {
+    initialDate = filteredActivities[0].date;
+  } else {
+    initialDate = startDate;
+  }
+
+  return (filteredActivities.length / (filteredActivities.length === 0 ? 1 : finalDate.diff(initialDate, 'weeks'))).toFixed(1);
 }
 
 export {
