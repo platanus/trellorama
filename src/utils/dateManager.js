@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-moment().format();
+moment().format('yyyy-MM-dd');
 
 const zeroPadding = 2;
 
@@ -10,9 +10,11 @@ function getDateByDay(date, year, month) {
   return `${year}-${month}-${day}`;
 }
 
-function getDateByWeek(date, year, month, dayOfWeek) {
+function getDateByWeek(date, dayOfWeek) {
   date.day(dayOfWeek);
   const day = date.date().toString().padStart(zeroPadding, '0');
+  const year = date.year();
+  const month = (date.month() + 1).toString().padStart(zeroPadding, '0');
 
   return `${year}-${month}-${day}`;
 }
@@ -36,7 +38,7 @@ function getDate(date, dateTypeSelector, dayOfWeek = 'monday', toMoment = true) 
   case 'day':
     return getDateByDay(momentDate, year, month);
   case 'week':
-    return getDateByWeek(momentDate, year, month, dayOfWeek);
+    return getDateByWeek(momentDate, dayOfWeek);
   case 'month':
     return getDateByMonth(momentDate, year, month);
   default:
