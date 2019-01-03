@@ -207,7 +207,6 @@ export default {
 }
 .label-box-conatiner {
   display: flex;
-  display: flex;
   flex-wrap: wrap;
 }
 .label-box {
