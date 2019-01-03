@@ -1,5 +1,5 @@
 import { getDate } from './dateManager.js';
-import { getLabels, buildChartDataSets } from './chartUtils.js';
+import { getLabels, buildChartDataSets, fillDatasetGaps } from './chartUtils.js';
 
 function getActivityData(activity, dateTypeSelector, dayOfWeek) {
   if (activity.type === 'updateCard') {
@@ -50,6 +50,12 @@ export default function (activities, listIds, retroactiveFill, dateParameters) {
   const dateLabels = getLabels(activitiesData);
 
   const chartDataset = buildChartDataSets(activitiesData, dateLabels, listIds);
+  fillDatasetGaps(
+    dateLabels,
+    chartDataset,
+    { dateTypeSelector: dateParameters[0], dayOfWeek: dateParameters[1] },
+    true
+  );
 
   return {
     labels: dateLabels,

@@ -87,12 +87,29 @@ function buildChartDataSets(activities, labels, listIds) {
   );
 }
 
-function increaseDataset(dateLabels, datasetData, index, nextLabel) {
+function increaseLabels(dateLabels, index, nextLabel) {
   dateLabels.splice(index + 1, 0, nextLabel);
+}
+
+function increaseDataset(datasetData, index) {
   datasetData.splice(index + 1, 0, datasetData[index]);
 }
 
-function fillDatasetGaps(dateLabels, datasetData, dateParams) {
+function fillGap(datasetObject, index, nextLabel, multipleDatasets) {
+  if (multipleDatasets) {
+    if (!datasetObject.dateLabels.includes(nextLabel)) {
+      increaseLabels(datasetObject.dateLabels, index, nextLabel);
+      Object.values(datasetObject.datasetData).map((dataset) => increaseDataset(dataset.data, index));
+    }
+  } else {
+    if (!datasetObject.dateLabels.includes(nextLabel)) {
+      increaseLabels(datasetObject.dateLabels, index, nextLabel);
+      increaseDataset(datasetObject.datasetData, index);
+    }
+  }
+}
+
+function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets = false) {
   if (dateLabels.length === 0) return;
   let index = 0;
   const lastLabel = getDate(
@@ -105,7 +122,7 @@ function fillDatasetGaps(dateLabels, datasetData, dateParams) {
   let nextLabel;
   while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
     nextLabel = addToDate(currentLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
-    if (!dateLabels.includes(nextLabel)) increaseDataset(dateLabels, datasetData, index, nextLabel);
+    fillGap({ dateLabels, datasetData }, index, nextLabel, multipleDatasets);
     index++;
     currentLabel = dateLabels[index];
   }
@@ -117,5 +134,4 @@ export {
   buildChartDataSet,
   getColor,
   fillDatasetGaps,
-  increaseDataset,
 };
