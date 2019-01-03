@@ -12,7 +12,7 @@ export default {
   props: {
     cardActivities: Array,
     endListId: String,
-    endDate: String,
+    endDate: Date,
     startDate: String,
   },
   data() {

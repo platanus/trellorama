@@ -53,7 +53,7 @@ export default {
     endListId: String,
     cardActivities: Array,
     numberOfCards: Number,
-    endDate: String,
+    endDate: Date,
     startDate: String,
   },
   components: {
