@@ -30,6 +30,7 @@
     <CumulativeWrapper
       v-bind:cardActivities="cardActivities"
       v-bind:listIds="listIds"
+      v-bind:boardId="board.id"
     />
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
     <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId" v-bind:startDate="startDate" v-bind:endDate="endDate"/>
