@@ -1,5 +1,6 @@
+/* global module */
 module.exports = {
   plugins: {
-    autoprefixer: {}
-  }
-}
+    autoprefixer: {},
+  },
+};

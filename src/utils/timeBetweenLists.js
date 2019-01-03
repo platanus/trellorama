@@ -19,13 +19,17 @@ function filterDuplicates(card, _, array) {
 }
 
 function getAverageTime(createdCards, finishedCards) {
-  return (finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
-    .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
-    .reduce((a, b) => a + b, 0) / finishedCards.length).toFixed(decimalPadding);
+  return (
+    finishedCards.map((finishedCard) =>
+      finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+      .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
+      .reduce((a, b) => a + b, 0) / finishedCards.length
+  ).toFixed(decimalPadding);
 }
 
 function getStandardDeviation(createdCards, finishedCards) {
-  const querySet = finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+  const querySet = finishedCards.map((finishedCard) =>
+    finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
     .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0));
   if (querySet.length === 0) return 0;
 
@@ -33,7 +37,8 @@ function getStandardDeviation(createdCards, finishedCards) {
 }
 
 function getMode(createdCards, finishedCards) {
-  const querySet = finishedCards.map((finishedCard) => finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
+  const querySet = finishedCards.map((finishedCard) =>
+    finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true))
     .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
     .map((diff) => Math.round(diff));
   if (querySet.length === 0) return 0;

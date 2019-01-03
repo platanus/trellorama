@@ -34,15 +34,20 @@
       v-bind:startDate="startDate"
     />
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
-    <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId" v-bind:startDate="startDate" v-bind:endDate="endDate"/>
+    <TeamSpeed
+      v-bind:cardActivities="cardActivities"
+      v-bind:endListId="endListId"
+      v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
+    />
     <ProjectionWrapper
-        v-bind:cardActivities="cardActivities"
-        v-bind:endListId="endListId"
-        v-bind:numberOfCards="getNumberOfCards()"
-        v-bind:startDate="startDate"
-        v-bind:endDate="endDate"
-        v-bind:boardId="board.id"
-      />
+      v-bind:cardActivities="cardActivities"
+      v-bind:endListId="endListId"
+      v-bind:numberOfCards="getNumberOfCards()"
+      v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
+      v-bind:boardId="board.id"
+    />
   </div>
 </template>
 

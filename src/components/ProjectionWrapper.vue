@@ -104,7 +104,12 @@ export default {
       return speedProjection(filteredActivities, this.startDate, this.endDate);
     },
     generateData() {
-      this.filteredActivities = filterActivities(this.cardActivities, this.endListId, this.dateTypeSelector, this.dayOfWeek);
+      this.filteredActivities = filterActivities(
+        this.cardActivities,
+        this.endListId,
+        this.dateTypeSelector,
+        this.dayOfWeek
+      );
     },
   },
 };
