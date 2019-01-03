@@ -91,25 +91,41 @@ function increaseLabels(dateLabels, index, nextLabel) {
   dateLabels.splice(index + 1, 0, nextLabel);
 }
 
-function increaseDataset(datasetData, index) {
-  datasetData.splice(index + 1, 0, datasetData[index]);
+function increaseDataset(datasetData, index, isTheStart) {
+  datasetData.splice(index + 1, 0, datasetData[isTheStart ? index : index + 1]);
 }
 
-function fillGap(datasetObject, index, nextLabel, multipleDatasets) {
-  if (multipleDatasets) {
+function fillGap(datasetObject, index, nextLabel, properties) {
+  if (properties.multipleDatasets) {
     if (!datasetObject.dateLabels.includes(nextLabel)) {
       increaseLabels(datasetObject.dateLabels, index, nextLabel);
-      Object.values(datasetObject.datasetData).map((dataset) => increaseDataset(dataset.data, index));
+      Object.values(datasetObject.datasetData).map((dataset) => increaseDataset(dataset.data, index, properties.isTheStart));
     }
   } else {
     if (!datasetObject.dateLabels.includes(nextLabel)) {
       increaseLabels(datasetObject.dateLabels, index, nextLabel);
-      increaseDataset(datasetObject.datasetData, index);
+      increaseDataset(datasetObject.datasetData, index, properties.isTheStart);
     }
   }
 }
 
-function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets = false) {
+function fillFromStartDate(dateLabels, datasetData, dateParams, multipleDatasets) {
+  if (dateLabels.length === 0) return;
+  let index = -1;
+  let nextLabel = getDate(
+    dateParams.startDate,
+    dateParams.dateTypeSelector,
+    dateParams.dayOfWeek,
+    true
+  );
+  while (!dateLabels.includes(nextLabel)) {
+    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: false });
+    nextLabel = addToDate(nextLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
+    index++;
+  }
+}
+
+function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets) {
   if (dateLabels.length === 0) return;
   let index = 0;
   const lastLabel = getDate(
@@ -122,7 +138,7 @@ function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets =
   let nextLabel;
   while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
     nextLabel = addToDate(currentLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
-    fillGap({ dateLabels, datasetData }, index, nextLabel, multipleDatasets);
+    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: true });
     index++;
     currentLabel = dateLabels[index];
   }
@@ -134,4 +150,5 @@ export {
   buildChartDataSet,
   getColor,
   fillDatasetGaps,
+  fillFromStartDate,
 };

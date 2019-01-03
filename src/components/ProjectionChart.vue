@@ -2,8 +2,8 @@
 import { Line, mixins } from 'vue-chartjs';
 import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
-import { getLabels, buildChartDataSet, getColor, fillDatasetGaps } from '../utils/chartUtils.js';
-import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
+import { getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate } from '../utils/chartUtils.js';
+import { addToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -28,6 +28,7 @@ export default {
     pesimistValue: Number,
     numberOfCards: Number,
     dayOfWeek: String,
+    startDate: Date,
   },
   data() {
     return {
@@ -74,7 +75,14 @@ export default {
       fillDatasetGaps(
         dateLabels,
         currentDataset.data,
-        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek }
+        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek },
+        false
+      );
+      fillFromStartDate(
+        dateLabels,
+        currentDataset.data,
+        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
+        false
       );
       const currentProjection = this.projectData(
         this.speed,
