@@ -36,6 +36,7 @@
 
 <script>
 import CumulativeChart from './CumulativeChart.vue';
+import { get, save } from '../utils/configurationPersistance.js';
 
 export default {
   name: 'CumulativeWrapper',
@@ -45,6 +46,7 @@ export default {
   props: {
     cardActivities: Array,
     listIds: Array,
+    boardId: String,
   },
   mounted() {
     this.activities = this.cardActivities;
@@ -52,14 +54,20 @@ export default {
   data() {
     return {
       fillBackLists: true,
-      dateTypeSelector: 'day',
-      dayOfWeek: 'monday',
+      dateTypeSelector: get(`${this.boardId}_cumulative_dateType`, 'day'),
+      dayOfWeek: get(`${this.boardId}_cumulative_dayOfWeek`, 'monday'),
       activities: [],
     };
   },
   watch: {
     cardActivities() {
       this.activities = this.cardActivities;
+    },
+    dateTypeSelector() {
+      save(`${this.boardId}_cumulative_dateType`, this.dateTypeSelector);
+    },
+    dayOfWeek() {
+      save(`${this.boardId}_cumulative_dayOfWeek`, this.dayOfWeek);
     },
   },
 };

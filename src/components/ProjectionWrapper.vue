@@ -46,6 +46,9 @@
 <script>
 import ProjectionChart from './ProjectionChart.vue';
 import { filterActivities, speedProjection } from '../utils/speedUtil.js';
+import { get, save } from '../utils/configurationPersistance.js';
+
+const baseProjectionTimeUnits = 5;
 
 export default {
   name: 'ProjectionWrapper',
@@ -55,18 +58,19 @@ export default {
     numberOfCards: Number,
     endDate: Date,
     startDate: String,
+    boardId: String,
   },
   components: {
     ProjectionChart,
   },
   data() {
     return {
-      dateTypeSelector: 'week',
-      dayOfWeek: 'monday',
-      timeUnits: 5,
+      dateTypeSelector: get(`${this.boardId}_projection_dateType`, 'week'),
+      dayOfWeek: get(`${this.boardId}_projection_dayOfWeek`, 'monday'),
+      timeUnits: get(`${this.boardId}_projection_timeUnits`, baseProjectionTimeUnits),
       filteredActivities: [],
-      optimistValue: 1,
-      pesimistValue: 1,
+      optimistValue: get(`${this.boardId}_projection_optimistValue`, 1),
+      pesimistValue: get(`${this.boardId}_projection_pesimistValue`, 1),
     };
   },
   mounted() {
@@ -77,10 +81,21 @@ export default {
       this.generateData();
     },
     dayOfWeek() {
+      save(`${this.boardId}_projection_dayOfWeek`, this.dayOfWeek);
       this.generateData();
     },
     dateTypeSelector() {
+      save(`${this.boardId}_projection_dateType`, this.dateTypeSelector);
       this.generateData();
+    },
+    timeUnits() {
+      save(`${this.boardId}_projection_timeUnits`, this.timeUnits);
+    },
+    optimistValue() {
+      save(`${this.boardId}_projection_optimistValue`, this.optimistValue);
+    },
+    pesimistValue() {
+      save(`${this.boardId}_projection_pesimistValue`, this.pesimistValue);
     },
   },
   methods: {

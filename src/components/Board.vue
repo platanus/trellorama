@@ -30,6 +30,7 @@
     <CumulativeWrapper
       v-bind:cardActivities="cardActivities"
       v-bind:listIds="listIds"
+      v-bind:boardId="board.id"
     />
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
     <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId" v-bind:startDate="startDate" v-bind:endDate="endDate"/>
@@ -39,6 +40,7 @@
         v-bind:numberOfCards="getNumberOfCards()"
         v-bind:startDate="startDate"
         v-bind:endDate="endDate"
+        v-bind:boardId="board.id"
       />
   </div>
 </template>
@@ -52,7 +54,7 @@ import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
-import { get } from '../utils/configurationPersistance.js';
+import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate, getDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
@@ -81,7 +83,10 @@ export default {
       cardActivities: [],
       endListId: get(`end_${this.$props.board.id}`, null),
       labelOptions: [],
-      startDate: subtractToDate(new Date(), 1, 'month', { unit: 'day' }),
+      startDate: get(
+        `${this.board.id}_startDate`,
+        subtractToDate(new Date(), 1, 'month', { unit: 'day' })
+      ),
       endDate: new Date(),
       selectedLabels: [],
     };
@@ -92,6 +97,7 @@ export default {
   },
   watch: {
     startDate() {
+      save(`${this.board.id}_startDate`, this.startDate);
       this.allCardsActivities = [];
       Object.values(this.cardsByList).flat().forEach((card) => this.getAllCardsActivities(card.id));
     },
@@ -103,6 +109,7 @@ export default {
       this.getSelectedActivities();
     },
     selectedLabels() {
+      save(`${this.board.id}_selectedLabels`, this.selectedLabels);
       this.getSelectedCards();
       this.getSelectedActivities();
     },
@@ -186,7 +193,8 @@ export default {
         `boards/${boardId}/labels`,
         (response) => {
           self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
-          self.selectedLabels = self.labelOptions.map((label) => label.value);
+          self.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
+          if (self.selectedLabels === null) self.selectedLabels = self.labelOptions.map((label) => label.value);
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
