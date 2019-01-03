@@ -26,7 +26,7 @@
       <tr>
         <th>Time in List Mode (days)</th>
         <td v-for="list in lists" v-bind:key="list.id + '_time'">
-          {{ modeByList[list.id].toString() }}
+          {{ modeByList[list.id] }}
         </td>
       </tr>
     </tbody>
