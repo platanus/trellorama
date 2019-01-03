@@ -60,7 +60,7 @@ import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get } from '../utils/configurationPersistance.js';
-import { subtractToDate } from '../utils/dateManager.js';
+import { subtractToDate, getDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -122,10 +122,15 @@ export default {
       this.getSelectedActivities();
     },
     startDate() {
-      this.cardActivities = this.filterActivitiesByDate(this.startDate, true);
+      this.allCardsActivities = [];
+      Object.values(this.cardsByList).flat().forEach((card) => this.getAllCardsActivities(card.id));
     },
     endDate() {
-      this.cardActivities = this.filterActivitiesByDate(this.endDate, false);
+      this.allCardsActivities = [];
+      Object.values(this.cardsByList).flat().forEach((card) => this.getAllCardsActivities(card.id));
+    },
+    allCardsActivities() {
+      this.getSelectedActivities();
     },
   },
   methods: {
@@ -201,6 +206,8 @@ export default {
         },
         {
           filter: 'createCard,updateCard:idList',
+          since: getDate(self.startDate, 'day'),
+          before: getDate(self.endDate, 'day'),
         }
       );
     },
@@ -215,13 +222,6 @@ export default {
           onRequestError(self.getBoardLabels, [boardId]);
         }
       );
-    },
-    filterActivitiesByDate(date, isStartDate) {
-      if (isStartDate) {
-        return this.cardActivities.filter((activity) => moment(activity.date).isSameOrAfter(date, 'day'));
-      }
-
-      return this.cardActivities.filter((activity) => moment(date).isSameOrAfter(activity.date, 'day'));
     },
   },
 };
