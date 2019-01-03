@@ -81,7 +81,10 @@ export default {
       cardActivities: [],
       endListId: get(`end_${this.$props.board.id}`, null),
       labelOptions: [],
-      startDate: subtractToDate(new Date(), 1, 'month', { unit: 'day' }),
+      startDate: get(
+        `${this.board.id}_startDate`,
+        subtractToDate(new Date(), 1, 'month', { unit: 'day' })
+      ),
       endDate: new Date(),
       selectedLabels: get(`${this.board.id}_selectedLabels`, []),
     };
@@ -92,6 +95,7 @@ export default {
   },
   watch: {
     startDate() {
+      save(`${this.board.id}_startDate`, this.startDate);
       this.allCardsActivities = [];
       Object.values(this.cardsByList).flat().forEach((card) => this.getAllCardsActivities(card.id));
     },
