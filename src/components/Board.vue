@@ -52,7 +52,7 @@ import CumulativeWrapper from './CumulativeWrapper.vue';
 import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
-import { get } from '../utils/configurationPersistance.js';
+import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate, getDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
@@ -83,7 +83,7 @@ export default {
       labelOptions: [],
       startDate: subtractToDate(new Date(), 1, 'month', { unit: 'day' }),
       endDate: new Date(),
-      selectedLabels: [],
+      selectedLabels: get(`${this.board.id}_selectedLabels`, []),
     };
   },
   mounted() {
@@ -103,6 +103,7 @@ export default {
       this.getSelectedActivities();
     },
     selectedLabels() {
+      save(`${this.board.id}_selectedLabels`, this.selectedLabels);
       this.getSelectedCards();
       this.getSelectedActivities();
     },
@@ -186,7 +187,6 @@ export default {
         `boards/${boardId}/labels`,
         (response) => {
           self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
-          self.selectedLabels = self.labelOptions.map((label) => label.value);
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
