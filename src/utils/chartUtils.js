@@ -1,3 +1,8 @@
+import moment from 'moment';
+import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
+
+moment().format('yyyy-MM-dd');
+
 const globalColors = [
   ['rgba(255, 0, 0, 0.1)', 'rgba(255, 0, 0, 0.5)'],
   ['rgba(0, 255, 0, 0.1)', 'rgba(0, 255, 0, 0.5)'],
@@ -82,9 +87,35 @@ function buildChartDataSets(activities, labels, listIds) {
   );
 }
 
+function increaseDataset(dateLabels, datasetData, index, nextLabel) {
+  dateLabels.splice(index + 1, 0, nextLabel);
+  datasetData.splice(index + 1, 0, datasetData[index]);
+}
+
+function fillDatasetGaps(dateLabels, datasetData, dateParams) {
+  if (dateLabels.length === 0) return;
+  let index = 0;
+  const lastLabel = getDate(
+    subtractToDate(getCurrentDate(), 1, dateParams.dateTypeSelector, { dayOfWeek: dateParams.dayOfWeek }),
+    dateParams.dateTypeSelector,
+    dateParams.dayOfWeek,
+    true
+  );
+  let currentLabel = dateLabels[index];
+  let nextLabel;
+  while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
+    nextLabel = addToDate(currentLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
+    if (!dateLabels.includes(nextLabel)) increaseDataset(dateLabels, datasetData, index, nextLabel);
+    index++;
+    currentLabel = dateLabels[index];
+  }
+}
+
 export {
   getLabels,
   buildChartDataSets,
   buildChartDataSet,
   getColor,
+  fillDatasetGaps,
+  increaseDataset,
 };
