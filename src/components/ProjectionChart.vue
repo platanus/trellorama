@@ -1,8 +1,11 @@
 <script>
 import { Line, mixins } from 'vue-chartjs';
+import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
 import { getLabels, buildChartDataSet, getColor } from '../utils/chartUtils.js';
 import { addToDate, getDate, getCurrentDate, substractToDate } from '../utils/dateManager.js';
+
+moment().format('yyyy-MM-dd');
 
 const { reactiveData } = mixins;
 const lineDashSize = 5;
@@ -73,13 +76,13 @@ export default {
       if (dateLabels.length === 0) return;
       let index = 0;
       const lastLabel = getDate(substractToDate(getCurrentDate(), 1, this.dateTypeSelector, this.dayOfWeek), this.dateTypeSelector, this.dayOfWeek, true);
-      let currentLabel;
+      let currentLabel = dateLabels[index];
       let nextLabel;
-      while (currentLabel !== lastLabel) {
-        currentLabel = dateLabels[index];
+      while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
         nextLabel = addToDate(currentLabel, 1, this.dateTypeSelector, this.dayOfWeek);
         if (!dateLabels.includes(nextLabel)) this.increaseDataset(dateLabels, datasetData, index, nextLabel);
         index++;
+        currentLabel = dateLabels[index];
       }
     },
     buildChartData() {
