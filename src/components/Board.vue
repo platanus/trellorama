@@ -3,31 +3,23 @@
     <hr>
     <h1>{{ board.name }}</h1>
     <h2>Label Filter</h2>
-    <label for="labelFilterOption">Label Filter Option: </label>
-    <select id="labelFilterOption" v-model="labelFilterOptionModel">
-      <option value="filter">Filter</option>
-      <option value="select">Select</option>
-    </select>
-    <div v-if="labelFilterOptionModel === 'select'">
-      <select id="labelFilterOption" v-model="labelSelect">
-        <option
-          v-for="labelOption in selectedLabelOptions"
-          v-bind:value="labelOption.value"
-          v-bind:key="labelOption.value">{{labelOption.label}}</option>
-      </select>
+    <div class="label-box-conatiner">
+      <div v-for="labelOption in labelOptions" class="label-box" v-bind:key="labelOption.value">
+        <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
+        <label :for="labelOption.value">{{labelOption.label}}</label>
+      </div>
     </div>
-    <v-select v-if="labelFilterOptionModel === 'filter'" multiple v-model="selectedCardLabels" v-bind:options="selectedLabelOptions" />
     <h2>Date Filter</h2>
     <div class="date-selector">
-        <div class="date-selector--input">
-          <label for="startDate">Start Date: </label>
-          <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
-        </div>
-        <div class="date-selector--input">
-          <label for="endDate">End Date (Not inclusive): </label>
-          <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
-        </div>
+      <div class="date-selector--input">
+        <label for="startDate">Start Date: </label>
+        <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
       </div>
+      <div class="date-selector--input">
+        <label for="endDate">End Date (Not inclusive): </label>
+        <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
+      </div>
+    </div>
     <h2>Board Status</h2>
     <BoardInfo
         v-bind:lists="lists"
@@ -52,7 +44,6 @@
 </template>
 
 <script>
-import vSelect from 'vue-select';
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
 import BoardInfo from './BoardInfo.vue';
@@ -71,7 +62,6 @@ export default {
     BoardInfo,
     TeamSpeed,
     CumulativeWrapper,
-    vSelect,
     LeadTime,
     ProjectionWrapper,
     Datepicker,
@@ -88,45 +78,34 @@ export default {
       listIncludesArchived: get(`archived_${this.$props.board.id}`, []),
       allCardsActivities: [],
       cardActivities: [],
-      selectedLabelOptions: [],
-      selectedCardLabels: [],
       endListId: get(`end_${this.$props.board.id}`, null),
-      labelFilterOptionModel: 'filter',
-      labelSelect: null,
+      labelOptions: [],
       startDate: null,
       endDate: new Date(),
+      selectedLabels: [],
     };
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
     this.getBoardLabels(this.$props.board.id);
-    this.getSelectedCards();
   },
   watch: {
-    selectedCardLabels() {
-      this.getSelectedCards();
-      this.getSelectedActivities();
-    },
-    labelFilterOptionModel() {
-      console.log(this.labelFilterOptionModel);
-      if (this.labelFilterOptionModel === 'filter') {
-        this.selectedCardLabels = [];
-        this.getSelectedCards();
-      } else {
-        this.labelSelect = null;
-        this.getFilteredCards();
-      }
-      this.getSelectedActivities();
-    },
-    labelSelect() {
-      this.getFilteredCards();
-      this.getSelectedActivities();
-    },
     startDate() {
       this.cardActivities = this.filterActivitiesByDate(this.startDate, true);
     },
     endDate() {
       this.cardActivities = this.filterActivitiesByDate(this.endDate, false);
+    },
+    selectedLabels() {
+      this.getSelectedCards();
+      this.getSelectedActivities();
+    },
+    allCardsByList: {
+      handler() {
+        this.getSelectedCards();
+        this.getSelectedActivities();
+      },
+      deep: true,
     },
   },
   methods: {
@@ -136,18 +115,7 @@ export default {
     getSelectedCards() {
       this.lists.forEach((list) => {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
-          (card) => !card.labels.map((label) => label.id).some((cardLabel) => this.selectedCardLabels.map((selectedLabel) => selectedLabel.value).includes(cardLabel)));
-      });
-    },
-    getFilteredCards() {
-      if (this.labelSelect === null) {
-        this.cardsByList = this.allCardsByList;
-
-        return;
-      }
-      this.lists.forEach((list) => {
-        this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
-          (card) => card.labels.map((label) => label.id).some((cardLabel) => this.labelSelect === cardLabel));
+          (card) => card.labels.map((label) => label.id).some((cardLabel) => this.selectedLabels.includes(cardLabel)));
       });
     },
     getSelectedActivities() {
@@ -180,8 +148,7 @@ export default {
           response.data.cards.forEach((card) => {
             self.getAllCardsActivities(card.id);
           });
-          self.allCardsByList[listId] = response.data.cards;
-          self.cardsByList[listId] = response.data.cards;
+          self.$set(self.allCardsByList, listId, response.data.cards);
         },
         () => {
           onRequestError(self.getAllCards, [listId, includeArchived]);
@@ -210,7 +177,8 @@ export default {
       request(
         `boards/${boardId}/labels`,
         (response) => {
-          self.selectedLabelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+          self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+          self.selectedLabels = self.labelOptions.map((label) => label.value);
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
@@ -236,5 +204,13 @@ export default {
 .date-selector--input {
   margin: 10px;
   display: flex;
+}
+.label-box-conatiner {
+  display: flex;
+  flex-wrap: wrap;
+}
+.label-box {
+  display: flex;
+  margin: 10px;
 }
 </style>
