@@ -40,6 +40,7 @@
         v-bind:numberOfCards="getNumberOfCards()"
         v-bind:startDate="startDate"
         v-bind:endDate="endDate"
+        v-bind:boardId="board.id"
       />
   </div>
 </template>
