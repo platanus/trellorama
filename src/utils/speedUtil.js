@@ -15,18 +15,8 @@ function filterActivities(activities, endListId, dateTypeSelector, dayOfWeek = '
 }
 
 function speedProjection(filteredActivities, startDate, endDate) {
-  let finalDate;
-  if (endDate === null) {
-    finalDate = moment();
-  } else {
-    finalDate = moment(endDate);
-  }
-  let initialDate;
-  if (startDate === null) {
-    initialDate = filteredActivities[0].date;
-  } else {
-    initialDate = startDate;
-  }
+  const finalDate = (endDate === null) ? moment() : moment(endDate);
+  const initialDate = (startDate === null) ? filteredActivities[0].date : startDate;
 
   return (filteredActivities.length / (filteredActivities.length === 0 ? 1 : finalDate.diff(initialDate, 'weeks'))).toFixed(1);
 }
