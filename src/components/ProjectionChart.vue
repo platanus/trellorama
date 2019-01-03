@@ -3,7 +3,7 @@ import { Line, mixins } from 'vue-chartjs';
 import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
 import { getLabels, buildChartDataSet, getColor } from '../utils/chartUtils.js';
-import { addToDate, getDate, getCurrentDate, substractToDate } from '../utils/dateManager.js';
+import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -75,7 +75,12 @@ export default {
     fillDatasetGaps(dateLabels, datasetData) {
       if (dateLabels.length === 0) return;
       let index = 0;
-      const lastLabel = getDate(substractToDate(getCurrentDate(), 1, this.dateTypeSelector, this.dayOfWeek), this.dateTypeSelector, this.dayOfWeek, true);
+      const lastLabel = getDate(
+        subtractToDate(getCurrentDate(), 1, this.dateTypeSelector, { dayOfWeek: this.dayOfWeek }),
+        this.dateTypeSelector,
+        this.dayOfWeek,
+        true
+      );
       let currentLabel = dateLabels[index];
       let nextLabel;
       while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
