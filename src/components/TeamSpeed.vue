@@ -12,6 +12,8 @@ export default {
   props: {
     cardActivities: Array,
     endListId: String,
+    endDate: String,
+    startDate: String,
   },
   data() {
     return {
@@ -28,7 +30,7 @@ export default {
   },
   methods: {
     getSpeed() {
-      return speedProjection(filterActivities(this.cardActivities, this.endListId, 'week'));
+      return speedProjection(filterActivities(this.cardActivities, this.endListId, 'week'), this.startDate, this.endDate);
     },
   },
 };

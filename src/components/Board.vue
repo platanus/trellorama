@@ -40,11 +40,13 @@
       v-bind:listIds="listIds"
     />
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
-    <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
+    <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId" v-bind:startDate="startDate" v-bind:endDate="endDate"/>
     <ProjectionWrapper
         v-bind:cardActivities="cardActivities"
         v-bind:endListId="endListId"
         v-bind:numberOfCards="getNumberOfCards()"
+        v-bind:startDate="startDate"
+        v-bind:endDate="endDate"
       />
   </div>
 </template>
@@ -92,7 +94,7 @@ export default {
       labelFilterOptionModel: 'filter',
       labelSelect: null,
       startDate: null,
-      endDate: null,
+      endDate: new Date(),
     };
   },
   mounted() {
