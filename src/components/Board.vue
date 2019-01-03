@@ -89,10 +89,10 @@ export default {
       cardActivities: [],
       endListId: get(`end_${this.$props.board.id}`, null),
       labelOptions: [],
-      startDate: get(
+      startDate: new Date(get(
         `${this.board.id}_startDate`,
         subtractToDate(new Date(), 1, 'month', { unit: 'day' })
-      ),
+      )),
       endDate: new Date(),
       selectedLabels: [],
     };

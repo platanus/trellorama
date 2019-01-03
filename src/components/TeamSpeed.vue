@@ -13,7 +13,7 @@ export default {
     cardActivities: Array,
     endListId: String,
     endDate: Date,
-    startDate: String,
+    startDate: Date,
   },
   data() {
     return {

@@ -58,8 +58,8 @@ export default {
     cardActivities: Array,
     numberOfCards: Number,
     endDate: Date,
-    startDate: String,
     boardId: String,
+    startDate: Date,
   },
   components: {
     ProjectionChart,
