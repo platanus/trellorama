@@ -88,7 +88,7 @@ export default {
         subtractToDate(new Date(), 1, 'month', { unit: 'day' })
       ),
       endDate: new Date(),
-      selectedLabels: get(`${this.board.id}_selectedLabels`, []),
+      selectedLabels: [],
     };
   },
   mounted() {
@@ -193,6 +193,8 @@ export default {
         `boards/${boardId}/labels`,
         (response) => {
           self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+          self.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
+          if (self.selectedLabels === null) self.selectedLabels = self.labelOptions.map((label) => label.value);
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
