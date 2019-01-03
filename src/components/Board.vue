@@ -60,6 +60,7 @@ import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get } from '../utils/configurationPersistance.js';
+import { subtractToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -91,8 +92,8 @@ export default {
       endListId: get(`end_${this.$props.board.id}`, null),
       labelFilterOptionModel: 'filter',
       labelSelect: null,
-      startDate: null,
-      endDate: null,
+      startDate: subtractToDate(new Date(), 1, 'month', { unit: 'day' }),
+      endDate: new Date(),
     };
   },
   mounted() {
