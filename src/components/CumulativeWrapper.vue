@@ -30,6 +30,7 @@
       v-bind:fillBackLists="fillBackLists"
       v-bind:dateTypeSelector="dateTypeSelector"
       v-bind:dayOfWeek="dayOfWeek"
+      v-bind:startDate="startDate"
     />
   </div>
 </template>
@@ -47,6 +48,7 @@ export default {
     cardActivities: Array,
     listIds: Array,
     boardId: String,
+    startDate: Date,
   },
   mounted() {
     this.activities = this.cardActivities;

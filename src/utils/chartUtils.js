@@ -1,3 +1,8 @@
+import moment from 'moment';
+import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
+
+moment().format('yyyy-MM-dd');
+
 const globalColors = [
   ['rgba(255, 0, 0, 0.1)', 'rgba(255, 0, 0, 0.5)'],
   ['rgba(0, 255, 0, 0.1)', 'rgba(0, 255, 0, 0.5)'],
@@ -82,9 +87,68 @@ function buildChartDataSets(activities, labels, listIds) {
   );
 }
 
+function increaseLabels(dateLabels, index, nextLabel) {
+  dateLabels.splice(index + 1, 0, nextLabel);
+}
+
+function increaseDataset(datasetData, index, isTheStart) {
+  datasetData.splice(index + 1, 0, datasetData[isTheStart ? index : index + 1]);
+}
+
+function fillGap(datasetObject, index, nextLabel, properties) {
+  if (properties.multipleDatasets) {
+    if (!datasetObject.dateLabels.includes(nextLabel)) {
+      increaseLabels(datasetObject.dateLabels, index, nextLabel);
+      Object.values(datasetObject.datasetData).map((dataset) => increaseDataset(dataset.data, index, properties.isTheStart));
+    }
+  } else {
+    if (!datasetObject.dateLabels.includes(nextLabel)) {
+      increaseLabels(datasetObject.dateLabels, index, nextLabel);
+      increaseDataset(datasetObject.datasetData, index, properties.isTheStart);
+    }
+  }
+}
+
+function fillFromStartDate(dateLabels, datasetData, dateParams, multipleDatasets) {
+  if (dateLabels.length === 0) return;
+  let index = -1;
+  let nextLabel = getDate(
+    dateParams.startDate,
+    dateParams.dateTypeSelector,
+    dateParams.dayOfWeek,
+    true
+  );
+  while (!dateLabels.includes(nextLabel)) {
+    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: false });
+    nextLabel = addToDate(nextLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
+    index++;
+  }
+}
+
+function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets) {
+  if (dateLabels.length === 0) return;
+  let index = 0;
+  const lastLabel = getDate(
+    subtractToDate(getCurrentDate(), 1, dateParams.dateTypeSelector, { dayOfWeek: dateParams.dayOfWeek }),
+    dateParams.dateTypeSelector,
+    dateParams.dayOfWeek,
+    true
+  );
+  let currentLabel = dateLabels[index];
+  let nextLabel;
+  while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
+    nextLabel = addToDate(currentLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
+    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: true });
+    index++;
+    currentLabel = dateLabels[index];
+  }
+}
+
 export {
   getLabels,
   buildChartDataSets,
   buildChartDataSet,
   getColor,
+  fillDatasetGaps,
+  fillFromStartDate,
 };

@@ -16,6 +16,7 @@ export default {
     fillBackLists: Boolean,
     dateTypeSelector: String,
     dayOfWeek: String,
+    startDate: Date,
   },
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
         this.activities,
         this.listIds,
         this.fillBackLists,
-        [this.dateTypeSelector, this.dayOfWeek]
+        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate }
       );
       this.renderChart(this.chartdata, this.chartoptions);
     },

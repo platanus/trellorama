@@ -31,6 +31,7 @@
       v-bind:cardActivities="cardActivities"
       v-bind:listIds="listIds"
       v-bind:boardId="board.id"
+      v-bind:startDate="startDate"
     />
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
     <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId" v-bind:startDate="startDate" v-bind:endDate="endDate"/>

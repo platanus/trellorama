@@ -2,8 +2,8 @@
 import { Line, mixins } from 'vue-chartjs';
 import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
-import { getLabels, buildChartDataSet, getColor } from '../utils/chartUtils.js';
-import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
+import { getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate } from '../utils/chartUtils.js';
+import { addToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -28,6 +28,7 @@ export default {
     pesimistValue: Number,
     numberOfCards: Number,
     dayOfWeek: String,
+    startDate: Date,
   },
   data() {
     return {
@@ -63,37 +64,26 @@ export default {
       this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
     },
-    increaseDataset(dateLabels, datasetData, index, nextLabel) {
-      dateLabels.splice(index + 1, 0, nextLabel);
-      datasetData.splice(index + 1, 0, datasetData[index]);
-    },
     getSecondToLastItem(array) {
       const numberTwo = 2;
 
       return array[array.length - numberTwo];
     },
-    fillDatasetGaps(dateLabels, datasetData) {
-      if (dateLabels.length === 0) return;
-      let index = 0;
-      const lastLabel = getDate(
-        subtractToDate(getCurrentDate(), 1, this.dateTypeSelector, { dayOfWeek: this.dayOfWeek }),
-        this.dateTypeSelector,
-        this.dayOfWeek,
-        true
-      );
-      let currentLabel = dateLabels[index];
-      let nextLabel;
-      while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
-        nextLabel = addToDate(currentLabel, 1, this.dateTypeSelector, this.dayOfWeek);
-        if (!dateLabels.includes(nextLabel)) this.increaseDataset(dateLabels, datasetData, index, nextLabel);
-        index++;
-        currentLabel = dateLabels[index];
-      }
-    },
     buildChartData() {
       let dateLabels = getLabels(this.filteredActivities);
       const currentDataset = buildChartDataSet(this.filteredActivities, dateLabels, 'Current Progression', { color: 'black', fill: false });
-      this.fillDatasetGaps(dateLabels, currentDataset.data);
+      fillDatasetGaps(
+        dateLabels,
+        currentDataset.data,
+        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek },
+        false
+      );
+      fillFromStartDate(
+        dateLabels,
+        currentDataset.data,
+        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
+        false
+      );
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
