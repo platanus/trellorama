@@ -1,7 +1,7 @@
 <script>
 import { Doughnut } from 'vue-chartjs';
 import { getColor } from '../utils/chartUtils.js';
-import { getBoardCards, getAverageTime } from '../utils/timeBetweenLists.js';
+import { getAverageTime, getCardsBetweenTwoLists } from '../utils/timeBetweenLists.js';
 
 export default {
   name: 'ProjectionChart',
@@ -13,6 +13,9 @@ export default {
     },
     cardActivities: Array,
     endListId: String,
+    progressStartListId: String,
+    backlogListId: String,
+    productionListId: String,
   },
   data() {
     return {
@@ -55,7 +58,22 @@ export default {
   },
   watch: {
     cardActivities() {
-      this.chartdata.datasets[0].data[0] = getAverageTime(...getBoardCards(this.cardActivities, this.endListId));
+      const leadTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListId, this.endListId)
+      );
+      const responseTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListId, this.progressStartListId)
+      );
+      const cycleTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.progressStartListId, this.endListId)
+      );
+      const deployTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.endListId, this.productionListId)
+      );
+
+      this.chartdata.datasets[0].data = [leadTime, 0, 0, 0];
+      this.chartdata.datasets[1].data = [0, responseTime, cycleTime, deployTime];
+
       this.renderChart(this.chartdata, this.chartoptions);
     },
   },

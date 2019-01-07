@@ -55,19 +55,6 @@ function getMode(createdCards, finishedCards) {
   return mode(querySet).toString();
 }
 
-function getBoardCards(cardActivities, listId) {
-  const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
-    .filter((activity) => activity.data.listAfter.id === listId)
-    .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
-    .filter((card, _, self) => filterDuplicates(card, _, self));
-
-  const createdCards = cardActivities.filter((activity) => activity.type === 'createCard')
-    .filter((activity) => finishedCards.map((card) => card.id).includes(activity.data.card.id))
-    .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }));
-
-  return [createdCards, finishedCards];
-}
-
 function getListCards(cardActivities, listId) {
   const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listBefore.id === listId)
@@ -90,10 +77,32 @@ function getListCards(cardActivities, listId) {
   return [initialCards, finishedCards];
 }
 
+function getCardsBetweenTwoLists(cardActivities, startListId, endListId) {
+  const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
+    .filter((activity) => activity.data.listAfter.id === endListId)
+    .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
+    .filter((card, _, self) => filterDuplicates(card, _, self));
+
+  const createdCards = cardActivities.filter((activity) => activity.type === 'createCard')
+    .filter((activity) => activity.data.list.id === startListId)
+    .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }));
+
+  const updatedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
+    .filter((activity) => activity.data.listAfter.id === startListId)
+    .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
+    .filter((card, _, self) => filterDuplicates(card, _, self));
+
+  const initialCards = createdCards.concat(updatedCards)
+    .filter((card, _, self) => filterDuplicates(card, _, self))
+    .filter((card) => finishedCards.map((finishedCard) => finishedCard.id).includes(card.id));
+
+  return [initialCards, finishedCards];
+}
+
 export {
   getListCards,
-  getBoardCards,
   getAverageTime,
   getStandardDeviation,
   getMode,
+  getCardsBetweenTwoLists,
 };

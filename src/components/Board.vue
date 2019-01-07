@@ -33,7 +33,13 @@
       v-bind:boardId="board.id"
       v-bind:startDate="startDate"
     />
-    <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListIds="endListIds"/>
+    <LeadTime
+      v-bind:cardActivities="cardActivities"
+      v-bind:endListIds="endListIds"
+      v-bind:progressStartListId="progressStartListId"
+      v-bind:backlogListIds="backlogListIds"
+      v-bind:productionListIds="productionListIds"
+    />
     <TeamSpeed
       v-bind:cardActivities="cardActivities"
       v-bind:endListIds="endListIds"
@@ -110,6 +116,9 @@ export default {
       selectedLabels: [],
       wipListsIds: get(`wip_${this.$props.board.id}`, []),
       wipLimits: get(`wipLimit_${this.$props.board.id}`, []),
+      progressStartListId: get(`wip_${this.$props.board.id}`, [null])[0],
+      backlogListIds: get(`backlog_${this.$props.board.id}`, []),
+      productionListIds: get(`production_${this.$props.board.id}`, []),
     };
   },
   computed: {

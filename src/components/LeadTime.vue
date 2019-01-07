@@ -4,6 +4,9 @@
     <LeadTimeChart
       v-bind:cardActivities="cardActivities"
       v-bind:endListId="endListId"
+      v-bind:progressStartListId="progressStartListId"
+      v-bind:backlogListId="backlogListId"
+      v-bind:productionListId="productionListId"
     />
   </div>
 </template>
@@ -16,6 +19,9 @@ export default {
   props: {
     cardActivities: Array,
     endListIds: Array,
+    progressStartListId: String,
+    backlogListIds: Array,
+    productionListIds: Array,
   },
   components: {
     LeadTimeChart,
