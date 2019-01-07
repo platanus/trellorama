@@ -1,14 +1,15 @@
 <template>
   <div>
-    <h2>Lead Time</h2>
-    <p>
-      <b>Days: </b> {{ leadTime }}
-    </p>
+    <h2>Lead Time Metrics</h2>
+    <LeadTimeChart
+      v-bind:cardActivities="cardActivities"
+      v-bind:endListId="endListId"
+    />
   </div>
 </template>
 
 <script>
-import { getBoardCards, getAverageTime } from '../utils/timeBetweenLists.js';
+import LeadTimeChart from './LeadTimeChart.vue';
 
 export default {
   name: 'LeadTime',
@@ -16,19 +17,13 @@ export default {
     cardActivities: Array,
     endListIds: Array,
   },
+  components: {
+    LeadTimeChart,
+  },
   data() {
     return {
       leadTime: 0,
     };
-  },
-  watch: {
-    cardActivities() {
-      this.leadTime = 0;
-      this.endListIds.forEach((listId) => {
-        this.leadTime += getAverageTime(...getBoardCards(this.cardActivities, listId));
-      });
-      this.leadTime /= this.endListIds.length;
-    },
   },
 };
 </script>
