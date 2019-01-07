@@ -67,6 +67,10 @@ export default {
 
       const endListId = get(`end_${this.selectedBoard.value}`, null);
       this.endList = this.listLabels.find((list) => endListId === list.value);
+
+      const wipLists = get(`wip_${this.selectedBoard.value}`, null);
+      console.log(this.listLabels.filter((list) => wipLists === list.value));
+      this.wipLists = this.listLabels.filter((list) => wipLists.includes(list.value));
     },
   },
   methods: {
