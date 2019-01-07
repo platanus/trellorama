@@ -32,7 +32,6 @@
           <datepicker v-model="projectionDate" name="projectionDate" placeholder="Projection Date" format="yyyy-MM-dd"/>
         </div>
       </div>
-      {{a}}
     </div>
     <ProjectionChart
       v-bind:filteredActivities="filteredActivities"
