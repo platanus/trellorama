@@ -16,6 +16,8 @@
       <v-select v-model="backlogList" v-bind:options="selectedLists" />
       <h3>Finished List</h3>
       <v-select v-model="endList" v-bind:options="selectedLists" />
+      <h3>Production List</h3>
+      <v-select v-model="productionList" v-bind:options="selectedLists" />
       <button v-on:click="saveLists" >Save Lists</button>
     </div>
   </div>
@@ -46,6 +48,7 @@ export default {
       endList: null,
       wipLists: [],
       backlogList: null,
+      productionList: null,
     };
   },
   mounted() {
@@ -76,6 +79,9 @@ export default {
 
       const backlogListId = get(`backlog_${this.selectedBoard.value}`, null);
       this.backlogList = this.listLabels.find((list) => backlogListId === list.value);
+
+      const productionListId = get(`production_${this.selectedBoard.value}`, null);
+      this.backlogList = this.listLabels.find((list) => productionListId === list.value);
     },
   },
   methods: {
@@ -101,6 +107,7 @@ export default {
       save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
       save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
       save(`backlog_${this.selectedBoard.value}`, this.backlogList.value);
+      save(`production_${this.selectedBoard.value}`, this.backlogList.value);
     },
   },
 };
