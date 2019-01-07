@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      fillBackLists: true,
+      fillBackLists: get(`${this.boardId}_cumulative_fillBack`, true),
       dateTypeSelector: get(`${this.boardId}_cumulative_dateType`, 'day'),
       dayOfWeek: get(`${this.boardId}_cumulative_dayOfWeek`, 'monday'),
       activities: [],
@@ -70,6 +70,9 @@ export default {
     },
     dayOfWeek() {
       save(`${this.boardId}_cumulative_dayOfWeek`, this.dayOfWeek);
+    },
+    fillBackLists() {
+      save(`${this.boardId}_cumulative_fillBack`, this.fillBackLists);
     },
   },
 };
