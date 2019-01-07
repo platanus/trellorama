@@ -12,6 +12,8 @@
       <v-select multiple v-model="wipLists" v-bind:options="selectedLists" />
       <h3>Include Archived</h3>
       <v-select multiple v-model="archivedLists" v-bind:options="selectedLists" />
+      <h3>Backlog List</h3>
+      <v-select v-model="backlogList" v-bind:options="selectedLists" />
       <h3>Finished List</h3>
       <v-select v-model="endList" v-bind:options="selectedLists" />
       <button v-on:click="saveLists" >Save Lists</button>
@@ -43,6 +45,7 @@ export default {
       lists: [],
       endList: null,
       wipLists: [],
+      backlogList: null,
     };
   },
   mounted() {
@@ -68,9 +71,11 @@ export default {
       const endListId = get(`end_${this.selectedBoard.value}`, null);
       this.endList = this.listLabels.find((list) => endListId === list.value);
 
-      const wipLists = get(`wip_${this.selectedBoard.value}`, null);
-      console.log(this.listLabels.filter((list) => wipLists === list.value));
+      const wipLists = get(`wip_${this.selectedBoard.value}`, []);
       this.wipLists = this.listLabels.filter((list) => wipLists.includes(list.value));
+
+      const backlogListId = get(`backlog_${this.selectedBoard.value}`, null);
+      this.backlogList = this.listLabels.find((list) => backlogListId === list.value);
     },
   },
   methods: {
@@ -95,6 +100,7 @@ export default {
       save(`lists_${this.selectedBoard.value}`, this.selectedLists.map((list) => list.value));
       save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
       save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
+      save(`backlog_${this.selectedBoard.value}`, this.backlogList.value);
     },
   },
 };
