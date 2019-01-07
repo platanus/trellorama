@@ -65,26 +65,25 @@ export default {
       this.archivedLists = [];
     },
     listLabels() {
-      const selectedListsIds = get(`lists_${this.selectedBoard.value}`, []);
-      this.selectedLists = this.listLabels.filter((list) => selectedListsIds.includes(list.value));
-
-      const archivedListsIds = get(`archived_${this.selectedBoard.value}`, []);
-      this.archivedLists = this.listLabels.filter((list) => archivedListsIds.includes(list.value));
-
-      const endListId = get(`end_${this.selectedBoard.value}`, null);
-      this.endList = this.listLabels.find((list) => endListId === list.value);
-
-      const wipLists = get(`wip_${this.selectedBoard.value}`, []);
-      this.wipLists = this.listLabels.filter((list) => wipLists.includes(list.value));
-
-      const backlogListId = get(`backlog_${this.selectedBoard.value}`, null);
-      this.backlogList = this.listLabels.find((list) => backlogListId === list.value);
-
-      const productionListId = get(`production_${this.selectedBoard.value}`, null);
-      this.backlogList = this.listLabels.find((list) => productionListId === list.value);
+      this.selectedLists = this.retrieveList(`lists_${this.selectedBoard.value}`);
+      this.archivedLists = this.retrieveList(`archived_${this.selectedBoard.value}`);
+      this.wipLists = this.retrieveList(`wip_${this.selectedBoard.value}`);
+      this.endList = this.retrieveValue(`end_${this.selectedBoard.value}`);
+      this.backlogList = this.retrieveValue(`backlog_${this.selectedBoard.value}`);
+      this.productionList = this.retrieveValue(`production_${this.selectedBoard.value}`);
     },
   },
   methods: {
+    retrieveValue(key) {
+      const listId = get(key, null);
+
+      return this.listLabels.find((list) => listId === list.value);
+    },
+    retrieveList(key) {
+      const listsIds = get(key, []);
+
+      return this.listLabels.filter((list) => listsIds.includes(list.value));
+    },
     getLists(boardId) {
       const self = this;
       request(
@@ -107,7 +106,7 @@ export default {
       save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
       save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
       save(`backlog_${this.selectedBoard.value}`, this.backlogList.value);
-      save(`production_${this.selectedBoard.value}`, this.backlogList.value);
+      save(`production_${this.selectedBoard.value}`, this.productionList.value);
     },
   },
 };
