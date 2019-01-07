@@ -26,6 +26,7 @@
         v-bind:cardsByList="cardsByList"
         v-bind:cardActivities="cardActivities"
         v-bind:endListIds="endListIds"
+        v-bind:productionListIds="productionListIds"
     />
     <CumulativeWrapper
       v-bind:cardActivities="cardActivities"
