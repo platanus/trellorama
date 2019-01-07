@@ -36,7 +36,8 @@ function redirectAuthorization(apiKey) {
   const name = 'Trello Statistics';
   const responseType = 'fragment';
 
-  const url = `${baseUrl}authorize?key=${apiKey}&return_url=${returnUrl}&name=${name}&scope=${scope}&expiration=${expiration}&response_type=${responseType}`;
+  const url = `${baseUrl}authorize?key=${apiKey}&return_url=${returnUrl}&name=${name}\
+    &scope=${scope}&expiration=${expiration}&response_type=${responseType}`;
 
   window.location.assign(url);
 }

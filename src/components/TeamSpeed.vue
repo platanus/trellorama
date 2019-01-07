@@ -13,7 +13,7 @@ export default {
     cardActivities: Array,
     endListId: String,
     endDate: Date,
-    startDate: String,
+    startDate: Date,
   },
   data() {
     return {
@@ -30,7 +30,11 @@ export default {
   },
   methods: {
     getSpeed() {
-      return speedProjection(filterActivities(this.cardActivities, this.endListId, 'week'), this.startDate, this.endDate);
+      return speedProjection(
+        filterActivities(this.cardActivities, this.endListId, 'week'),
+        this.startDate,
+        this.endDate
+      );
     },
   },
 };

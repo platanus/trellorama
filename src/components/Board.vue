@@ -34,15 +34,20 @@
       v-bind:startDate="startDate"
     />
     <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
-    <TeamSpeed v-bind:cardActivities="cardActivities" v-bind:endListId="endListId" v-bind:startDate="startDate" v-bind:endDate="endDate"/>
+    <TeamSpeed
+      v-bind:cardActivities="cardActivities"
+      v-bind:endListId="endListId"
+      v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
+    />
     <ProjectionWrapper
-        v-bind:cardActivities="cardActivities"
-        v-bind:endListId="endListId"
-        v-bind:numberOfCards="getNumberOfCards()"
-        v-bind:startDate="startDate"
-        v-bind:endDate="endDate"
-        v-bind:boardId="board.id"
-      />
+      v-bind:cardActivities="cardActivities"
+      v-bind:endListId="endListId"
+      v-bind:numberOfCards="getNumberOfCards()"
+      v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
+      v-bind:boardId="board.id"
+    />
   </div>
 </template>
 
@@ -84,10 +89,10 @@ export default {
       cardActivities: [],
       endListId: get(`end_${this.$props.board.id}`, null),
       labelOptions: [],
-      startDate: get(
+      startDate: new Date(get(
         `${this.board.id}_startDate`,
         subtractToDate(new Date(), 1, 'month', { unit: 'day' })
-      ),
+      )),
       endDate: new Date(),
       selectedLabels: [],
     };

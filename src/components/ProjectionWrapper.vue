@@ -58,8 +58,8 @@ export default {
     cardActivities: Array,
     numberOfCards: Number,
     endDate: Date,
-    startDate: String,
     boardId: String,
+    startDate: Date,
   },
   components: {
     ProjectionChart,
@@ -104,7 +104,12 @@ export default {
       return speedProjection(filteredActivities, this.startDate, this.endDate);
     },
     generateData() {
-      this.filteredActivities = filterActivities(this.cardActivities, this.endListId, this.dateTypeSelector, this.dayOfWeek);
+      this.filteredActivities = filterActivities(
+        this.cardActivities,
+        this.endListId,
+        this.dateTypeSelector,
+        this.dayOfWeek
+      );
     },
   },
 };

@@ -71,7 +71,12 @@ export default {
     },
     buildChartData() {
       let dateLabels = getLabels(this.filteredActivities);
-      const currentDataset = buildChartDataSet(this.filteredActivities, dateLabels, 'Current Progression', { color: 'black', fill: false });
+      const currentDataset = buildChartDataSet(
+        this.filteredActivities,
+        dateLabels,
+        'Current Progression',
+        { color: 'black', fill: false }
+      );
       fillDatasetGaps(
         dateLabels,
         currentDataset.data,
@@ -148,7 +153,9 @@ export default {
 
       const lastValue = baseDataset.data[baseDataset.data.length - 1];
       [...Array(timeUnitsForward).keys()].forEach((timeUnit) => {
-        projectedDataset.data.push(Math.floor(lastValue + (this.adaptProjectionRate(projectionRate, this.dateTypeSelector) * (timeUnit + 1))));
+        projectedDataset.data.push(
+          Math.floor(lastValue + (this.adaptProjectionRate(projectionRate, this.dateTypeSelector) * (timeUnit + 1)))
+        );
       });
 
       return projectedDataset;

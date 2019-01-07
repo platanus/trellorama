@@ -82,7 +82,9 @@ function buildChartDataSets(activities, labels, listIds) {
     (listId) => buildChartDataSet(
       activities.filter((activity) => listId === activity.list.id),
       labels,
-      activities.filter((activity) => listId === activity.list.id).length > 0 ? activities.filter((activity) => listId === activity.list.id)[0].list.name : ''
+      activities.filter((activity) => listId === activity.list.id).length > 0 ?
+        activities.filter((activity) => listId === activity.list.id)[0].list.name :
+        ''
     )
   );
 }
