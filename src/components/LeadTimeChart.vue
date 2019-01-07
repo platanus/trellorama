@@ -44,6 +44,15 @@ export default {
               getColor('fullOrange')[0],
             ],
           },
+          {
+            data: [0, 0, 0, 0],
+            backgroundColor: [
+              getColor('blue')[0],
+              getColor('red')[0],
+              getColor('green')[0],
+              getColor('fullOrange')[0],
+            ],
+          },
         ],
       },
     };
@@ -72,7 +81,8 @@ export default {
       );
 
       this.chartdata.datasets[0].data = [leadTime, 0, 0, 0];
-      this.chartdata.datasets[1].data = [0, responseTime, cycleTime, deployTime];
+      this.chartdata.datasets[1].data = [0, responseTime, cycleTime, 0];
+      this.chartdata.datasets[2].data = [0, 0, 0, deployTime];
 
       this.renderChart(this.chartdata, this.chartoptions);
     },
