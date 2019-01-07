@@ -129,7 +129,10 @@ export default {
     getSelectedCards() {
       this.lists.forEach((list) => {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
-          (card) => card.labels.map((label) => label.id).some((cardLabel) => this.selectedLabels.includes(cardLabel)));
+          (card) =>
+            card.labels.map((label) => label.id).some((cardLabel) => this.selectedLabels.includes(cardLabel)) ||
+            card.labels.length === 0
+        );
       });
     },
     getSelectedActivities() {
