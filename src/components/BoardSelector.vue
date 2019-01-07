@@ -8,6 +8,8 @@
     <div v-if="selectedBoard !== null">
       <h3>Lists to Show</h3>
       <v-select multiple v-model="selectedLists" v-bind:options="listLabels" />
+      <h3>Work In Progress</h3>
+      <v-select multiple v-model="wipLists" v-bind:options="selectedLists" />
       <h3>Include Archived</h3>
       <v-select multiple v-model="archivedLists" v-bind:options="selectedLists" />
       <h3>Finished List</h3>
@@ -40,6 +42,7 @@ export default {
       archivedLists: [],
       lists: [],
       endList: null,
+      wipLists: [],
     };
   },
   mounted() {
@@ -87,6 +90,7 @@ export default {
       save(`end_${this.selectedBoard.value}`, this.endList.value);
       save(`lists_${this.selectedBoard.value}`, this.selectedLists.map((list) => list.value));
       save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
+      save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
     },
   },
 };
