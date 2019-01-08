@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3>{{ list.name }}</h3>
+    <h3>{{ list.name }} ({{cards.length}}/{{WIPLimit}})</h3>
     <div class="container">
-      <Card v-for="card in sortedCards" :key="card.id" v-bind:card="card"/>
+      <Card v-for="card in sortedCards" :key="card.id" v-bind:card="card" v-bind:warning="warning"/>
     </div>
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   props: {
     list: Object,
     cards: Array,
+    WIPLimit: Number,
   },
   components: {
     Card,
@@ -23,6 +24,9 @@ export default {
   computed: {
     sortedCards() {
       return this.cards.slice().sort((a, b) => moment(a.dateLastActivity) - moment(b.dateLastActivity));
+    },
+    warning() {
+      return this.cards.length > this.WIPLimit;
     },
   },
 };
