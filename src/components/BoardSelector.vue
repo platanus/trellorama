@@ -8,10 +8,16 @@
     <div v-if="selectedBoard !== null">
       <h3>Lists to Show</h3>
       <v-select multiple v-model="selectedLists" v-bind:options="listLabels" />
+      <h3>Work In Progress</h3>
+      <v-select multiple v-model="wipLists" v-bind:options="selectedLists" />
       <h3>Include Archived</h3>
       <v-select multiple v-model="archivedLists" v-bind:options="selectedLists" />
+      <h3>Backlog List</h3>
+      <v-select v-model="backlogList" v-bind:options="selectedLists" />
       <h3>Finished List</h3>
       <v-select v-model="endList" v-bind:options="selectedLists" />
+      <h3>Production List</h3>
+      <v-select v-model="productionList" v-bind:options="selectedLists" />
       <button v-on:click="saveLists" >Save Lists</button>
     </div>
   </div>
@@ -40,6 +46,9 @@ export default {
       archivedLists: [],
       lists: [],
       endList: null,
+      wipLists: [],
+      backlogList: null,
+      productionList: null,
     };
   },
   mounted() {
@@ -54,19 +63,30 @@ export default {
       this.getLists(this.selectedBoard.value);
       this.endList = null;
       this.archivedLists = [];
+      this.wipLists = [];
+      this.backlogList = null;
+      this.productionList = null;
     },
     listLabels() {
-      const selectedListsIds = get(`lists_${this.selectedBoard.value}`, []);
-      this.selectedLists = this.listLabels.filter((list) => selectedListsIds.includes(list.value));
-
-      const archivedListsIds = get(`archived_${this.selectedBoard.value}`, []);
-      this.archivedLists = this.listLabels.filter((list) => archivedListsIds.includes(list.value));
-
-      const endListId = get(`end_${this.selectedBoard.value}`, null);
-      this.endList = this.listLabels.find((list) => endListId === list.value);
+      this.selectedLists = this.retrieveList(`lists_${this.selectedBoard.value}`);
+      this.archivedLists = this.retrieveList(`archived_${this.selectedBoard.value}`);
+      this.wipLists = this.retrieveList(`wip_${this.selectedBoard.value}`);
+      this.endList = this.retrieveValue(`end_${this.selectedBoard.value}`);
+      this.backlogList = this.retrieveValue(`backlog_${this.selectedBoard.value}`);
+      this.productionList = this.retrieveValue(`production_${this.selectedBoard.value}`);
     },
   },
   methods: {
+    retrieveValue(key) {
+      const listId = get(key, null);
+
+      return this.listLabels.find((list) => listId === list.value);
+    },
+    retrieveList(key) {
+      const listsIds = get(key, []);
+
+      return this.listLabels.filter((list) => listsIds.includes(list.value));
+    },
     getLists(boardId) {
       const self = this;
       request(
@@ -87,6 +107,9 @@ export default {
       save(`end_${this.selectedBoard.value}`, this.endList.value);
       save(`lists_${this.selectedBoard.value}`, this.selectedLists.map((list) => list.value));
       save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
+      save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
+      save(`backlog_${this.selectedBoard.value}`, this.backlogList.value);
+      save(`production_${this.selectedBoard.value}`, this.productionList.value);
     },
   },
 };
