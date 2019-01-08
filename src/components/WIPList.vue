@@ -26,6 +26,8 @@ export default {
       return this.cards.slice().sort((a, b) => moment(a.dateLastActivity) - moment(b.dateLastActivity));
     },
     warning() {
+      if (this.WIPLimit === null) return false;
+
       return this.cards.length > this.WIPLimit;
     },
   },
