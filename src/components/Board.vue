@@ -136,7 +136,7 @@ export default {
         this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
           (card) =>
             card.labels.map((label) => label.id).some((cardLabel) => this.selectedLabels.includes(cardLabel)) ||
-            card.labels.length === 0
+            (this.selectedLabels.includes(null) ? card.labels.length === 0 : false)
         );
       });
     },
@@ -202,6 +202,7 @@ export default {
         `boards/${boardId}/labels`,
         (response) => {
           self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+          self.labelOptions.push({ label: 'No Label', value: null });
           self.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
           if (self.selectedLabels === null) self.selectedLabels = self.labelOptions.map((label) => label.value);
         },
