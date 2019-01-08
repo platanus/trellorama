@@ -51,6 +51,7 @@
     <WIPLists
       v-bind:cards="cardsByList"
       v-bind:lists="wipLists"
+      v-bind:wipLimits="wipLimits"
     />
   </div>
 </template>
@@ -102,6 +103,7 @@ export default {
       endDate: new Date(),
       selectedLabels: [],
       wipListsIds: get(`wip_${this.$props.board.id}`, []),
+      wipLimits: get(`wipLimit_${this.$props.board.id}`, []),
     };
   },
   computed: {
