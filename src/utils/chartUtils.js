@@ -93,8 +93,12 @@ function increaseLabels(dateLabels, index, nextLabel) {
   dateLabels.splice(index + 1, 0, nextLabel);
 }
 
-function increaseDataset(datasetData, index, isTheStart) {
-  datasetData.splice(index + 1, 0, datasetData[isTheStart ? index : index + 1]);
+function increaseDataset(datasetData, index, isTheStart, isStartDate) {
+  datasetData.splice(
+    index + 1,
+    0,
+    isStartDate ? 0 : datasetData[isTheStart ? index : index + 1]
+  );
 }
 
 function fillGap(datasetObject, index, nextLabel, properties) {
@@ -102,13 +106,13 @@ function fillGap(datasetObject, index, nextLabel, properties) {
     if (!datasetObject.dateLabels.includes(nextLabel)) {
       increaseLabels(datasetObject.dateLabels, index, nextLabel);
       Object.values(datasetObject.datasetData).map((dataset) =>
-        increaseDataset(dataset.data, index, properties.isTheStart)
+        increaseDataset(dataset.data, index, properties.isTheStart, properties.isStartDate)
       );
     }
   } else {
     if (!datasetObject.dateLabels.includes(nextLabel)) {
       increaseLabels(datasetObject.dateLabels, index, nextLabel);
-      increaseDataset(datasetObject.datasetData, index, properties.isTheStart);
+      increaseDataset(datasetObject.datasetData, index, properties.isTheStart, properties.isStartDate);
     }
   }
 }
@@ -123,7 +127,7 @@ function fillFromStartDate(dateLabels, datasetData, dateParams, multipleDatasets
     true
   );
   while (!dateLabels.includes(nextLabel)) {
-    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: false });
+    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: false, isStartDate: true });
     nextLabel = addToDate(nextLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
     index++;
   }
@@ -142,7 +146,7 @@ function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets) 
   let nextLabel;
   while (moment(currentLabel).isSameOrBefore(lastLabel, 'day')) {
     nextLabel = addToDate(currentLabel, 1, dateParams.dateTypeSelector, dateParams.dayOfWeek);
-    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: true });
+    fillGap({ dateLabels, datasetData }, index, nextLabel, { multipleDatasets, isTheStart: true, isStartDate: false });
     index++;
     currentLabel = dateLabels[index];
   }
