@@ -63,6 +63,9 @@ export default {
       this.getLists(this.selectedBoard.value);
       this.endList = null;
       this.archivedLists = [];
+      this.wipLists = [];
+      this.backlogList = null;
+      this.productionList = null;
     },
     listLabels() {
       this.selectedLists = this.retrieveList(`lists_${this.selectedBoard.value}`);
