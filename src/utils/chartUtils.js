@@ -101,7 +101,9 @@ function fillGap(datasetObject, index, nextLabel, properties) {
   if (properties.multipleDatasets) {
     if (!datasetObject.dateLabels.includes(nextLabel)) {
       increaseLabels(datasetObject.dateLabels, index, nextLabel);
-      Object.values(datasetObject.datasetData).map((dataset) => increaseDataset(dataset.data, index, properties.isTheStart));
+      Object.values(datasetObject.datasetData).map((dataset) =>
+        increaseDataset(dataset.data, index, properties.isTheStart)
+      );
     }
   } else {
     if (!datasetObject.dateLabels.includes(nextLabel)) {
