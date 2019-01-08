@@ -18,7 +18,7 @@ function speedProjection(filteredActivities, startDate, endDate) {
   const finalDate = (endDate === null) ? moment() : moment(endDate);
   const initialDate = (startDate === null) ? filteredActivities[0].date : startDate;
 
-  return (filteredActivities.length / (filteredActivities.length === 0 ? 1 : finalDate.diff(initialDate, 'weeks')))
+  return (filteredActivities.length / Math.ceil(filteredActivities.length === 0 ? 1 : finalDate.diff(initialDate, 'weeks', true)))
     .toFixed(1);
 }
 
