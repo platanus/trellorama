@@ -18,6 +18,28 @@
       <v-select v-model="endList" v-bind:options="selectedLists" />
       <h3>Production List</h3>
       <v-select v-model="productionList" v-bind:options="selectedLists" />
+      <h3>Configure WIP Limit</h3>
+      <table>
+        <thead>
+          <tr>
+            <th v-for="list in selectedLists" v-bind:key="list.value">
+              {{ list.label }} <input type="checkbox" v-model="list.wipEnabled">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td v-for="list in selectedLists" v-bind:key="list.value">
+              <input
+                type="number"
+                v-model="list.wip"
+                :disabled="!list.wipEnabled"
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      &ensp;
       <button v-on:click="saveLists" >Save Lists</button>
     </div>
   </div>
@@ -74,6 +96,22 @@ export default {
       this.endList = this.retrieveValue(`end_${this.selectedBoard.value}`);
       this.backlogList = this.retrieveValue(`backlog_${this.selectedBoard.value}`);
       this.productionList = this.retrieveValue(`production_${this.selectedBoard.value}`);
+
+      const wipLimits = get(`wipLimit_${this.selectedBoard.value}`, []);
+      this.selectedLists.filter((list) =>
+        wipLimits.map((wipLimit) => wipLimit.id).includes(list.value)
+      ).forEach((list) => {
+        list.wipEnabled = true;
+        list.wip = wipLimits.find((wipLimit) => wipLimit.id === list.value).wip;
+      });
+    },
+    selectedLists: {
+      handler() {
+        this.selectedLists.forEach((list) => {
+          if (!list.wipEnabled) list.wip = 0;
+        });
+      },
+      deep: true,
     },
   },
   methods: {
@@ -92,7 +130,9 @@ export default {
       request(
         `boards/${boardId}/lists`,
         (response) => {
-          self.listLabels = response.data.map((list) => ({ label: list.name, value: list.id }));
+          self.listLabels = response.data.map((list) =>
+            ({ label: list.name, value: list.id, wipEnabled: false, wip: 0 })
+          );
           self.lists = response.data;
         },
         () => {
@@ -110,7 +150,30 @@ export default {
       save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
       save(`backlog_${this.selectedBoard.value}`, this.backlogList.value);
       save(`production_${this.selectedBoard.value}`, this.productionList.value);
+      save(
+        `wipLimit_${this.selectedBoard.value}`,
+        this.selectedLists.filter((list) => list.wipEnabled)
+          .map((list) => ({ id: list.value, wip: list.wip }))
+      );
     },
   },
 };
 </script>
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #aaaaaa;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
