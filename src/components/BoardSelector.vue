@@ -6,6 +6,8 @@
     <h2>Select a board</h2>
     <v-select v-model="selectedBoard" v-bind:options="selectedBoards" />
     <div v-if="selectedBoard !== null">
+      <h3>Bug Labels</h3>
+      <v-select multiple v-model="bugLabels" v-bind:options="labelOptions" />
       <h3>Lists to Show</h3>
       <v-select multiple v-model="selectedLists" v-bind:options="listLabels" />
       <h3>Work In Progress</h3>
@@ -71,6 +73,8 @@ export default {
       wipLists: [],
       backlogLists: [],
       productionList: null,
+      labelOptions: [],
+      bugLabels: [],
     };
   },
   mounted() {
@@ -83,11 +87,17 @@ export default {
     },
     selectedBoard() {
       this.getLists(this.selectedBoard.value);
+      this.getBoardLabels(this.selectedBoard.value);
       this.endList = null;
       this.archivedLists = [];
       this.wipLists = [];
       this.backlogLists = [];
       this.productionList = null;
+      this.labelOptions = [];
+    },
+    labelOptions() {
+      const bugLabelsIds = get(`bugLabels_${this.selectedBoard.value}`, []);
+      this.bugLabels = this.labelOptions.filter((list) => bugLabelsIds.includes(list.value));
     },
     listLabels() {
       this.selectedLists = this.retrieveList(`lists_${this.selectedBoard.value}`);
@@ -136,7 +146,19 @@ export default {
           self.lists = response.data;
         },
         () => {
-          onRequestError(self.getLists);
+          onRequestError(self.getLists, [boardId]);
+        }
+      );
+    },
+    getBoardLabels(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/labels`,
+        (response) => {
+          self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+        },
+        () => {
+          onRequestError(self.getBoardLabels, [boardId]);
         }
       );
     },
@@ -155,6 +177,7 @@ export default {
         this.selectedLists.filter((list) => list.wipEnabled)
           .map((list) => ({ id: list.value, wip: list.wip }))
       );
+      save(`bugLabels_${this.selectedBoard.value}`, this.bugLabels.map((list) => list.value));
     },
   },
 };
