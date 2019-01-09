@@ -48,6 +48,11 @@
       v-bind:endDate="endDate"
       v-bind:boardId="board.id"
     />
+    <WIPLists
+      v-bind:cards="cardsByList"
+      v-bind:lists="wipLists"
+      v-bind:wipLimits="wipLimits"
+    />
   </div>
 </template>
 
@@ -62,6 +67,7 @@ import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
+import WIPLists from './WIPLists.vue';
 
 const activitiesRequestLimit = 1000;
 
@@ -74,6 +80,7 @@ export default {
     LeadTime,
     ProjectionWrapper,
     Datepicker,
+    WIPLists,
   },
   props: {
     board: Object,
@@ -95,7 +102,14 @@ export default {
       )),
       endDate: new Date(),
       selectedLabels: [],
+      wipListsIds: get(`wip_${this.$props.board.id}`, []),
+      wipLimits: get(`wipLimit_${this.$props.board.id}`, []),
     };
+  },
+  computed: {
+    wipLists() {
+      return this.lists.filter((list) => this.wipListsIds.includes(list.id));
+    },
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
