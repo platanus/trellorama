@@ -5,17 +5,18 @@ moment().format();
 
 const decimalPadding = 2;
 
-function filterCardsByMovedTwiceInSameList(card, _, array) {
+function filterCardsByMovedTwiceInSameList(card, _, array, reversed) {
   return array.filter((filterCard) => filterCard.id === card.id)
-    .sort((card1, card2) => card2.date - card1.date)[0].activityId === card.activityId;
+    .sort((card1, card2) => (reversed ? card1.date - card2.date : card2.date - card1.date))[0]
+    .activityId === card.activityId;
 }
 
-function filterDuplicates(card, _, array) {
+function filterDuplicates(card, _, array, reversed) {
   if (array.filter((filterCard) => filterCard.id === card.id).length === 1) {
     return true;
   }
 
-  return filterCardsByMovedTwiceInSameList(card, _, array);
+  return filterCardsByMovedTwiceInSameList(card, _, array, reversed);
 }
 
 function getAverageTime(createdCards, finishedCards) {
@@ -63,16 +64,16 @@ function getListCards(cardActivities, listId) {
   const updatedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listAfter.id === listId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
-    .filter((card, _, self) => filterDuplicates(card, _, self));
+    .filter((card, _, self) => filterDuplicates(card, _, self, true));
 
   let initialCards = createdCards.concat(updatedCards)
-    .filter((card, _, self) => filterDuplicates(card, _, self));
+    .filter((card, _, self) => filterDuplicates(card, _, self, true));
 
   const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listBefore.id === listId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
     .filter((card) => initialCards.map((startCard) => startCard.id).includes(card.id))
-    .filter((card, _, self) => filterDuplicates(card, _, self));
+    .filter((card, _, self) => filterDuplicates(card, _, self, false));
 
   initialCards = initialCards.filter((card) => finishedCards.map((finishedCard) => finishedCard.id).includes(card.id));
 
@@ -87,16 +88,16 @@ function getCardsBetweenTwoLists(cardActivities, startListId, endListId) {
   const updatedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listAfter.id === startListId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
-    .filter((card, _, self) => filterDuplicates(card, _, self));
+    .filter((card, _, self) => filterDuplicates(card, _, self, true));
 
   let initialCards = createdCards.concat(updatedCards)
-    .filter((card, _, self) => filterDuplicates(card, _, self));
+    .filter((card, _, self) => filterDuplicates(card, _, self, true));
 
   const finishedCards = cardActivities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => activity.data.listAfter.id === endListId)
     .map((activity) => ({ id: activity.data.card.id, date: moment(activity.date), activityId: activity.id }))
     .filter((card) => initialCards.map((startCard) => startCard.id).includes(card.id))
-    .filter((card, _, self) => filterDuplicates(card, _, self));
+    .filter((card, _, self) => filterDuplicates(card, _, self, false));
 
   initialCards = initialCards.filter((card) => finishedCards.map((finishedCard) => finishedCard.id).includes(card.id));
 
