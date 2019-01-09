@@ -61,9 +61,9 @@ import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get, save } from '../utils/configurationPersistance.js';
-import { subtractToDate, getDate } from '../utils/dateManager.js';
+import { subtractToDate } from '../utils/dateManager.js';
 
-moment().format('yyyy-MM-dd');
+const activitiesRequestLimit = 1000;
 
 export default {
   name: 'Board',
@@ -100,18 +100,14 @@ export default {
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
     this.getBoardLabels(this.$props.board.id);
+    this.getAllCardsActivities(this.$props.board.id);
   },
   watch: {
     startDate() {
       save(`${this.board.id}_startDate`, this.startDate);
-      this.allCardsActivities = [];
-      Object.values(this.cardsByList).flat().forEach((card) => this.getAllCardsActivities(card.id));
+      this.getSelectedActivities();
     },
     endDate() {
-      this.allCardsActivities = [];
-      Object.values(this.cardsByList).flat().forEach((card) => this.getAllCardsActivities(card.id));
-    },
-    allCardsActivities() {
       this.getSelectedActivities();
     },
     selectedLabels() {
@@ -125,6 +121,9 @@ export default {
         this.getSelectedActivities();
       },
       deep: true,
+    },
+    allCardsActivities() {
+      this.getSelectedActivities();
     },
   },
   methods: {
@@ -144,7 +143,8 @@ export default {
       this.cardActivities = this.allCardsActivities.filter(
         (activity) => Object.values(this.cardsByList).flat().map((card) => card.id)
           .includes(activity.data.card.id)
-      );
+      ).filter((activity) => moment(activity.date).isSameOrAfter(this.startDate, 'day'))
+        .filter((activity) => moment(activity.date).isSameOrBefore(this.endDate, 'day'));
     },
     getLists(boardId, listIds) {
       const self = this;
@@ -167,9 +167,6 @@ export default {
       request(
         `lists/${listId}`,
         (response) => {
-          response.data.cards.forEach((card) => {
-            self.getAllCardsActivities(card.id);
-          });
           self.$set(self.allCardsByList, listId, response.data.cards);
         },
         () => {
@@ -178,21 +175,23 @@ export default {
         { cards: cardsFilter }
       );
     },
-    getAllCardsActivities(cardId) {
+    getAllCardsActivities(boardId, before = null) {
       const self = this;
       request(
-        `cards/${cardId}/actions`,
+        `boards/${boardId}/actions`,
         (response) => {
           self.allCardsActivities = self.allCardsActivities.concat(response.data);
-          self.cardActivities = self.cardActivities.concat(response.data);
+          if (response.data.length === activitiesRequestLimit) {
+            self.getAllCardsActivities(boardId, response.data[activitiesRequestLimit - 1].date);
+          }
         },
         () => {
-          onRequestError(self.getAllCardsActivities, [cardId]);
+          onRequestError(self.getAllCardsActivities, [boardId]);
         },
         {
           filter: 'createCard,updateCard:idList',
-          since: getDate(self.startDate, 'day'),
-          before: getDate(self.endDate, 'day'),
+          limit: 1000,
+          before,
         }
       );
     },
