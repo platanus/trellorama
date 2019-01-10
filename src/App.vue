@@ -1,25 +1,30 @@
 <template>
   <div id="app">
-    <button v-on:click="swichSettings">Settings</button>
-    <Settings v-if="seeSettings" v-bind:boards="boards"/>
-    <BoardList v-if="!seeSettings" v-bind:boards="selectedBoards"/>
+    <div v-if="authorized">
+      <button v-on:click="swichSettings">Settings</button>
+      <div class="main-container">
+        <BoardWizard v-if="seeSettings" v-bind:boards="boards"/>
+        <BoardList v-if="!seeSettings" v-bind:boards="selectedBoards"/>
+      </div>
+    </div>
+    <LandingPage v-else/>
   </div>
 </template>
 <script>
 import BoardList from './components/BoardList.vue';
-import Settings from './components/Settings.vue';
-import { authorize, request, onRequestError } from './utils/trelloManager.js';
+// import Settings from './components/Settings.vue';
+import { authorize, request, onRequestError, isAuthorized } from './utils/trelloManager.js';
 import { get } from './utils/configurationPersistance.js';
-
-/* global process */
-
-authorize(process.env.VUE_APP_TRELLO_KEY);
+import BoardWizard from './components/BoardWizard.vue';
+import LandingPage from './components/LandingPage.vue';
 
 export default {
   name: 'app',
   components: {
     BoardList,
-    Settings,
+    // Settings,
+    BoardWizard,
+    LandingPage,
   },
   data() {
     return {
@@ -29,8 +34,13 @@ export default {
       selectedBoards: [],
     };
   },
+  computed: {
+    authorized() {
+      return isAuthorized();
+    },
+  },
   mounted() {
-    this.getBoards();
+    if (isAuthorized()) this.getBoards();
   },
   watch: {
     seeSettings() {
@@ -70,5 +80,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.main-container {
+  display: flex;
+  justify-content: center;
 }
 </style>

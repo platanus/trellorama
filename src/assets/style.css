@@ -1,0 +1,65 @@
+.landing {
+  height: 768px;
+  width: 1366px;
+  overflow: hidden;
+  position: relative;
+}
+.landing-rectangle {
+	height: 178px;
+	width: 1196px;
+	background-color: #FFD6EA;
+  position: absolute;
+  left: 80px;
+  top: 590px;
+  z-index: 1;
+}
+.landing-oval {
+	height: 633px;
+	width: 633px;
+  border-radius: 50%;
+  border-color: #FCEA10;
+  border-style: solid;
+  border-width: 1px;
+  position: absolute;
+  left: 902px;
+  top: 203px;
+  z-index: 0;
+}
+.logo-box {
+  height: 56px;
+  width: 56px;
+  position: absolute;
+  left: 88px;
+  top: 49px;
+}
+.landing-text {
+  height: 254px;
+  width: 990px;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: 1.42px;
+  line-height: 88px;
+  position: absolute;
+  left: 88px;
+  top: 211px;
+  z-index: 2;
+}
+.trello {
+  height: 56px;
+  width: 131px;
+  border-radius: 28px;
+  background-color: #10BCFC;
+  position: absolute;
+  left: 1163px;
+  top: 64px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.trello-logo {
+  height: 26px;
+  width: 80px;
+  align-self: center;
+}
