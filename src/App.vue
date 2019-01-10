@@ -13,7 +13,7 @@
 <script>
 import BoardList from './components/BoardList.vue';
 // import Settings from './components/Settings.vue';
-import { authorize, request, onRequestError, isAuthorized } from './utils/trelloManager.js';
+import { request, onRequestError, isAuthorized } from './utils/trelloManager.js';
 import { get } from './utils/configurationPersistance.js';
 import BoardWizard from './components/BoardWizard.vue';
 import LandingPage from './components/LandingPage.vue';
@@ -79,7 +79,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
   display: flex;
   justify-content: center;
   align-content: center;
