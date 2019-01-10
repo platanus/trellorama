@@ -2,7 +2,7 @@
 
 .landing {
   height: 768px;
-  width: 1366px;
+  width: 80%;
   overflow: hidden;
   position: relative;
 }
@@ -35,8 +35,6 @@
   top: 49px;
 }
 .landing-text {
-  height: 254px;
-  width: 990px;
   color: #211952;
   font-family: Rubik;
   font-size: 64px;
@@ -64,4 +62,108 @@
   height: 26px;
   width: 80px;
   align-self: center;
+}
+
+.wizard {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+.wizard--progress-bar {
+  height: 6px;
+  width: 100%;
+  opacity: 0.16;
+  background-color: #10FC8A;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.wizard--progress-bar--step-1 {
+  width: 20%;
+  opacity: 1;
+}
+.wizard--title {
+  color: #211952;
+  font-family: Rubik;
+  font-size: 32px;
+  line-height: 48px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wizard--text {
+  opacity: 0.56;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  line-height: 24px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wizard--text-board {
+  color: #211952;
+  font-size: 18px;
+  letter-spacing: 0.4px;
+  line-height: 26px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.wizard--text-board-container {
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+.wizard--board-container {
+  width: 30%;
+  margin: auto;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.wizard--board {
+  height: 84px;
+  width: 162px;
+  border: 1px solid rgba(33,25,82,0.24);
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  box-shadow: 0 9px 11px 0 rgba(85,57,255,0.06);
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: auto;
+}
+.wizard--board-selected {
+  background-color: #DDF1A2;
+}
+.wizard--button-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.button {
+  height: 56px;
+  width: 200px;
+  border: 1px solid #211952;
+  background-color: #FFFFFF;
+  margin: 5px;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  line-height: 24px;
+}
+.button-save {
+  background-color: #FCEA10;
+  border: none;
 }

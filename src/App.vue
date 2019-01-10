@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <div v-if="authorized">
-      <button v-on:click="swichSettings">Settings</button>
-      <div class="main-container">
-        <BoardWizard v-if="seeSettings" v-bind:boards="boards"/>
-        <BoardList v-if="!seeSettings" v-bind:boards="selectedBoards"/>
-      </div>
+      <button v-on:click="swichSettings" v-if="!seeSettings">Settings</button>
+      <BoardWizard
+        v-if="seeSettings"
+        v-bind:boards="boards"
+        @leaveWizard="swichSettings"
+      />
+      <BoardList v-else v-bind:boards="selectedBoards"/>
     </div>
     <LandingPage v-else/>
   </div>
@@ -82,9 +84,5 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
-}
-.main-container {
-  display: flex;
-  justify-content: center;
 }
 </style>
