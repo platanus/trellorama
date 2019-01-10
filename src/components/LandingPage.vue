@@ -9,8 +9,10 @@
 </template>
 
 <script>
-import { authorize } from '../utils/trelloManager.js';
+import { authorize, manageAuth } from '../utils/trelloManager.js';
 /* global process */
+
+manageAuth(process.env.VUE_APP_TRELLO_KEY);
 
 export default {
   name: 'LandingPage',
