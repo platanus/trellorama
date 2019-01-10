@@ -84,7 +84,12 @@
   width: 20%;
   opacity: 1;
 }
+.wizard--progress-bar--step-2 {
+  width: 40%;
+  opacity: 1;
+}
 .wizard--title {
+  width: 100%;
   color: #211952;
   font-family: Rubik;
   font-size: 32px;
@@ -93,6 +98,7 @@
   margin-right: auto;
 }
 .wizard--text {
+  width: 100%;
   opacity: 0.56;
   color: #211952;
   font-family: Rubik;
@@ -113,15 +119,19 @@
 .wizard--text-board-container {
   margin-left: 0px;
   margin-bottom: 0px;
+  text-align: left;
 }
-.wizard--board-container {
+.wizard--container {
   width: 30%;
   margin: auto;
-  text-align: left;
+  text-align: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+.wizard--container-inner {
+  width: 100%;
 }
 .wizard--board {
   height: 84px;
