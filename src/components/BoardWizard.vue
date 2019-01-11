@@ -8,7 +8,13 @@
         <p class="wizard--text">Choose a Trello Board and press Next.</p>
         <p class="wizard--text wizard--text-board-container">Boards</p>
         <div style="width: 100%;"></div>
-        <BoardBox v-for="board in boards" :key="board.id" :id="board.id" :board="board" v-on:click.native="selectBoard"/>
+        <BoardBox
+          v-for="board in boards"
+          :key="board.id"
+          :id="board.id"
+          :board="board"
+          v-on:click.native="selectBoard"
+        />
         <div style="width: 100%;"></div>
       </div>
       <div v-if="stage === 1" class="wizard--container wizard--container-center">
@@ -19,9 +25,15 @@
         <div style="width: 100%;"></div>
         <div class="wizard--container wizard--container-list">
           <div class="checkbox-container" v-for="list in allLists" :key="list.id">
-            <input type="checkbox" :id="list.id" style="display: none;" :value="list.id" v-model="selectedLists">
-            <label :for="list.id" class="checkbox" v-on:click="generalListChanged"></label>
-            <label :for="list.id" class="wizard--text-list">{{ list.name }}</label>
+            <input
+              type="checkbox"
+              :id="`selec_${list.id}`"
+              style="display: none;"
+              :value="list.id"
+              v-model="selectedLists"
+            >
+            <label :for="`selec_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
+            <label :for="`selec_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
           </div>
         </div>
       </div>
@@ -35,7 +47,13 @@
           <p class="wizard--text">Backlog</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
-              <input type="radio" :id="`back_${list.id}`" style="display: none;" :value="list.id" v-model="backlogList">
+              <input
+                type="radio"
+                :id="`back_${list.id}`"
+                style="display: none;"
+                :value="list.id"
+                v-model="backlogList"
+              >
               <label :for="`back_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`back_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
             </div>
@@ -65,7 +83,13 @@
           <p class="wizard--text">Production</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
-              <input type="radio" :id="`prod_${list.id}`" style="display: none;" :value="list.id" v-model="productionList">
+              <input
+                type="radio"
+                :id="`prod_${list.id}`"
+                style="display: none;"
+                :value="list.id"
+                v-model="productionList"
+              >
               <label :for="`prod_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`prod_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
             </div>
@@ -75,7 +99,13 @@
           <p class="wizard--text">Archived</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
-              <input type="checkbox" :id="`arc_${list.id}`" style="display: none;" :value="list.id" v-model="archivedLists">
+              <input
+                type="checkbox"
+                :id="`arc_${list.id}`"
+                style="display: none;"
+                :value="list.id"
+                v-model="archivedLists"
+              >
               <label :for="`arc_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`arc_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
             </div>
@@ -114,6 +144,7 @@ export default {
       wipLists: [],
       backlogList: null,
       productionList: null,
+      toLoad: true,
     };
   },
   computed: {
@@ -129,6 +160,31 @@ export default {
     if (this.selectedBoard !== null) {
       document.getElementById(this.selectedBoard)
         .classList.toggle('wizard--board-selected');
+    }
+  },
+  updated() {
+    if (this.stage === 1 && this.toLoad === true) {
+      console.log('IN');
+      this.selectedLists.forEach((list) => {
+        const elem = document.getElementById(`selec_${list}`);
+        console.log(elem);
+        if (elem != null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      });
+      this.toLoad = false;
+    } else if (this.stage === 2 && this.toLoad) {
+      this.wipLists.forEach((list) =>
+        document.getElementById(`wip_${list}`).parentElement.classList.toggle('checkbox-container-selected')
+      );
+      this.archivedLists.forEach((list) =>
+        document.getElementById(`arc_${list}`).parentElement.classList.toggle('checkbox-container-selected')
+      );
+      document.getElementById(`back_${this.backlogList}`)
+        .parentElement.classList.toggle('checkbox-container-selected');
+      document.getElementById(`end_${this.endList}`)
+        .parentElement.classList.toggle('checkbox-container-selected');
+      document.getElementById(`prod_${this.productionList}`)
+        .parentElement.classList.toggle('checkbox-container-selected');
+      this.toLoad = false;
     }
   },
   methods: {
@@ -160,6 +216,7 @@ export default {
       progressBar.classList.add('wizard--progress-bar--step-2');
 
       this.stage++;
+      this.toLoad = true;
     },
     leaveWizard() {
       this.$emit('leaveWizard', true);
@@ -183,6 +240,7 @@ export default {
       document.getElementById('save_button').innerHTML = 'FINISH';
 
       this.stage++;
+      this.toLoad = true;
     },
     getLists(boardId) {
       const self = this;
