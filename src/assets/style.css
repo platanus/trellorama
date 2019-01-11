@@ -81,11 +81,15 @@
   left: 0px;
 }
 .wizard--progress-bar--step-1 {
-  width: 20%;
+  width: 33%;
   opacity: 1;
 }
 .wizard--progress-bar--step-2 {
-  width: 40%;
+  width: 66%;
+  opacity: 1;
+}
+.wizard--progress-bar--step-3 {
+  width: 100%;
   opacity: 1;
 }
 .wizard--title {
@@ -116,6 +120,12 @@
   margin-top: auto;
   margin-bottom: auto;
 }
+.wizard--text-list {
+  color: rgba(33,25,82,0.56);
+  font-size: 13px;
+  line-height: 1px;
+  margin-left: 5px;
+}
 .wizard--text-board-container {
   margin-left: 0px;
   margin-bottom: 0px;
@@ -133,6 +143,10 @@
 .wizard--container-inner {
   width: 100%;
 }
+.wizard--container-center {
+  width: 100%;
+  justify-content: center;
+}
 .wizard--board {
   height: 84px;
   width: 162px;
@@ -148,7 +162,7 @@
   overflow: auto;
 }
 .wizard--board-selected {
-  background-color: #DDF1A2;
+  background-color: #FFD6EA;
 }
 .wizard--button-container {
   width: 100%;
@@ -176,4 +190,56 @@
 .button-save {
   background-color: #FCEA10;
   border: none;
+}
+.wizard--container-list {
+  margin-top: 10px;
+  height: 484px;
+  width: 60%;
+  border: 1px solid rgba(255,214,234,0.57);
+  border-radius: 8px;
+  box-shadow: 0 9px 11px 0 rgba(85,57,255,0.06);
+  display: block;
+  overflow: auto;
+}
+.wizard--container-list-special {
+  width: 95%;
+}
+.checkbox-container {
+  width: max-content;
+  height: 42px;
+  border-radius: 21px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 8px;
+  z-index: 0;
+}
+.checkbox-container-selected {
+  background-color: rgba(92, 234, 165, 0.08);
+}
+.checkbox {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  background-color: #F0F0F0;
+  z-index: 1;
+}
+.checkbox-container input[type=checkbox] {
+  display: none;
+}
+input[type=checkbox]:checked + .checkbox {
+  border-radius: 10px;
+  background-color: #5CEAA5;
+}
+.checkbox-container input[type=radio] {
+  display: none;
+}
+input[type=radio]:checked + .checkbox {
+  border-radius: 10px;
+  background-color: #5CEAA5;
+}
+.wizard--container-wide {
+  width: 80%;
 }
