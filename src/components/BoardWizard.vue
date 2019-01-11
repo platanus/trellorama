@@ -137,6 +137,8 @@ export default {
         this.saveBoard();
       } else if (this.stage === 1) {
         this.saveAllLists();
+      } else {
+        this.saveSpecificLists();
       }
     },
     selectBoard(event) {
@@ -198,7 +200,12 @@ export default {
       event.target.parentElement.classList.toggle('checkbox-container-selected');
     },
     saveSpecificLists() {
-      console.log('WIIIIII');
+      save(`archived_${this.selectedBoard}`, this.archivedLists);
+      save(`wip_${this.selectedBoard}`, this.wipLists);
+      save(`end_${this.selectedBoard}`, this.endList);
+      save(`backlog_${this.selectedBoard}`, this.backlogList);
+      save(`production_${this.selectedBoard}`, this.productionList);
+      this.leaveWizard();
     },
   },
 };
