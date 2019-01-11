@@ -33,7 +33,9 @@
               v-model="selectedLists"
             >
             <label :for="`selec_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-            <label :for="`selec_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
+            <label :for="`selec_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+              {{ list.name }}
+            </label>
           </div>
         </div>
       </div>
@@ -54,8 +56,10 @@
                 :value="list.id"
                 v-model="backlogList"
               >
-              <label :for="`back_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`back_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
+              <label :for="`back_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
+              <label :for="`back_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
+                {{ list.name }}
+              </label>
             </div>
           </div>
         </div>
@@ -65,7 +69,9 @@
             <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
               <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists">
               <label :for="`wip_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`wip_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
+              <label :for="`wip_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+                {{ list.name }}
+              </label>
             </div>
           </div>
         </div>
@@ -74,8 +80,10 @@
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
               <input type="radio" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endList">
-              <label :for="`end_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`end_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
+              <label :for="`end_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
+              <label :for="`end_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
+                {{ list.name }}
+              </label>
             </div>
           </div>
         </div>
@@ -90,8 +98,10 @@
                 :value="list.id"
                 v-model="productionList"
               >
-              <label :for="`prod_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`prod_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
+              <label :for="`prod_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
+              <label :for="`prod_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
+                {{ list.name }}
+              </label>
             </div>
           </div>
         </div>
@@ -107,7 +117,9 @@
                 v-model="archivedLists"
               >
               <label :for="`arc_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`arc_${list.id}`" class="wizard--text-list">{{ list.name }}</label>
+              <label :for="`arc_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+                {{ list.name }}
+              </label>
             </div>
           </div>
         </div>
@@ -165,11 +177,9 @@ export default {
     }
   },
   updated() {
-    if (this.stage === 1 && this.toLoad === true) {
-      console.log('IN');
+    if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
       this.selectedLists.forEach((list) => {
         const elem = document.getElementById(`selec_${list}`);
-        console.log(elem);
         if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       });
       this.toLoad = false;
@@ -257,6 +267,12 @@ export default {
       );
     },
     generalListChanged(event) {
+      event.target.parentElement.classList.toggle('checkbox-container-selected');
+    },
+    radioListChanged(event) {
+      for (const elem of event.target.parentElement.parentElement.children) {
+        elem.classList.remove('checkbox-container-selected');
+      }
       event.target.parentElement.classList.toggle('checkbox-container-selected');
     },
     saveSpecificLists() {
