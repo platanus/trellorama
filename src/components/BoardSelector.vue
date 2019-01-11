@@ -12,8 +12,8 @@
       <v-select multiple v-model="wipLists" v-bind:options="selectedLists" />
       <h3>Include Archived</h3>
       <v-select multiple v-model="archivedLists" v-bind:options="selectedLists" />
-      <h3>Backlog List</h3>
-      <v-select v-model="backlogList" v-bind:options="selectedLists" />
+      <h3>Backlog Lists</h3>
+      <v-select multiple v-model="backlogLists" v-bind:options="selectedLists" />
       <h3>Finished List</h3>
       <v-select v-model="endList" v-bind:options="selectedLists" />
       <h3>Production List</h3>
@@ -69,7 +69,7 @@ export default {
       lists: [],
       endList: null,
       wipLists: [],
-      backlogList: null,
+      backlogLists: [],
       productionList: null,
     };
   },
@@ -86,7 +86,7 @@ export default {
       this.endList = null;
       this.archivedLists = [];
       this.wipLists = [];
-      this.backlogList = null;
+      this.backlogLists = [];
       this.productionList = null;
     },
     listLabels() {
@@ -94,7 +94,7 @@ export default {
       this.archivedLists = this.retrieveList(`archived_${this.selectedBoard.value}`);
       this.wipLists = this.retrieveList(`wip_${this.selectedBoard.value}`);
       this.endList = this.retrieveValue(`end_${this.selectedBoard.value}`);
-      this.backlogList = this.retrieveValue(`backlog_${this.selectedBoard.value}`);
+      this.backlogLists = this.retrieveList(`backlog_${this.selectedBoard.value}`);
       this.productionList = this.retrieveValue(`production_${this.selectedBoard.value}`);
 
       const wipLimits = get(`wipLimit_${this.selectedBoard.value}`, []);
@@ -148,7 +148,7 @@ export default {
       save(`lists_${this.selectedBoard.value}`, this.selectedLists.map((list) => list.value));
       save(`archived_${this.selectedBoard.value}`, this.archivedLists.map((list) => list.value));
       save(`wip_${this.selectedBoard.value}`, this.wipLists.map((list) => list.value));
-      save(`backlog_${this.selectedBoard.value}`, this.backlogList.value);
+      save(`backlog_${this.selectedBoard.value}`, this.backlogLists.map((list) => list.value));
       save(`production_${this.selectedBoard.value}`, this.productionList.value);
       save(
         `wipLimit_${this.selectedBoard.value}`,
