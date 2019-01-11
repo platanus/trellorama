@@ -10,7 +10,7 @@
 .landing-rectangle {
 	height: 178px;
 	width: 1196px;
-	background-color: #FFD6EA;
+	background-color: #ffd6ea;
   position: absolute;
   left: 80px;
   top: 590px;
@@ -21,7 +21,7 @@
 	height: 633px;
 	width: 633px;
   border-radius: 50%;
-  border-color: #FCEA10;
+  border-color: #fcea10;
   border-style: solid;
   border-width: 1px;
   position: absolute;
@@ -55,7 +55,7 @@
   height: 56px;
   width: 131px;
   border-radius: 28px;
-  background-color: #10BCFC;
+  background-color: #10bcfc;
   position: absolute;
   left: 1163px;
   top: 64px;
@@ -82,7 +82,7 @@
   height: 6px;
   width: 100%;
   opacity: 0.16;
-  background-color: #10FC8A;
+  background-color: #10fc8a;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -171,7 +171,7 @@
   width: 162px;
   border: 1px solid rgba(33,25,82,0.24);
   border-radius: 8px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   box-shadow: 0 9px 11px 0 rgba(85,57,255,0.06);
   margin-top: 18px;
   display: flex;
@@ -182,7 +182,7 @@
 }
 
 .wizard--board-selected {
-  background-color: #FFD6EA;
+  background-color: #ffd6ea;
 }
 
 .wizard--button-container {
@@ -200,7 +200,7 @@
   height: 56px;
   width: 200px;
   border: 1px solid #211952;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   margin: 5px;
   color: #211952;
   font-family: Rubik;
@@ -211,7 +211,7 @@
 }
 
 .button-save {
-  background-color: #FCEA10;
+  background-color: #fcea10;
   border: none;
 }
 
@@ -234,7 +234,7 @@
   width: max-content;
   height: 42px;
   border-radius: 21px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -251,7 +251,7 @@
   height: 20px;
   width: 20px;
   display: inline-block;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   z-index: 1;
 }
 
@@ -261,7 +261,7 @@
 
 input[type=checkbox]:checked + .checkbox {
   border-radius: 10px;
-  background-color: #5CEAA5;
+  background-color: #5ceaa5;
 }
 
 .checkbox-container input[type=radio] {
@@ -270,7 +270,7 @@ input[type=checkbox]:checked + .checkbox {
 
 input[type=radio]:checked + .checkbox {
   border-radius: 10px;
-  background-color: #5CEAA5;
+  background-color: #5ceaa5;
 }
 
 .wizard--container-wide {

@@ -125,6 +125,8 @@ import BoardBox from './BoardBox.vue';
 import { get, save } from '../utils/configurationPersistance.js';
 import { request, onRequestError } from '../utils/trelloManager.js';
 
+const secondStageNumber = 2;
+
 export default {
   name: 'BoardWizzard',
   props: {
@@ -168,10 +170,10 @@ export default {
       this.selectedLists.forEach((list) => {
         const elem = document.getElementById(`selec_${list}`);
         console.log(elem);
-        if (elem != null) elem.parentElement.classList.toggle('checkbox-container-selected');
+        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       });
       this.toLoad = false;
-    } else if (this.stage === 2 && this.toLoad) {
+    } else if (this.stage === secondStageNumber && this.toLoad) {
       this.wipLists.forEach((list) =>
         document.getElementById(`wip_${list}`).parentElement.classList.toggle('checkbox-container-selected')
       );
