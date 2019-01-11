@@ -218,6 +218,12 @@
   border-radius: 8px;
 }
 
+.button-disabled {
+  cursor: default;
+  background-color: #eaeaea;
+  opacity: 0.5;
+}
+
 .button-save {
   background-color: #fcea10;
   border: none;

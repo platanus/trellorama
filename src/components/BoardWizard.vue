@@ -127,7 +127,7 @@
         </div>
       </div>
       <div class="wizard--button-container">
-        <button class="button" v-on:click="leaveWizard">SKIP</button>
+        <button id="back_button" class="button button-disabled" v-on:click="stepBack" disabled>BACK</button>
         <button id="save_button" class="button button-save" v-on:click="saveData">NEXT</button>
       </div>
     </div>
@@ -181,7 +181,10 @@ export default {
   },
   updated() {
     let elem;
-    if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
+    if (this.stage === 0 && this.selectedBoard != null) {
+      document.getElementById(this.selectedBoard)
+        .classList.add('wizard--board-selected');
+    } else if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
       this.selectedLists.forEach((list) => {
         elem = document.getElementById(`selec_${list}`);
         if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
@@ -218,6 +221,8 @@ export default {
     saveData() {
       if (this.stage === 0) {
         this.saveBoard();
+        document.getElementById('back_button').classList.remove('button-disabled');
+        document.getElementById('back_button').disabled = false;
       } else if (this.stage === 1) {
         this.saveAllLists();
       } else {
@@ -247,6 +252,25 @@ export default {
     },
     leaveWizard() {
       this.$emit('leaveWizard', true);
+    },
+    stepBack(){
+      const progressBar = document.getElementById('progress_bar');
+      if (this.stage > 0) {
+        this.stage--;
+        if (this.stage === 0) {
+          progressBar.classList.remove('wizard--progress-bar--step-2');
+          progressBar.classList.add('wizard--progress-bar--step-1');
+          document.getElementById('back_button').classList.add('button-disabled');
+          document.getElementById('back_button').disabled = true;
+        } else if (this.stage === 1) {
+          progressBar.classList.remove('wizard--progress-bar--step-3');
+          progressBar.classList.add('wizard--progress-bar--step-2');
+
+          document.getElementById('main_container').classList.remove('wizard--container-wide');
+          document.getElementById('save_button').innerHTML = 'NEXT';
+          this.toLoad = true;
+        }
+      }
     },
     loadLists() {
       this.archivedLists = get(`archived_${this.selectedBoard}`, []);
