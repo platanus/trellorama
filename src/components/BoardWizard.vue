@@ -174,9 +174,9 @@ export default {
     },
   },
   mounted() {
-    this.selectedBoard = get('boards', null)[0];
+    this.selectedBoard = get('boards', null);
     if (this.selectedBoard !== null) {
-      document.getElementById(this.selectedBoard)
+      document.getElementById(this.selectedBoard[0])
         .classList.toggle('wizard--board-selected');
     }
   },

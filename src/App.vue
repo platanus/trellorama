@@ -52,6 +52,7 @@ export default {
     boards() {
       this.boardIds = get('boards', []);
       this.selectedBoards = this.boards.filter((board) => this.boardIds.includes(board.id));
+      this.seeSettings = this.boardIds.length === 0;
     },
   },
   methods: {
