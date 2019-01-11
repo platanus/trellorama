@@ -106,9 +106,13 @@
           </div>
         </div>
         <div>
-          <p class="wizard--text">Archived</p>
-          <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
+          <p class="wizard--text wizard--text-secondary">Archived</p>
+          <div class="wizard--container wizard--container-list wizard--container-list-secondary">
+            <div
+              class="checkbox-container checkbox-container-secondary"
+              v-for="list in selectedListsObjects"
+              :key="list.id"
+            >
               <input
                 type="checkbox"
                 :id="`arc_${list.id}`"

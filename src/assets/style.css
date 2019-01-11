@@ -125,6 +125,10 @@
   margin-right: auto;
 }
 
+.wizard--text-secondary {
+  color: #44474c;
+}
+
 .wizard--text-board {
   color: #211952;
   font-size: 18px;
@@ -179,6 +183,7 @@
   align-items: center;
   text-align: center;
   overflow: auto;
+  cursor: pointer;
 }
 
 .wizard--board-selected {
@@ -208,6 +213,8 @@
   font-weight: 500;
   letter-spacing: 0.4px;
   line-height: 24px;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .button-save {
@@ -230,6 +237,11 @@
   width: 95%;
 }
 
+.wizard--container-list-secondary {
+  width: 95%;
+  background-color: #eaeaea;
+}
+
 .checkbox-container {
   width: max-content;
   height: 42px;
@@ -241,6 +253,10 @@
   align-items: center;
   margin: 8px;
   z-index: 0;
+}
+
+.checkbox-container-secondary {
+  background-color: #eaeaea;
 }
 
 .checkbox-container-selected {
