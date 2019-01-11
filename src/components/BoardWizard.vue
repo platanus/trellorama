@@ -6,15 +6,15 @@
       <div v-if="stage === 0" class="wizard--container wizard--container-inner">
         <p class="wizard--title">Choose a Board</p>
         <p class="wizard--text">Choose a Trello Board and press Next.</p>
-        <p class="wizard--text wizard--text-board-container">Boards</p>
-        <div style="width: 100%;"></div>
-        <BoardBox
-          v-for="board in boards"
-          :key="board.id"
-          :id="board.id"
-          :board="board"
-          v-on:click.native="selectBoard"
-        />
+        <div class="wizard--container wizard--container-board">
+          <BoardBox
+            v-for="board in boards"
+            :key="board.id"
+            :id="board.id"
+            :board="board"
+            v-on:click.native="selectBoard"
+          />
+        </div>
         <div style="width: 100%;"></div>
       </div>
       <div v-if="stage === 1" class="wizard--container wizard--container-center">
