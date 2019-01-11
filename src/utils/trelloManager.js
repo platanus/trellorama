@@ -71,9 +71,18 @@ function request(url, onSuccess, onError, params = {}) {
     .catch(onError);
 }
 
+function manageAuth(apiKey) {
+  if (window.location.hash) {
+    writeCookie(tokenCookieName, window.location.hash.replace('#token=', ''));
+    writeCookie(apiKeyCookieName, apiKey);
+    window.location.href = window.location.href.replace(location.hash, '');
+  }
+}
+
 export {
   authorize,
   isAuthorized,
   request,
   onRequestError,
+  manageAuth,
 };

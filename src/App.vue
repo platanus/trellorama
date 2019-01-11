@@ -1,25 +1,32 @@
 <template>
   <div id="app">
-    <button v-on:click="swichSettings">Settings</button>
-    <Settings v-if="seeSettings" v-bind:boards="boards"/>
-    <BoardList v-if="!seeSettings" v-bind:boards="selectedBoards"/>
+    <div v-if="authorized">
+      <button v-on:click="swichSettings" v-if="!seeSettings">Settings</button>
+      <BoardWizard
+        v-if="seeSettings"
+        v-bind:boards="boards"
+        @leaveWizard="swichSettings"
+      />
+      <BoardList v-else v-bind:boards="selectedBoards"/>
+    </div>
+    <LandingPage v-else/>
   </div>
 </template>
 <script>
 import BoardList from './components/BoardList.vue';
-import Settings from './components/Settings.vue';
-import { authorize, request, onRequestError } from './utils/trelloManager.js';
+// import Settings from './components/Settings.vue';
+import { request, onRequestError, isAuthorized } from './utils/trelloManager.js';
 import { get } from './utils/configurationPersistance.js';
-
-/* global process */
-
-authorize(process.env.VUE_APP_TRELLO_KEY);
+import BoardWizard from './components/BoardWizard.vue';
+import LandingPage from './components/LandingPage.vue';
 
 export default {
   name: 'app',
   components: {
     BoardList,
-    Settings,
+    // Settings,
+    BoardWizard,
+    LandingPage,
   },
   data() {
     return {
@@ -29,8 +36,13 @@ export default {
       selectedBoards: [],
     };
   },
+  computed: {
+    authorized() {
+      return isAuthorized();
+    },
+  },
   mounted() {
-    this.getBoards();
+    if (isAuthorized()) this.getBoards();
   },
   watch: {
     seeSettings() {
@@ -40,6 +52,7 @@ export default {
     boards() {
       this.boardIds = get('boards', []);
       this.selectedBoards = this.boards.filter((board) => this.boardIds.includes(board.id));
+      this.seeSettings = this.boardIds.length === 0;
     },
   },
   methods: {
@@ -69,6 +82,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 </style>
