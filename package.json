@@ -9,6 +9,7 @@
     "deploy": "./publisher.sh master gh-pages 'npm run build' 'feat(publish): publish updated page'"
   },
   "dependencies": {
+    "@sentry/browser": "^4.5.0",
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "dotenv": "^6.2.0",
