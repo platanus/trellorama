@@ -177,25 +177,28 @@ export default {
     }
   },
   updated() {
+    let elem;
     if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
       this.selectedLists.forEach((list) => {
-        const elem = document.getElementById(`selec_${list}`);
+        elem = document.getElementById(`selec_${list}`);
         if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       });
       this.toLoad = false;
     } else if (this.stage === secondStageNumber && this.toLoad) {
-      this.wipLists.forEach((list) =>
-        document.getElementById(`wip_${list}`).parentElement.classList.toggle('checkbox-container-selected')
-      );
-      this.archivedLists.forEach((list) =>
-        document.getElementById(`arc_${list}`).parentElement.classList.toggle('checkbox-container-selected')
-      );
-      document.getElementById(`back_${this.backlogList}`)
-        .parentElement.classList.toggle('checkbox-container-selected');
-      document.getElementById(`end_${this.endList}`)
-        .parentElement.classList.toggle('checkbox-container-selected');
-      document.getElementById(`prod_${this.productionList}`)
-        .parentElement.classList.toggle('checkbox-container-selected');
+      this.wipLists.forEach((list) => {
+        elem = document.getElementById(`wip_${list}`);
+        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      });
+      this.archivedLists.forEach((list) => {
+        elem = document.getElementById(`arc_${list}`);
+        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected')
+      });
+      elem = document.getElementById(`back_${this.backlogList}`);
+      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      elem = document.getElementById(`end_${this.endList}`);
+      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      elem = document.getElementById(`prod_${this.productionList}`);
+      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       this.toLoad = false;
     }
   },
