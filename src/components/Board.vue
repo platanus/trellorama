@@ -53,6 +53,10 @@
       v-bind:lists="wipLists"
       v-bind:wipLimits="wipLimits"
     />
+    <BugWrapper
+      v-bind:cards="cardsByList[endListId]"
+      v-bind:boardId="board.id"
+    />
   </div>
 </template>
 
@@ -68,6 +72,7 @@ import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
 import WIPLists from './WIPLists.vue';
+import BugWrapper from './BugWrapper.vue';
 
 const activitiesRequestLimit = 1000;
 
@@ -81,6 +86,7 @@ export default {
     ProjectionWrapper,
     Datepicker,
     WIPLists,
+    BugWrapper,
   },
   props: {
     board: Object,
