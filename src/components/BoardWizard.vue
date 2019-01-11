@@ -128,7 +128,7 @@
       </div>
       <div class="wizard--button-container">
         <button id="back_button" class="button button-disabled" v-on:click="stepBack" disabled>BACK</button>
-        <button id="save_button" class="button button-save" v-on:click="saveData">NEXT</button>
+        <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>NEXT</button>
       </div>
     </div>
   </div>
@@ -177,6 +177,8 @@ export default {
       this.selectedBoard = this.selectedBoard[0]
       document.getElementById(this.selectedBoard)
         .classList.toggle('wizard--board-selected');
+      document.getElementById('save_button').classList.remove('button-disabled');
+      document.getElementById('save_button').disabled = false;
     }
   },
   updated() {
@@ -237,6 +239,8 @@ export default {
       }
       element.classList.toggle('wizard--board-selected');
       this.selectedBoard = element.id;
+      document.getElementById('save_button').classList.remove('button-disabled');
+      document.getElementById('save_button').disabled = false;
     },
     saveBoard() {
       save('boards', [this.selectedBoard]);
