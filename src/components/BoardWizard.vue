@@ -46,13 +46,13 @@
         <div>
           <p class="wizard--text">Backlog</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectableLists(backlogList)" :key="list.id">
+            <div class="checkbox-container" v-for="list in selectableLists(backlogLists)" :key="list.id">
               <input
-                type="radio"
+                type="checkbox"
                 :id="`back_${list.id}`"
                 style="display: none;"
                 :value="list.id"
-                v-model="backlogList"
+                v-model="backlogLists"
               >
               <label :for="`back_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
               <label :for="`back_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
@@ -158,7 +158,7 @@ export default {
       archivedLists: [],
       endList: null,
       wipLists: [],
-      backlogList: null,
+      backlogLists: [],
       productionList: null,
       toLoad: true,
     };
@@ -201,8 +201,10 @@ export default {
         elem = document.getElementById(`arc_${list}`);
         if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       });
-      elem = document.getElementById(`back_${this.backlogList}`);
-      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      this.backlogLists.forEach((list) => {
+        elem = document.getElementById(`back_${list}`);
+        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      });
       elem = document.getElementById(`end_${this.endList}`);
       if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       elem = document.getElementById(`prod_${this.productionList}`);
@@ -215,7 +217,7 @@ export default {
       const uLists = (usedLists === null || usedLists === undefined) ? [] : usedLists;
 
       return this.allLists.filter((list) => this.selectedLists.includes(list.id))
-        .filter((list) => this.backlogList !== list.id)
+        .filter((list) => !this.backlogLists.includes(list.id))
         .filter((list) => !this.wipLists.includes(list.id))
         .filter((list) => this.endList !== list.id)
         .filter((list) => this.productionList !== list.id)
@@ -281,8 +283,9 @@ export default {
       this.archivedLists = get(`archived_${this.selectedBoard}`, []);
       this.wipLists = get(`wip_${this.selectedBoard}`, []);
       this.endList = get(`end_${this.selectedBoard}`, null);
-      this.backlogList = get(`backlog_${this.selectedBoard}`, null);
+      this.backlogLists = get(`backlog_${this.selectedBoard}`, []);
       this.productionList = get(`production_${this.selectedBoard}`, null);
+      if (!Array.isArray(this.backlogLists)) this.backlogLists = [this.backlogLists];
     },
     saveAllLists() {
       save(`lists_${this.selectedBoard}`, this.selectedLists);
@@ -323,7 +326,7 @@ export default {
       save(`archived_${this.selectedBoard}`, this.archivedLists);
       save(`wip_${this.selectedBoard}`, this.wipLists);
       save(`end_${this.selectedBoard}`, this.endList);
-      save(`backlog_${this.selectedBoard}`, this.backlogList);
+      save(`backlog_${this.selectedBoard}`, this.backlogLists);
       save(`production_${this.selectedBoard}`, this.productionList);
       this.leaveWizard();
     },
