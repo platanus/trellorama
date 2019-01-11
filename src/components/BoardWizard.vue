@@ -174,7 +174,7 @@ export default {
   mounted() {
     this.selectedBoard = get('boards', null);
     if (this.selectedBoard !== null) {
-      this.selectedBoard = this.selectedBoard[0]
+      this.selectedBoard = this.selectedBoard[0];
       document.getElementById(this.selectedBoard)
         .classList.toggle('wizard--board-selected');
       document.getElementById('save_button').classList.remove('button-disabled');
@@ -183,7 +183,7 @@ export default {
   },
   updated() {
     let elem;
-    if (this.stage === 0 && this.selectedBoard != null) {
+    if (this.stage === 0 && this.selectedBoard !== null) {
       document.getElementById(this.selectedBoard)
         .classList.add('wizard--board-selected');
     } else if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
@@ -199,7 +199,7 @@ export default {
       });
       this.archivedLists.forEach((list) => {
         elem = document.getElementById(`arc_${list}`);
-        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected')
+        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       });
       elem = document.getElementById(`back_${this.backlogList}`);
       if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
@@ -213,12 +213,13 @@ export default {
   methods: {
     selectableLists(usedLists) {
       const uLists = (usedLists === null || usedLists === undefined) ? [] : usedLists;
+
       return this.allLists.filter((list) => this.selectedLists.includes(list.id))
         .filter((list) => this.backlogList !== list.id)
         .filter((list) => !this.wipLists.includes(list.id))
         .filter((list) => this.endList !== list.id)
         .filter((list) => this.productionList !== list.id)
-        .concat(this.allLists.filter((aList) => uLists.includes(aList.id)))
+        .concat(this.allLists.filter((aList) => uLists.includes(aList.id)));
     },
     saveData() {
       if (this.stage === 0) {
