@@ -20,7 +20,6 @@
       <div v-if="stage === 1" class="wizard--container wizard--container-center">
         <p class="wizard--title">Choose the Lists</p>
         <p class="wizard--text">Choose the Lists you want to see for your Board.</p>
-        <p class="wizard--text">Board</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
         <div class="wizard--container wizard--container-list">
@@ -42,13 +41,12 @@
       <div v-if="stage === 2" class="wizard--container wizard--container-center">
         <p class="wizard--title">Classify the Lists</p>
         <p class="wizard--text">Add the Lists to their respective categories.</p>
-        <p class="wizard--text">Board</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
         <div>
           <p class="wizard--text">Backlog</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
+            <div class="checkbox-container" v-for="list in selectableLists(backlogList)" :key="list.id">
               <input
                 type="radio"
                 :id="`back_${list.id}`"
@@ -66,7 +64,7 @@
         <div>
           <p class="wizard--text">Work In Progress</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
+            <div class="checkbox-container" v-for="list in selectableLists(wipLists)" :key="list.id">
               <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists">
               <label :for="`wip_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`wip_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
@@ -78,7 +76,7 @@
         <div>
           <p class="wizard--text">Finished</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
+            <div class="checkbox-container" v-for="list in selectableLists(endList)" :key="list.id">
               <input type="radio" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endList">
               <label :for="`end_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
               <label :for="`end_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
@@ -90,7 +88,7 @@
         <div>
           <p class="wizard--text">Production</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id">
+            <div class="checkbox-container" v-for="list in selectableLists(productionList)" :key="list.id">
               <input
                 type="radio"
                 :id="`prod_${list.id}`"
@@ -176,7 +174,8 @@ export default {
   mounted() {
     this.selectedBoard = get('boards', null);
     if (this.selectedBoard !== null) {
-      document.getElementById(this.selectedBoard[0])
+      this.selectedBoard = this.selectedBoard[0]
+      document.getElementById(this.selectedBoard)
         .classList.toggle('wizard--board-selected');
     }
   },
@@ -207,6 +206,15 @@ export default {
     }
   },
   methods: {
+    selectableLists(usedLists) {
+      const uLists = (usedLists === null || usedLists === undefined) ? [] : usedLists;
+      return this.allLists.filter((list) => this.selectedLists.includes(list.id))
+        .filter((list) => this.backlogList !== list.id)
+        .filter((list) => !this.wipLists.includes(list.id))
+        .filter((list) => this.endList !== list.id)
+        .filter((list) => this.productionList !== list.id)
+        .concat(this.allLists.filter((aList) => uLists.includes(aList.id)))
+    },
     saveData() {
       if (this.stage === 0) {
         this.saveBoard();
