@@ -305,6 +305,7 @@
   align-items: center;
   margin: 8px;
   z-index: 0;
+  padding: 5px;
 }
 
 .checkbox-container-secondary {
@@ -321,6 +322,7 @@
   display: inline-block;
   background-color: #f0f0f0;
   z-index: 1;
+  cursor: pointer;
 }
 
 .checkbox-container input[type=checkbox] {
@@ -347,7 +349,11 @@ input[type=radio]:checked + .checkbox {
 
 .checkbox-container-disabled {
   pointer-events: none;
-  background-color: #eaeaea;
+  opacity: 0.6;
+}
+
+.checkbox-container-disabled > .wizard--text-list {
+  text-decoration: line-through;
 }
 
 .wizard--wip {
