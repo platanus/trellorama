@@ -118,11 +118,13 @@ export default {
     },
     endListsCards() {
       let cards = [];
-      this.endListIds.forEach((listId) => cards = cards.concat(this.cardsByList[listId]));
+      this.endListIds.forEach((listId) => {
+        cards = cards.concat(this.cardsByList[listId]);
+      });
       cards = cards.filter((card) => card !== undefined);
 
       return cards;
-    }
+    },
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);

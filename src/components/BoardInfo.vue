@@ -64,7 +64,8 @@ export default {
         this.$set(
           this.standardDeviationByList,
           list.id,
-          ((this.endListIds.includes(list.id)) ? '-' : getStandardDeviation(...getListCards(this.cardActivities, list.id)))
+          ((this.endListIds.includes(list.id)) ?
+            '-' : getStandardDeviation(...getListCards(this.cardActivities, list.id)))
         );
         this.$set(
           this.modeByList,

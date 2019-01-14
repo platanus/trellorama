@@ -24,7 +24,9 @@ export default {
   watch: {
     cardActivities() {
       this.leadTime = 0;
-      this.endListIds.forEach((listId) => this.leadTime += getAverageTime(...getBoardCards(this.cardActivities, listId)));
+      this.endListIds.forEach((listId) => {
+        this.leadTime += getAverageTime(...getBoardCards(this.cardActivities, listId));
+      });
       this.leadTime /= this.endListIds.length;
     },
   },
