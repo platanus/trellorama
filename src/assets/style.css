@@ -324,3 +324,8 @@ input[type=radio]:checked + .checkbox {
 .wizard--container-wide {
   width: 80%;
 }
+
+.checkbox-container-disabled {
+  pointer-events: none;
+  background-color: #eaeaea;
+}
