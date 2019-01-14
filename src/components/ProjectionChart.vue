@@ -22,7 +22,6 @@ export default {
     },
     speed: Number,
     timeUnitsForward: Number,
-    endListId: String,
     dateTypeSelector: String,
     optimistValue: Number,
     pesimistValue: Number,

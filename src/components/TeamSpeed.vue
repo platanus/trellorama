@@ -11,7 +11,7 @@ export default {
   name: 'TeamSpeed',
   props: {
     cardActivities: Array,
-    endListId: String,
+    endListIds: Array,
     endDate: Date,
     startDate: Date,
   },
@@ -31,7 +31,7 @@ export default {
   methods: {
     getSpeed() {
       return speedProjection(
-        filterActivities(this.cardActivities, this.endListId, 'week'),
+        filterActivities(this.cardActivities, this.endListIds, 'week'),
         this.startDate,
         this.endDate
       );

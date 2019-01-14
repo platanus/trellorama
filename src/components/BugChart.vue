@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     renderData() {
-      if (this.cards === undefined) this.chartdata.datasets[0].data = [];
+      if (this.cards === []) this.chartdata.datasets[0].data = [];
       else {
         this.chartdata.datasets[0].data = [
           this.cards.filter((card) =>
