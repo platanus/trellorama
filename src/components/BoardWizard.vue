@@ -104,10 +104,31 @@
           </div>
         </div>
       </div>
+      <div v-if="stage === 3" class="wizard--container wizard--container-center">
+        <p class="wizard--title">Choose the Bug Labels</p>
+        <p class="wizard--text">Choose the labels you use to mark bugs.</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+        <div style="width: 100%;"></div>
+        <div class="wizard--container wizard--container-list wizard--container-list-alone">
+          <div class="checkbox-container" v-for="label in labels" :key="label.id">
+            <input
+              type="checkbox"
+              :id="`bugLabels_${label.id}`"
+              style="display: none;"
+              :value="label.id"
+              v-model="bugLabels"
+            >
+            <label :for="`bugLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
+            <label :for="`bugLabels_${label.id}`" class="wizard--text-list" v-on:click="generalListChangedNoDisable">
+              {{ label.name }}
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="wizard--button-container">
         <button id="back_button" class="button button-disabled" v-on:click="stepBack" disabled>BACK</button>
         <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>NEXT</button>
-        <button v-if="stage >= 1" id="advanced_button" class="button" v-on:click="advancedActions">ADVANCED</button>
+        <button v-if="advancedShow" id="advanced_button" class="button" v-on:click="advancedActions">ADVANCED</button>
       </div>
     </div>
   </div>
@@ -137,6 +158,8 @@ export default {
       backlogLists: [],
       productionLists: [],
       toLoad: true,
+      labels: [],
+      bugLabels: [],
     };
   },
   computed: {
@@ -151,6 +174,9 @@ export default {
           .concat(this.productionLists)
           .includes(list.id)
       );
+    },
+    advancedShow() {
+      return this.stage >= 1 && this.stage < 4;
     },
   },
   mounted() {
@@ -204,6 +230,12 @@ export default {
         if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       });
       this.toLoad = false;
+    } else if (this.stage === 3 && this.toLoad) {
+      this.bugLabels.forEach((label) => {
+        elem = document.getElementById(`bugLabels_${label}`);
+        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+      });
+      this.toLoad = false;
     }
   },
   methods: {
@@ -217,6 +249,9 @@ export default {
         this.leaveWizard();
       } else if (this.stage === 2) {
         save(`archived_${this.selectedBoard}`, this.archivedLists);
+        this.leaveWizard();
+      } else if (this.stage === 3) {
+        save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
         this.leaveWizard();
       }
     },
@@ -234,6 +269,7 @@ export default {
     saveBoard() {
       save('boards', [this.selectedBoard]);
       this.getLists(this.selectedBoard);
+      this.getBoardLabels(this.selectedBoard);
       this.loadLists();
 
       const progressBar = document.getElementById('progress_bar');
@@ -273,6 +309,9 @@ export default {
         } else if (this.stage === 2) {
           progressBar.classList.remove('wizard--progress-bar--step-4');
           progressBar.classList.add('wizard--progress-bar--step-3');
+        } else if (this.stage === 3) {
+          progressBar.classList.remove('wizard--progress-bar--step-5');
+          progressBar.classList.add('wizard--progress-bar--step-4');
         }
         this.toLoad = true;
       }
@@ -295,6 +334,18 @@ export default {
         },
         () => {
           onRequestError(self.getLists, [boardId]);
+        }
+      );
+    },
+    getBoardLabels(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/labels`,
+        (response) => {
+          self.labels = response.data;
+        },
+        () => {
+          onRequestError(self.getBoardLabels, [boardId]);
         }
       );
     },
@@ -344,6 +395,12 @@ export default {
       progressBar.classList.remove('wizard--progress-bar--step-3');
       progressBar.classList.add('wizard--progress-bar--step-4');
     },
+    saveBugLabels(progressBar) {
+      this.stage++;
+      save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+      progressBar.classList.remove('wizard--progress-bar--step-4');
+      progressBar.classList.add('wizard--progress-bar--step-5');
+    },
     advancedActions() {
       const progressBar = document.getElementById('progress_bar');
       if (this.stage === 1) {
@@ -351,7 +408,11 @@ export default {
         this.goAdvanced(progressBar);
       } else if (this.stage === 2) {
         this.saveArchived(progressBar);
+        this.bugLabels = get(`bugLabels_${this.selectedBoard}`, []);
+      } else if (this.stage === 3) {
+        this.saveBugLabels(progressBar);
       }
+      this.toLoad = true;
     },
   },
 };
