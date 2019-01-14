@@ -18,27 +18,6 @@
         <div style="width: 100%;"></div>
       </div>
       <div v-if="stage === 1" class="wizard--container wizard--container-center">
-        <p class="wizard--title">Choose the Lists</p>
-        <p class="wizard--text">Choose the Lists you want to see for your Board.</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
-        <div style="width: 100%;"></div>
-        <div class="wizard--container wizard--container-list">
-          <div class="checkbox-container" v-for="list in allLists" :key="list.id">
-            <input
-              type="checkbox"
-              :id="`selec_${list.id}`"
-              style="display: none;"
-              :value="list.id"
-              v-model="selectedLists"
-            >
-            <label :for="`selec_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-            <label :for="`selec_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
-              {{ list.name }}
-            </label>
-          </div>
-        </div>
-      </div>
-      <div v-if="stage === 2" class="wizard--container wizard--container-center">
         <p class="wizard--title">Classify the Lists</p>
         <p class="wizard--text">Add the Lists to their respective categories.</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
@@ -46,7 +25,7 @@
         <div>
           <p class="wizard--text">Backlog</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id" :name="`cont-${list.id}`">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
                 :id="`back_${list.id}`"
@@ -64,7 +43,7 @@
         <div>
           <p class="wizard--text">Work In Progress</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id" :name="`cont-${list.id}`">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists" >
               <label :for="`wip_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`wip_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
@@ -76,7 +55,7 @@
         <div>
           <p class="wizard--text">Finished</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id" :name="`cont-${list.id}`">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endLists">
               <label :for="`end_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`end_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
@@ -88,7 +67,7 @@
         <div>
           <p class="wizard--text">Production</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id" :name="`cont-${list.id}`">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
                 :id="`prod_${list.id}`"
@@ -117,8 +96,6 @@ import BoardBox from './BoardBox.vue';
 import { get, save } from '../utils/configurationPersistance.js';
 import { request, onRequestError } from '../utils/trelloManager.js';
 
-const secondStageNumber = 2;
-
 export default {
   name: 'BoardWizzard',
   props: {
@@ -132,7 +109,6 @@ export default {
       selectedBoard: null,
       stage: 0,
       allLists: [],
-      selectedLists: [],
       archivedLists: [],
       endLists: [],
       wipLists: [],
@@ -144,9 +120,6 @@ export default {
   computed: {
     selectedBoardObject() {
       return this.boards.find((board) => board.id === this.selectedBoard);
-    },
-    selectedListsObjects() {
-      return this.allLists.filter((list) => this.selectedLists.includes(list.id));
     },
   },
   mounted() {
@@ -164,13 +137,7 @@ export default {
     if (this.stage === 0 && this.selectedBoard !== null) {
       document.getElementById(this.selectedBoard)
         .classList.add('wizard--board-selected');
-    } else if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
-      this.selectedLists.forEach((list) => {
-        elem = document.getElementById(`selec_${list}`);
-        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      });
-      this.toLoad = false;
-    } else if (this.stage === secondStageNumber && this.toLoad) {
+    } else if (this.stage === 1 && this.toLoad && this.allLists.length > 0) {
       this.wipLists.forEach((list) => {
         elem = document.getElementById(`wip_${list}`);
         if (elem !== null) {
@@ -209,8 +176,6 @@ export default {
         document.getElementById('back_button').classList.remove('button-disabled');
         document.getElementById('back_button').disabled = false;
       } else if (this.stage === 1) {
-        this.saveAllLists();
-      } else {
         this.saveSpecificLists();
       }
     },
@@ -228,11 +193,14 @@ export default {
     saveBoard() {
       save('boards', [this.selectedBoard]);
       this.getLists(this.selectedBoard);
-      this.selectedLists = get(`lists_${this.selectedBoard}`, []);
+      this.loadLists();
 
       const progressBar = document.getElementById('progress_bar');
       progressBar.classList.remove('wizard--progress-bar--step-1');
       progressBar.classList.add('wizard--progress-bar--step-2');
+
+      document.getElementById('main_container').classList.toggle('wizard--container-wide');
+      document.getElementById('save_button').innerHTML = 'FINISH';
 
       this.stage++;
       this.toLoad = true;
@@ -249,14 +217,14 @@ export default {
           progressBar.classList.add('wizard--progress-bar--step-1');
           document.getElementById('back_button').classList.add('button-disabled');
           document.getElementById('back_button').disabled = true;
-        } else if (this.stage === 1) {
+        } /*else if (this.stage === 1) {
           progressBar.classList.remove('wizard--progress-bar--step-3');
           progressBar.classList.add('wizard--progress-bar--step-2');
 
           document.getElementById('main_container').classList.remove('wizard--container-wide');
           document.getElementById('save_button').innerHTML = 'NEXT';
           this.toLoad = true;
-        }
+        }*/
       }
     },
     loadLists() {
@@ -267,20 +235,6 @@ export default {
       if (!Array.isArray(this.backlogLists)) this.backlogLists = [this.backlogLists];
       if (!Array.isArray(this.endLists)) this.endLists = [this.endLists];
       if (!Array.isArray(this.productionLists)) this.productionLists = [this.productionLists];
-    },
-    saveAllLists() {
-      save(`lists_${this.selectedBoard}`, this.selectedLists);
-      this.loadLists();
-
-      const progressBar = document.getElementById('progress_bar');
-      progressBar.classList.remove('wizard--progress-bar--step-2');
-      progressBar.classList.add('wizard--progress-bar--step-3');
-
-      document.getElementById('main_container').classList.toggle('wizard--container-wide');
-      document.getElementById('save_button').innerHTML = 'FINISH';
-
-      this.stage++;
-      this.toLoad = true;
     },
     getLists(boardId) {
       const self = this;
@@ -318,6 +272,10 @@ export default {
       save(`end_${this.selectedBoard}`, this.endLists);
       save(`backlog_${this.selectedBoard}`, this.backlogLists);
       save(`production_${this.selectedBoard}`, this.productionLists);
+      save(`lists_${this.selectedBoard}`, this.backlogLists
+        .concat(this.wipLists)
+        .concat(this.endLists)
+        .concat(this.productionLists));
       this.leaveWizard();
     },
   },

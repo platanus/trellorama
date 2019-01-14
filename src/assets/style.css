@@ -89,12 +89,12 @@
 }
 
 .wizard--progress-bar--step-1 {
-  width: 33%;
+  width: 50%;
   opacity: 1;
 }
 
 .wizard--progress-bar--step-2 {
-  width: 66%;
+  width: 100%;
   opacity: 1;
 }
 
