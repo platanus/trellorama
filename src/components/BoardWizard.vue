@@ -90,14 +90,14 @@
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in selectedListsObjects" :key="list.id" :name="`cont-${list.id}`">
               <input
-                type="radio"
+                type="checkbox"
                 :id="`prod_${list.id}`"
                 style="display: none;"
                 :value="list.id"
-                v-model="productionList"
+                v-model="productionLists"
               >
-              <label :for="`prod_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
-              <label :for="`prod_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
+              <label :for="`prod_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
+              <label :for="`prod_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
@@ -137,7 +137,7 @@ export default {
       endList: null,
       wipLists: [],
       backlogLists: [],
-      productionList: null,
+      productionLists: [],
       toLoad: true,
     };
   },
@@ -185,9 +185,14 @@ export default {
           this.disableOtherCheckboxes(elem.parentElement);
         }
       });
+      this.productionLists.forEach((list) => {
+        elem = document.getElementById(`prod_${list}`);
+        if (elem !== null) {
+          elem.parentElement.classList.toggle('checkbox-container-selected');
+          this.disableOtherCheckboxes(elem.parentElement);
+        }
+      });
       elem = document.getElementById(`end_${this.endList}`);
-      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      elem = document.getElementById(`prod_${this.productionList}`);
       if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
       this.toLoad = false;
     }
@@ -253,8 +258,9 @@ export default {
       this.wipLists = get(`wip_${this.selectedBoard}`, []);
       this.endList = get(`end_${this.selectedBoard}`, null);
       this.backlogLists = get(`backlog_${this.selectedBoard}`, []);
-      this.productionList = get(`production_${this.selectedBoard}`, null);
+      this.productionLists = get(`production_${this.selectedBoard}`, []);
       if (!Array.isArray(this.backlogLists)) this.backlogLists = [this.backlogLists];
+      if (!Array.isArray(this.productionLists)) this.productionLists = [this.productionLists];
     },
     saveAllLists() {
       save(`lists_${this.selectedBoard}`, this.selectedLists);
@@ -305,7 +311,7 @@ export default {
       save(`wip_${this.selectedBoard}`, this.wipLists);
       save(`end_${this.selectedBoard}`, this.endList);
       save(`backlog_${this.selectedBoard}`, this.backlogLists);
-      save(`production_${this.selectedBoard}`, this.productionList);
+      save(`production_${this.selectedBoard}`, this.productionLists);
       this.leaveWizard();
     },
   },
