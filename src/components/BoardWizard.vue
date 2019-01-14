@@ -217,6 +217,8 @@ export default {
           progressBar.classList.add('wizard--progress-bar--step-1');
           document.getElementById('back_button').classList.add('button-disabled');
           document.getElementById('back_button').disabled = true;
+          document.getElementById('main_container').classList.remove('wizard--container-wide');
+          this.toLoad = true;
         } /*else if (this.stage === 1) {
           progressBar.classList.remove('wizard--progress-bar--step-3');
           progressBar.classList.add('wizard--progress-bar--step-2');
