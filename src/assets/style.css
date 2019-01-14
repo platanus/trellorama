@@ -135,6 +135,11 @@
   margin-right: auto;
 }
 
+.wizard--text-normal {
+  opacity: 1;
+  font-size: 20px;
+}
+
 .wizard--text-secondary {
   color: #44474c;
 }
@@ -343,4 +348,24 @@ input[type=radio]:checked + .checkbox {
 .checkbox-container-disabled {
   pointer-events: none;
   background-color: #eaeaea;
+}
+
+.wizard--wip {
+  background-color: rgba(92, 234, 165, 0.08);
+  margin: 10px;
+  padding: 10px;
+}
+
+.wizard--container-wip {
+  padding: 50px;
+}
+
+.wizard--wip-input {
+  background-color: #ffffff;
+  margin: 0 10px 10px 10px;
+  font-size: 16px;
+  font-family: Rubik;
+  border-style: none none solid none;
+  border-width: 1px;
+  text-align: center;
 }

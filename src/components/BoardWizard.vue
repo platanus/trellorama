@@ -125,6 +125,18 @@
           </div>
         </div>
       </div>
+      <div v-if="stage === 4" class="wizard--container wizard--container-center">
+        <p class="wizard--title">Select the Work in Progress Limit</p>
+        <p class="wizard--text">Set a limit of Cards for the Work in Progress Lists. Leave empty if no limit.</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+        <div style="width: 100%;"></div>
+        <div class="wizard--container wizard--container-center wizard--container-wip">
+          <div v-for="list in selectedWipLists" :key="list.id" class="wizard--wip">
+            <p class="wizard--text wizard--text-normal">{{ list.name }}</p>
+            <input type="number" min="0" value="null" class="wizard--wip-input" v-model="wipLimits[list.id]">
+          </div>
+        </div>
+      </div>
       <div class="wizard--button-container">
         <button id="back_button" class="button button-disabled" v-on:click="stepBack" disabled>BACK</button>
         <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>
@@ -173,6 +185,7 @@ export default {
       toLoad: true,
       labels: [],
       bugLabels: [],
+      wipLimits: {},
     };
   },
   computed: {
@@ -201,6 +214,9 @@ export default {
 
       return 'FINISH';
     },
+    selectedWipLists() {
+      return this.allLists.filter((list) => this.wipLists.includes(list.id));
+    },
   },
   mounted() {
     this.selectedBoard = get('boards', null);
@@ -224,9 +240,18 @@ export default {
     } else if (this.stage === stages.selectBugLabels && this.toLoad) {
       this.loadUpdatedListNoDisable(this.bugLabels, 'bugLabels_', false);
       this.toLoad = false;
+    } else if (this.stage === stages.setWIPLimit && this.toLoad) {
+      this.loadWIP();
+      this.toLoad = false;
     }
   },
   methods: {
+    loadWIP() {
+      const wipLimits = get(`wipLimit_${this.selectedBoard}`, []);
+      wipLimits.forEach((wipLimit) => {
+        this.$set(this.wipLimits, wipLimit.id, wipLimit.wip);
+      });
+    },
     loadStage1() {
       this.loadUpdatedList(this.wipLists, 'wip_', true);
       this.loadUpdatedList(this.backlogLists, 'back_', true);
@@ -239,14 +264,19 @@ export default {
         this.saveBoard();
         document.getElementById('back_button').classList.remove('button-disabled');
         document.getElementById('back_button').disabled = false;
-      } else if (this.stage === stages.selectLists) {
-        this.saveSpecificLists();
-        this.leaveWizard();
-      } else if (this.stage === stages.selectArchived) {
-        save(`archived_${this.selectedBoard}`, this.archivedLists);
-        this.leaveWizard();
-      } else if (this.stage === stages.selectBugLabels) {
-        save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+      } else {
+        if (this.stage === stages.selectLists) {
+          this.saveSpecificLists();
+        } else if (this.stage === stages.selectArchived) {
+          save(`archived_${this.selectedBoard}`, this.archivedLists);
+        } else if (this.stage === stages.selectBugLabels) {
+          save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+        } else if (this.stage === stages.setWIPLimit) {
+          save(
+            `wipLimit_${this.selectedBoard}`,
+            Object.keys(this.wipLimits).map((listId) => ({ id: listId, wip: this.wipLimits[listId] }))
+          );
+        }
         this.leaveWizard();
       }
     },
