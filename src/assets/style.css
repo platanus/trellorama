@@ -89,16 +89,21 @@
 }
 
 .wizard--progress-bar--step-1 {
-  width: 50%;
+  width: 25%;
   opacity: 1;
 }
 
 .wizard--progress-bar--step-2 {
-  width: 100%;
+  width: 50%;
   opacity: 1;
 }
 
 .wizard--progress-bar--step-3 {
+  width: 75%;
+  opacity: 1;
+}
+
+.wizard--progress-bar--step-4 {
   width: 100%;
   opacity: 1;
 }
@@ -275,9 +280,8 @@
   margin: 0px 10px 10px 0px;
 }
 
-.wizard--container-list-secondary {
-  width: 95%;
-  background-color: #eaeaea;
+.wizard--container-list-alone {
+  width: 20%;
 }
 
 .checkbox-container {
