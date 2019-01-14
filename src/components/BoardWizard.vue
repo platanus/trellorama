@@ -22,7 +22,7 @@
         <p class="wizard--text">Add the Lists to their respective categories.</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Backlog</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Work In Progress</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Finished</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
@@ -64,7 +64,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Production</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">

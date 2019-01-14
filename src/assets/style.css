@@ -152,13 +152,14 @@
 }
 
 .wizard--container {
-  width: 30%;
+  width: 40%;
   margin: auto;
   text-align: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 10px;
 }
 
 .wizard--container-board {
@@ -209,6 +210,7 @@
   text-align: center;
   overflow: auto;
   cursor: pointer;
+  padding: 5px;
 }
 
 .wizard--board-selected {
@@ -266,7 +268,11 @@
 }
 
 .wizard--container-list-special {
-  width: 95%;
+  width: 90%;
+}
+
+.wizard--container-list-container {
+  margin: 0px 10px 10px 0px;
 }
 
 .wizard--container-list-secondary {
