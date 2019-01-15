@@ -35,9 +35,9 @@
       v-bind:startDate="startDate"
     />
     <LeadTime
-      v-bind:cardActivities="cardActivities"
+      v-bind:cardActivities="leadMetricsActivities"
       v-bind:endListIds="endListIds"
-      v-bind:progressStartListId="progressStartListId"
+      v-bind:progressListIds="progressListsIds"
       v-bind:backlogListIds="backlogListIds"
       v-bind:productionListIds="productionListIds"
     />
@@ -117,9 +117,9 @@ export default {
       selectedLabels: [],
       wipListsIds: get(`wip_${this.$props.board.id}`, []),
       wipLimits: get(`wipLimit_${this.$props.board.id}`, []),
-      progressStartListId: get(`wip_${this.$props.board.id}`, [null])[0],
       backlogListIds: get(`backlog_${this.$props.board.id}`, []),
       productionListIds: get(`production_${this.$props.board.id}`, []),
+      progressListsIds: get(`wip_${this.$props.board.id}`, [null]),
     };
   },
   computed: {
@@ -134,6 +134,19 @@ export default {
       cards = cards.filter((card) => card !== undefined);
 
       return cards;
+    },
+    leadMetricsActivities() {
+      const sprintCards = this.progressListsIds.concat(this.productionListIds)
+        .concat(this.backlogListIds)
+        .concat(this.endListIds)
+        .map((listId) => this.cardsByList[listId])
+        .flat()
+        .filter((card) => card !== undefined)
+        .filter((card) => moment(card.dateLastActivity).isSameOrAfter(this.startDate, 'day'))
+        .filter((card) => moment(card.dateLastActivity).isSameOrBefore(this.endDate, 'day'))
+        .map((card) => card.id);
+
+      return this.allCardsActivities.filter((activity) => sprintCards.includes(activity.data.card.id));
     },
   },
   mounted() {

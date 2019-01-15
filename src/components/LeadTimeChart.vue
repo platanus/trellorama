@@ -1,92 +1,149 @@
+<template>
+  <div class="stacked-bar-graph">
+    <div class="category-container">
+      <p class="category-text">Time To Live</p>
+      <div class="category-line category-line-top"></div>
+    </div>
+    <div v-if="responseTime !== '0'" class="bar-1" :style="responseWidth">{{ responseTime }}</div>
+    <div v-if="cycleTime !== '0'" class="bar-2" :style="cycleWidth">{{ cycleTime }}</div>
+    <div v-if="deployTime !== '0'" class="bar-3" :style="deployWidth">{{ deployTime }}</div>
+    <div v-if="responseTime !== '0'" class="category-container" :style="responseWidth">
+      <div class="category-line category-line-bottom"></div>
+      <p class="category-text">Response Time</p>
+    </div>
+    <div v-if="cycleTime !== '0'" class="category-container" :style="cycleWidth">
+      <div class="category-line category-line-bottom"></div>
+      <p class="category-text">Cycle Time</p>
+    </div>
+    <div v-if="deployTime !== '0'" class="category-container" :style="deployWidth">
+      <div class="category-line category-line-bottom"></div>
+      <p class="category-text">Deploy Time</p>
+    </div>
+    <div class="category-container" :style="leadWidth">
+      <div class="category-line category-line-bottom"></div>
+      <p class="category-text">Lead Time</p>
+    </div>
+  </div>
+</template>
+
 <script>
-import { Doughnut } from 'vue-chartjs';
-import { getColor } from '../utils/chartUtils.js';
 import { getAverageTime, getCardsBetweenTwoLists } from '../utils/timeBetweenLists.js';
 
+const percentage = 100;
+
 export default {
-  name: 'ProjectionChart',
-  mixins: [Doughnut],
+  name: 'LeadTImeChart',
   props: {
     filteredActivities: {
       type: Array,
       default: null,
     },
     cardActivities: Array,
-    endListId: String,
-    progressStartListId: String,
-    backlogListId: String,
-    productionListId: String,
+    endListIds: Array,
+    progressListIds: Array,
+    backlogListIds: Array,
+    productionListIds: Array,
   },
   data() {
     return {
-      chartoptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-      },
-      chartdata: {
-        labels: ['Lead Time', 'Response Time', 'Cycle Time', 'Deploy Time'],
-        datasets: [
-          {
-            data: [0, 0, 0, 0],
-            backgroundColor: [
-              getColor('blue')[0],
-              getColor('red')[0],
-              getColor('green')[0],
-              getColor('fullOrange')[0],
-            ],
-          },
-          {
-            data: [0, 0, 0, 0],
-            backgroundColor: [
-              getColor('blue')[0],
-              getColor('red')[0],
-              getColor('green')[0],
-              getColor('fullOrange')[0],
-            ],
-          },
-          {
-            data: [0, 0, 0, 0],
-            backgroundColor: [
-              getColor('blue')[0],
-              getColor('red')[0],
-              getColor('green')[0],
-              getColor('fullOrange')[0],
-            ],
-          },
-        ],
-      },
+      responseTime: 0,
+      cycleTime: 0,
+      deployTime: 0,
     };
   },
+  computed: {
+    timeToLive() {
+      return (parseFloat(this.responseTime) + parseFloat(this.cycleTime) + parseFloat(this.deployTime));
+    },
+    responseWidth() {
+      return { width: `${(parseFloat(this.responseTime) / this.timeToLive) * percentage}%` };
+    },
+    cycleWidth() {
+      return { width: `${(parseFloat(this.cycleTime) / this.timeToLive) * percentage}%` };
+    },
+    deployWidth() {
+      return { width: `${(parseFloat(this.deployTime) / this.timeToLive) * percentage}%` };
+    },
+    leadWidth() {
+      return {
+        width: `${((parseFloat(this.responseTime) + parseFloat(this.cycleTime)) / this.timeToLive) * percentage}%`,
+      };
+    },
+  },
   mounted() {
-    this.renderChart(this.chartdata, this.chartoptions);
+    this.calculate();
   },
   methods: {
-    renderData() {
-      this.renderChart(this.chartdata, this.chartoptions);
+    calculate() {
+      this.responseTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListIds, this.progressListIds)
+      );
+      if (this.responseTime === 'NaN') this.responseTime = '0';
+      this.cycleTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.progressListIds, this.endListIds)
+      );
+      if (this.cycleTime === 'NaN') this.cycleTime = '0';
+      this.deployTime = getAverageTime(
+        ...getCardsBetweenTwoLists(this.cardActivities, this.endListIds, this.productionListIds)
+      );
+      if (this.deployTime === 'NaN') this.deployTime = '0';
     },
   },
   watch: {
     cardActivities() {
-      const leadTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListId, this.endListId)
-      );
-      const responseTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListId, this.progressStartListId)
-      );
-      const cycleTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.progressStartListId, this.endListId)
-      );
-      const deployTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.endListId, this.productionListId)
-      );
-
-      this.chartdata.datasets[0].data = [leadTime, 0, 0, 0];
-      this.chartdata.datasets[1].data = [0, responseTime, cycleTime, 0];
-      this.chartdata.datasets[2].data = [0, 0, 0, deployTime];
-
-      this.renderChart(this.chartdata, this.chartoptions);
+      this.calculate();
     },
   },
 };
-
 </script>
+
+<style>
+.stacked-bar-graph {
+  margin: 2%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.bar-1 {
+  background-color: #42e2f4;
+  font-size: 5em;
+  width: 20%;
+}
+
+.bar-2 {
+  background: #f4e541;
+  font-size: 5em;
+}
+
+.bar-3 {
+  background: orange;
+  font-size: 5em;
+}
+
+.category-container {
+  width: 100%;
+}
+
+.category-text {
+  font-size: 30px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.category-line {
+  width: max-width;
+  height: 10px;
+  border-width: 5px;
+}
+
+.category-line-top {
+  border-style: solid solid none solid;
+  margin-bottom: 5px;
+}
+
+.category-line-bottom {
+  border-style: none solid solid solid;
+  margin-top: 5px;
+}
+
+</style>

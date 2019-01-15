@@ -3,10 +3,10 @@
     <h2>Lead Time Metrics</h2>
     <LeadTimeChart
       v-bind:cardActivities="cardActivities"
-      v-bind:endListId="endListId"
-      v-bind:progressStartListId="progressStartListId"
-      v-bind:backlogListId="backlogListId"
-      v-bind:productionListId="productionListId"
+      v-bind:endListIds="endListIds"
+      v-bind:progressListIds="progressListIds"
+      v-bind:backlogListIds="backlogListIds"
+      v-bind:productionListIds="productionListIds"
     />
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   props: {
     cardActivities: Array,
     endListIds: Array,
-    progressStartListId: String,
+    progressListIds: Array,
     backlogListIds: Array,
     productionListIds: Array,
   },
