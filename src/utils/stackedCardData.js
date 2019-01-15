@@ -58,7 +58,11 @@ export default function (activities, listIds, retroactiveFill, dateParameters) {
   fillDatasetGaps(
     dateLabels,
     chartDataset,
-    { dateTypeSelector: dateParameters.dateTypeSelector, dayOfWeek: dateParameters.dayOfWeek },
+    {
+      dateTypeSelector: dateParameters.dateTypeSelector,
+      dayOfWeek: dateParameters.dayOfWeek,
+      endDate: dateParameters.endDate,
+    },
     true
   );
   fillFromStartDate(

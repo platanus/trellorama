@@ -31,6 +31,7 @@
       v-bind:dateTypeSelector="dateTypeSelector"
       v-bind:dayOfWeek="dayOfWeek"
       v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
     />
   </div>
 </template>
@@ -49,6 +50,7 @@ export default {
     listIds: Array,
     boardId: String,
     startDate: Date,
+    endDate: Date,
   },
   mounted() {
     this.activities = this.cardActivities;
