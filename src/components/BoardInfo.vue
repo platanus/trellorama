@@ -44,7 +44,7 @@ export default {
     lists: Array,
     cardsByList: Object,
     cardActivities: Array,
-    endListId: String,
+    endListIds: Array,
   },
   data() {
     return {
@@ -59,17 +59,18 @@ export default {
         this.$set(
           this.averageTimeByList,
           list.id,
-          ((list.id === this.endListId) ? '-' : getAverageTime(...getListCards(this.cardActivities, list.id)))
+          ((this.endListIds.includes(list.id)) ? '-' : getAverageTime(...getListCards(this.cardActivities, list.id)))
         );
         this.$set(
           this.standardDeviationByList,
           list.id,
-          ((list.id === this.endListId) ? '-' : getStandardDeviation(...getListCards(this.cardActivities, list.id)))
+          ((this.endListIds.includes(list.id)) ?
+            '-' : getStandardDeviation(...getListCards(this.cardActivities, list.id)))
         );
         this.$set(
           this.modeByList,
           list.id,
-          ((list.id === this.endListId) ? '-' : getMode(...getListCards(this.cardActivities, list.id)))
+          ((this.endListIds.includes(list.id)) ? '-' : getMode(...getListCards(this.cardActivities, list.id)))
         );
       });
     },

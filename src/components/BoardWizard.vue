@@ -6,47 +6,26 @@
       <div v-if="stage === 0" class="wizard--container wizard--container-inner">
         <p class="wizard--title">Choose a Board</p>
         <p class="wizard--text">Choose a Trello Board and press Next.</p>
-        <p class="wizard--text wizard--text-board-container">Boards</p>
-        <div style="width: 100%;"></div>
-        <BoardBox
-          v-for="board in boards"
-          :key="board.id"
-          :id="board.id"
-          :board="board"
-          v-on:click.native="selectBoard"
-        />
+        <div class="wizard--container wizard--container-board">
+          <BoardBox
+            v-for="board in boards"
+            :key="board.id"
+            :id="board.id"
+            :board="board"
+            v-on:click.native="selectBoard"
+          />
+        </div>
         <div style="width: 100%;"></div>
       </div>
       <div v-if="stage === 1" class="wizard--container wizard--container-center">
-        <p class="wizard--title">Choose the Lists</p>
-        <p class="wizard--text">Choose the Lists you want to see for your Board.</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
-        <div style="width: 100%;"></div>
-        <div class="wizard--container wizard--container-list">
-          <div class="checkbox-container" v-for="list in allLists" :key="list.id">
-            <input
-              type="checkbox"
-              :id="`selec_${list.id}`"
-              style="display: none;"
-              :value="list.id"
-              v-model="selectedLists"
-            >
-            <label :for="`selec_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-            <label :for="`selec_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
-              {{ list.name }}
-            </label>
-          </div>
-        </div>
-      </div>
-      <div v-if="stage === 2" class="wizard--container wizard--container-center">
         <p class="wizard--title">Classify the Lists</p>
         <p class="wizard--text">Add the Lists to their respective categories.</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Backlog</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectableLists(backlogLists)" :key="list.id">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
                 :id="`back_${list.id}`"
@@ -54,18 +33,18 @@
                 :value="list.id"
                 v-model="backlogLists"
               >
-              <label :for="`back_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
-              <label :for="`back_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
+              <label :for="`back_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
+              <label :for="`back_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Work In Progress</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectableLists(wipLists)" :key="list.id">
-              <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
+              <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists" >
               <label :for="`wip_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
               <label :for="`wip_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
                 {{ list.name }}
@@ -73,62 +52,99 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Finished</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectableLists(endList)" :key="list.id">
-              <input type="radio" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endList">
-              <label :for="`end_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
-              <label :for="`end_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
+              <input type="checkbox" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endLists">
+              <label :for="`end_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
+              <label :for="`end_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
-        <div>
+        <div class="wizard--container-list-container">
           <p class="wizard--text">Production</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
-            <div class="checkbox-container" v-for="list in selectableLists(productionList)" :key="list.id">
+            <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
-                type="radio"
+                type="checkbox"
                 :id="`prod_${list.id}`"
                 style="display: none;"
                 :value="list.id"
-                v-model="productionList"
+                v-model="productionLists"
               >
-              <label :for="`prod_${list.id}`" class="checkbox" v-on:click="radioListChanged"></label>
-              <label :for="`prod_${list.id}`" class="wizard--text-list" v-on:click="radioListChanged">
-                {{ list.name }}
-              </label>
-            </div>
-          </div>
-        </div>
-        <div>
-          <p class="wizard--text wizard--text-secondary">Archived</p>
-          <div class="wizard--container wizard--container-list wizard--container-list-secondary">
-            <div
-              class="checkbox-container checkbox-container-secondary"
-              v-for="list in selectedListsObjects"
-              :key="list.id"
-            >
-              <input
-                type="checkbox"
-                :id="`arc_${list.id}`"
-                style="display: none;"
-                :value="list.id"
-                v-model="archivedLists"
-              >
-              <label :for="`arc_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`arc_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+              <label :for="`prod_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
+              <label :for="`prod_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
       </div>
+      <div v-if="stage === 2" class="wizard--container wizard--container-center">
+        <p class="wizard--title">Choose the Archived Lists</p>
+        <p class="wizard--text">Choose the Lists you want to take their archived Cards into the metrics.</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+        <div style="width: 100%;"></div>
+        <div class="wizard--container wizard--container-list wizard--container-list-alone">
+          <div class="checkbox-container" v-for="list in selectedLists" :key="list.id">
+            <input
+              type="checkbox"
+              :id="`arc_${list.id}`"
+              style="display: none;"
+              :value="list.id"
+              v-model="archivedLists"
+            >
+            <label :for="`arc_${list.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
+            <label :for="`arc_${list.id}`" class="wizard--text-list" v-on:click="generalListChangedNoDisable">
+              {{ list.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div v-if="stage === 3" class="wizard--container wizard--container-center">
+        <p class="wizard--title">Choose the Bug Labels</p>
+        <p class="wizard--text">Choose the labels you use to mark bugs.</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+        <div style="width: 100%;"></div>
+        <div class="wizard--container wizard--container-list wizard--container-list-alone">
+          <div class="checkbox-container" v-for="label in labels" :key="label.id">
+            <input
+              type="checkbox"
+              :id="`bugLabels_${label.id}`"
+              style="display: none;"
+              :value="label.id"
+              v-model="bugLabels"
+            >
+            <label :for="`bugLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
+            <label :for="`bugLabels_${label.id}`" class="wizard--text-list" v-on:click="generalListChangedNoDisable">
+              {{ label.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div v-if="stage === 4" class="wizard--container wizard--container-center">
+        <p class="wizard--title">Select the Work in Progress Limit</p>
+        <p class="wizard--text">Set a limit of Cards for the Work in Progress Lists. Leave empty if no limit.</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+        <div style="width: 100%;"></div>
+        <div class="wizard--container wizard--container-center wizard--container-wip">
+          <div v-for="list in selectedWipLists" :key="list.id" class="wizard--wip">
+            <p class="wizard--text wizard--text-normal">{{ list.name }}</p>
+            <input type="number" min="0" value="null" class="wizard--wip-input" v-model="wipLimits[list.id]">
+          </div>
+        </div>
+      </div>
       <div class="wizard--button-container">
         <button id="back_button" class="button button-disabled" v-on:click="stepBack" disabled>BACK</button>
-        <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>NEXT</button>
+        <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>
+          {{ saveText }}
+        </button>
+        <button v-if="advancedShow" id="advanced_button" class="button" v-on:click="advancedActions">
+          {{ advancedText }}
+        </button>
       </div>
     </div>
   </div>
@@ -139,7 +155,14 @@ import BoardBox from './BoardBox.vue';
 import { get, save } from '../utils/configurationPersistance.js';
 import { request, onRequestError } from '../utils/trelloManager.js';
 
-const secondStageNumber = 2;
+const maxStageBarDifference = 2;
+const stages = {
+  selectBoard: 0,
+  selectLists: 1,
+  selectArchived: 2,
+  selectBugLabels: 3,
+  setWIPLimit: 4,
+};
 
 export default {
   name: 'BoardWizzard',
@@ -154,21 +177,45 @@ export default {
       selectedBoard: null,
       stage: 0,
       allLists: [],
-      selectedLists: [],
       archivedLists: [],
-      endList: null,
+      endLists: [],
       wipLists: [],
       backlogLists: [],
-      productionList: null,
+      productionLists: [],
       toLoad: true,
+      labels: [],
+      bugLabels: [],
+      wipLimits: {},
     };
   },
   computed: {
     selectedBoardObject() {
       return this.boards.find((board) => board.id === this.selectedBoard);
     },
-    selectedListsObjects() {
-      return this.allLists.filter((list) => this.selectedLists.includes(list.id));
+    selectedLists() {
+      return this.allLists.filter((list) =>
+        this.backlogLists
+          .concat(this.wipLists)
+          .concat(this.endLists)
+          .concat(this.productionLists)
+          .includes(list.id)
+      );
+    },
+    advancedShow() {
+      return this.stage >= stages.selectLists && this.stage < stages.setWIPLimit;
+    },
+    advancedText() {
+      if (this.stage === stages.selectLists) return 'ADVANCED';
+
+      return 'NEXT';
+    },
+    saveText() {
+      if (this.stage === stages.selectBoard) return 'NEXT';
+
+      return 'FINISH';
+    },
+    selectedWipLists() {
+      return this.allLists.filter((list) => this.wipLists.includes(list.id));
     },
   },
   mounted() {
@@ -182,57 +229,75 @@ export default {
     }
   },
   updated() {
-    let elem;
-    if (this.stage === 0 && this.selectedBoard !== null) {
+    if (this.stage === stages.selectBoard && this.selectedBoard !== null) {
       document.getElementById(this.selectedBoard)
         .classList.add('wizard--board-selected');
-    } else if (this.stage === 1 && this.toLoad === true && this.allLists.length > 0) {
-      this.selectedLists.forEach((list) => {
-        elem = document.getElementById(`selec_${list}`);
-        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      });
+    } else if (this.stage === stages.selectLists && this.toLoad && this.allLists.length > 0) {
+      this.loadStage1();
+    } else if (this.stage === stages.selectArchived && this.toLoad) {
+      this.loadUpdatedListNoDisable(this.archivedLists, 'arc_', false);
       this.toLoad = false;
-    } else if (this.stage === secondStageNumber && this.toLoad) {
-      this.wipLists.forEach((list) => {
-        elem = document.getElementById(`wip_${list}`);
-        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      });
-      this.archivedLists.forEach((list) => {
-        elem = document.getElementById(`arc_${list}`);
-        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      });
-      this.backlogLists.forEach((list) => {
-        elem = document.getElementById(`back_${list}`);
-        if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      });
-      elem = document.getElementById(`end_${this.endList}`);
-      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
-      elem = document.getElementById(`prod_${this.productionList}`);
-      if (elem !== null) elem.parentElement.classList.toggle('checkbox-container-selected');
+    } else if (this.stage === stages.selectBugLabels && this.toLoad) {
+      this.loadUpdatedListNoDisable(this.bugLabels, 'bugLabels_', false);
+      this.toLoad = false;
+    } else if (this.stage === stages.setWIPLimit && this.toLoad) {
+      this.loadWIP();
       this.toLoad = false;
     }
   },
   methods: {
-    selectableLists(usedLists) {
-      const uLists = (usedLists === null || usedLists === undefined) ? [] : usedLists;
-
-      return this.allLists.filter((list) => this.selectedLists.includes(list.id))
-        .filter((list) => !this.backlogLists.includes(list.id))
-        .filter((list) => !this.wipLists.includes(list.id))
-        .filter((list) => this.endList !== list.id)
-        .filter((list) => this.productionList !== list.id)
-        .concat(this.allLists.filter((aList) => uLists.includes(aList.id)));
+    loadWIP() {
+      const wipLimits = get(`wipLimit_${this.selectedBoard}`, []);
+      wipLimits.forEach((wipLimit) => {
+        this.$set(this.wipLimits, wipLimit.id, wipLimit.wip);
+      });
+    },
+    loadStage1() {
+      this.loadUpdatedList(this.wipLists, 'wip_', true);
+      this.loadUpdatedList(this.backlogLists, 'back_', true);
+      this.loadUpdatedList(this.productionLists, 'prod_', true);
+      this.loadUpdatedList(this.endLists, 'end_', true);
+      this.toLoad = false;
     },
     saveData() {
-      if (this.stage === 0) {
+      if (this.stage === stages.selectBoard) {
         this.saveBoard();
         document.getElementById('back_button').classList.remove('button-disabled');
         document.getElementById('back_button').disabled = false;
-      } else if (this.stage === 1) {
-        this.saveAllLists();
       } else {
-        this.saveSpecificLists();
+        if (this.stage === stages.selectLists) {
+          this.saveSpecificLists();
+        } else if (this.stage === stages.selectArchived) {
+          save(`archived_${this.selectedBoard}`, this.archivedLists);
+        } else if (this.stage === stages.selectBugLabels) {
+          save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+        } else if (this.stage === stages.setWIPLimit) {
+          save(
+            `wipLimit_${this.selectedBoard}`,
+            Object.keys(this.wipLimits).map((listId) => ({ id: listId, wip: this.wipLimits[listId] }))
+          );
+        }
+        this.leaveWizard();
       }
+    },
+    loadUpdatedList(listArray, tag) {
+      let elem;
+      listArray.forEach((list) => {
+        elem = document.getElementById(`${tag}${list}`);
+        if (elem !== null) {
+          elem.parentElement.classList.toggle('checkbox-container-selected');
+          this.disableOtherCheckboxes(elem.parentElement);
+        }
+      });
+    },
+    loadUpdatedListNoDisable(listArray, tag) {
+      let elem;
+      listArray.forEach((list) => {
+        elem = document.getElementById(`${tag}${list}`);
+        if (elem !== null) {
+          elem.parentElement.classList.toggle('checkbox-container-selected');
+        }
+      });
     },
     selectBoard(event) {
       let element = event.target;
@@ -245,14 +310,19 @@ export default {
       document.getElementById('save_button').classList.remove('button-disabled');
       document.getElementById('save_button').disabled = false;
     },
+    getBoardValues() {
+      this.getLists(this.selectedBoard);
+      this.getBoardLabels(this.selectedBoard);
+      this.loadLists();
+    },
     saveBoard() {
       save('boards', [this.selectedBoard]);
-      this.getLists(this.selectedBoard);
-      this.selectedLists = get(`lists_${this.selectedBoard}`, []);
+      this.getBoardValues();
 
       const progressBar = document.getElementById('progress_bar');
-      progressBar.classList.remove('wizard--progress-bar--step-1');
-      progressBar.classList.add('wizard--progress-bar--step-2');
+      this.forwardToStageBar(progressBar);
+
+      document.getElementById('main_container').classList.toggle('wizard--container-wide');
 
       this.stage++;
       this.toLoad = true;
@@ -260,46 +330,36 @@ export default {
     leaveWizard() {
       this.$emit('leaveWizard', true);
     },
-    stepBack(){
+    backToStageBar(progressBar) {
+      progressBar.classList.remove(`wizard--progress-bar--step-${this.stage + maxStageBarDifference}`);
+      progressBar.classList.add(`wizard--progress-bar--step-${this.stage + 1}`);
+    },
+    backToStage0(progressBar) {
+      this.backToStageBar(progressBar);
+      document.getElementById('back_button').classList.add('button-disabled');
+      document.getElementById('back_button').disabled = true;
+      document.getElementById('main_container').classList.remove('wizard--container-wide');
+    },
+    stepBack() {
       const progressBar = document.getElementById('progress_bar');
-      if (this.stage > 0) {
+      if (this.stage > stages.selectBoard) {
         this.stage--;
-        if (this.stage === 0) {
-          progressBar.classList.remove('wizard--progress-bar--step-2');
-          progressBar.classList.add('wizard--progress-bar--step-1');
-          document.getElementById('back_button').classList.add('button-disabled');
-          document.getElementById('back_button').disabled = true;
-        } else if (this.stage === 1) {
-          progressBar.classList.remove('wizard--progress-bar--step-3');
-          progressBar.classList.add('wizard--progress-bar--step-2');
-
-          document.getElementById('main_container').classList.remove('wizard--container-wide');
-          document.getElementById('save_button').innerHTML = 'NEXT';
-          this.toLoad = true;
+        if (this.stage === stages.selectBoard) {
+          this.backToStage0(progressBar);
+        } else {
+          this.backToStageBar(progressBar);
         }
+        this.toLoad = true;
       }
     },
     loadLists() {
-      this.archivedLists = get(`archived_${this.selectedBoard}`, []);
       this.wipLists = get(`wip_${this.selectedBoard}`, []);
-      this.endList = get(`end_${this.selectedBoard}`, null);
+      this.endLists = get(`end_${this.selectedBoard}`, []);
       this.backlogLists = get(`backlog_${this.selectedBoard}`, []);
-      this.productionList = get(`production_${this.selectedBoard}`, null);
+      this.productionLists = get(`production_${this.selectedBoard}`, []);
       if (!Array.isArray(this.backlogLists)) this.backlogLists = [this.backlogLists];
-    },
-    saveAllLists() {
-      save(`lists_${this.selectedBoard}`, this.selectedLists);
-      this.loadLists();
-
-      const progressBar = document.getElementById('progress_bar');
-      progressBar.classList.remove('wizard--progress-bar--step-2');
-      progressBar.classList.add('wizard--progress-bar--step-3');
-
-      document.getElementById('main_container').classList.toggle('wizard--container-wide');
-      document.getElementById('save_button').innerHTML = 'FINISH';
-
-      this.stage++;
-      this.toLoad = true;
+      if (!Array.isArray(this.endLists)) this.endLists = [this.endLists];
+      if (!Array.isArray(this.productionLists)) this.productionLists = [this.productionLists];
     },
     getLists(boardId) {
       const self = this;
@@ -313,22 +373,81 @@ export default {
         }
       );
     },
+    getBoardLabels(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/labels`,
+        (response) => {
+          self.labels = response.data;
+        },
+        () => {
+          onRequestError(self.getBoardLabels, [boardId]);
+        }
+      );
+    },
+    disableOtherCheckboxes(triggerElement) {
+      if (triggerElement.getAttribute('name') === undefined || triggerElement.getAttribute('name') === null) return;
+      for (const element of document.getElementsByName(`${triggerElement.getAttribute('name').split('_')}`)) {
+        if (element !== triggerElement) {
+          element.classList.toggle('checkbox-container-disabled');
+        }
+      }
+    },
     generalListChanged(event) {
+      event.target.parentElement.classList.toggle('checkbox-container-selected');
+      this.disableOtherCheckboxes(event.target.parentElement);
+    },
+    generalListChangedNoDisable(event) {
       event.target.parentElement.classList.toggle('checkbox-container-selected');
     },
     radioListChanged(event) {
       for (const elem of event.target.parentElement.parentElement.children) {
-        elem.classList.remove('checkbox-container-selected');
+        if (elem.classList.contains('checkbox-container-selected')) {
+          elem.classList.remove('checkbox-container-selected');
+        }
       }
       event.target.parentElement.classList.toggle('checkbox-container-selected');
     },
     saveSpecificLists() {
-      save(`archived_${this.selectedBoard}`, this.archivedLists);
       save(`wip_${this.selectedBoard}`, this.wipLists);
-      save(`end_${this.selectedBoard}`, this.endList);
+      save(`end_${this.selectedBoard}`, this.endLists);
       save(`backlog_${this.selectedBoard}`, this.backlogLists);
-      save(`production_${this.selectedBoard}`, this.productionList);
-      this.leaveWizard();
+      save(`production_${this.selectedBoard}`, this.productionLists);
+      save(`lists_${this.selectedBoard}`, this.backlogLists
+        .concat(this.wipLists)
+        .concat(this.endLists)
+        .concat(this.productionLists));
+    },
+    forwardToStageBar(progressBar) {
+      progressBar.classList.remove(`wizard--progress-bar--step-${this.stage + 1}`);
+      progressBar.classList.add(`wizard--progress-bar--step-${this.stage + maxStageBarDifference}`);
+    },
+    goAdvanced() {
+      this.toLoad = true;
+      this.stage++;
+      this.archivedLists = get(`archived_${this.selectedBoard}`, []);
+    },
+    saveArchived() {
+      this.stage++;
+      save(`archived_${this.selectedBoard}`, this.archivedLists);
+    },
+    saveBugLabels() {
+      this.stage++;
+      save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+    },
+    advancedActions() {
+      const progressBar = document.getElementById('progress_bar');
+      this.forwardToStageBar(progressBar);
+      if (this.stage === stages.selectLists) {
+        this.saveSpecificLists();
+        this.goAdvanced();
+      } else if (this.stage === stages.selectArchived) {
+        this.saveArchived();
+        this.bugLabels = get(`bugLabels_${this.selectedBoard}`, []);
+      } else if (this.stage === stages.selectBugLabels) {
+        this.saveBugLabels();
+      }
+      this.toLoad = true;
     },
   },
 };

@@ -89,16 +89,26 @@
 }
 
 .wizard--progress-bar--step-1 {
-  width: 33%;
+  width: 20%;
   opacity: 1;
 }
 
 .wizard--progress-bar--step-2 {
-  width: 66%;
+  width: 40%;
   opacity: 1;
 }
 
 .wizard--progress-bar--step-3 {
+  width: 60%;
+  opacity: 1;
+}
+
+.wizard--progress-bar--step-4 {
+  width: 80%;
+  opacity: 1;
+}
+
+.wizard--progress-bar--step-5 {
   width: 100%;
   opacity: 1;
 }
@@ -123,6 +133,11 @@
   line-height: 24px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.wizard--text-normal {
+  opacity: 1;
+  font-size: 20px;
 }
 
 .wizard--text-secondary {
@@ -152,13 +167,39 @@
 }
 
 .wizard--container {
-  width: 30%;
+  width: 40%;
   margin: auto;
   text-align: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 10px;
+}
+
+.wizard--container-board {
+  width: 100%;
+  height: 500px;
+  overflow: scroll;
+  scroll-behavior: smooth;
+}
+
+.wizard--container-board::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.wizard--container-board::-webkit-scrollbar:vertical {
+    width: 11px;
+}
+
+.wizard--container-board::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+.wizard--container-board::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
 }
 
 .wizard--container-inner {
@@ -184,6 +225,7 @@
   text-align: center;
   overflow: auto;
   cursor: pointer;
+  padding: 5px;
 }
 
 .wizard--board-selected {
@@ -241,12 +283,15 @@
 }
 
 .wizard--container-list-special {
-  width: 95%;
+  width: 90%;
 }
 
-.wizard--container-list-secondary {
-  width: 95%;
-  background-color: #eaeaea;
+.wizard--container-list-container {
+  margin: 0px 10px 10px 0px;
+}
+
+.wizard--container-list-alone {
+  width: 20%;
 }
 
 .checkbox-container {
@@ -260,6 +305,7 @@
   align-items: center;
   margin: 8px;
   z-index: 0;
+  padding: 5px;
 }
 
 .checkbox-container-secondary {
@@ -276,6 +322,7 @@
   display: inline-block;
   background-color: #f0f0f0;
   z-index: 1;
+  cursor: pointer;
 }
 
 .checkbox-container input[type=checkbox] {
@@ -298,4 +345,33 @@ input[type=radio]:checked + .checkbox {
 
 .wizard--container-wide {
   width: 80%;
+}
+
+.checkbox-container-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.checkbox-container-disabled > .wizard--text-list {
+  text-decoration: line-through;
+}
+
+.wizard--wip {
+  background-color: rgba(92, 234, 165, 0.08);
+  margin: 10px;
+  padding: 10px;
+}
+
+.wizard--container-wip {
+  padding: 50px;
+}
+
+.wizard--wip-input {
+  background-color: #ffffff;
+  margin: 0 10px 10px 10px;
+  font-size: 16px;
+  font-family: Rubik;
+  border-style: none none solid none;
+  border-width: 1px;
+  text-align: center;
 }

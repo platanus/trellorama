@@ -7,9 +7,9 @@ function sortDate(activity1, activity2) {
   return moment(activity1.date).diff(activity2.date, 'days');
 }
 
-function filterActivities(activities, endListId, dateTypeSelector, dayOfWeek = 'monday') {
+function filterActivities(activities, endListIds, dateTypeSelector, dayOfWeek = 'monday') {
   return activities.filter((activity) => activity.type === 'updateCard')
-    .filter((activity) => activity.data.listAfter.id === endListId)
+    .filter((activity) => endListIds.includes(activity.data.listAfter.id))
     .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, dateTypeSelector, dayOfWeek) }))
     .sort(sortDate);
 }

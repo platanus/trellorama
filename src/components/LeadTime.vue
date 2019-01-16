@@ -14,7 +14,7 @@ export default {
   name: 'LeadTime',
   props: {
     cardActivities: Array,
-    endListId: String,
+    endListIds: Array,
   },
   data() {
     return {
@@ -23,7 +23,11 @@ export default {
   },
   watch: {
     cardActivities() {
-      this.leadTime = getAverageTime(...getBoardCards(this.cardActivities, this.endListId));
+      this.leadTime = 0;
+      this.endListIds.forEach((listId) => {
+        this.leadTime += getAverageTime(...getBoardCards(this.cardActivities, listId));
+      });
+      this.leadTime /= this.endListIds.length;
     },
   },
 };

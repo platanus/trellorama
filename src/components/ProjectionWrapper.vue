@@ -35,7 +35,6 @@
     </div>
     <ProjectionChart
       v-bind:filteredActivities="filteredActivities"
-      v-bind:endListId="endListId"
       v-bind:speed="parseFloat(localSpeedProjection(filteredActivities))"
       v-bind:timeUnitsForward="timeUnits"
       v-bind:dateTypeSelector="dateTypeSelector"
@@ -60,7 +59,7 @@ moment().format('yyyy-MM-dd');
 export default {
   name: 'ProjectionWrapper',
   props: {
-    endListId: String,
+    endListIds: Array,
     cardActivities: Array,
     numberOfCards: Number,
     endDate: Date,
@@ -118,7 +117,7 @@ export default {
     generateData() {
       this.filteredActivities = filterActivities(
         this.cardActivities,
-        this.endListId,
+        this.endListIds,
         this.dateTypeSelector,
         this.dayOfWeek
       );

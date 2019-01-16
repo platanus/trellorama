@@ -25,7 +25,7 @@
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
         v-bind:cardActivities="cardActivities"
-        v-bind:endListId="endListId"
+        v-bind:endListIds="endListIds"
     />
     <CumulativeWrapper
       v-bind:cardActivities="cardActivities"
@@ -33,16 +33,16 @@
       v-bind:boardId="board.id"
       v-bind:startDate="startDate"
     />
-    <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListId="endListId"/>
+    <LeadTime v-bind:cardActivities="cardActivities" v-bind:endListIds="endListIds"/>
     <TeamSpeed
       v-bind:cardActivities="cardActivities"
-      v-bind:endListId="endListId"
+      v-bind:endListIds="endListIds"
       v-bind:startDate="startDate"
       v-bind:endDate="endDate"
     />
     <ProjectionWrapper
       v-bind:cardActivities="cardActivities"
-      v-bind:endListId="endListId"
+      v-bind:endListIds="endListIds"
       v-bind:numberOfCards="getNumberOfCards()"
       v-bind:startDate="startDate"
       v-bind:endDate="endDate"
@@ -54,7 +54,7 @@
       v-bind:wipLimits="wipLimits"
     />
     <BugWrapper
-      v-bind:cards="cardsByList[endListId]"
+      v-bind:cards="endListsCards"
       v-bind:boardId="board.id"
     />
   </div>
@@ -100,7 +100,7 @@ export default {
       listIncludesArchived: get(`archived_${this.$props.board.id}`, []),
       allCardsActivities: [],
       cardActivities: [],
-      endListId: get(`end_${this.$props.board.id}`, null),
+      endListIds: get(`end_${this.$props.board.id}`, []),
       labelOptions: [],
       startDate: new Date(get(
         `${this.board.id}_startDate`,
@@ -115,6 +115,15 @@ export default {
   computed: {
     wipLists() {
       return this.lists.filter((list) => this.wipListsIds.includes(list.id));
+    },
+    endListsCards() {
+      let cards = [];
+      this.endListIds.forEach((listId) => {
+        cards = cards.concat(this.cardsByList[listId]);
+      });
+      cards = cards.filter((card) => card !== undefined);
+
+      return cards;
     },
   },
   mounted() {
