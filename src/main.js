@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/browser';
 import Vue from 'vue';
 import dotenv from 'dotenv';
 import App from './App.vue';
