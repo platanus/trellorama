@@ -43,6 +43,7 @@
       v-bind:numberOfCards="numberOfCards"
       v-bind:dayOfWeek="dayOfWeek"
       v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
     />
   </div>
 </template>

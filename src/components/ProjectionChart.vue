@@ -79,7 +79,11 @@ export default {
       fillDatasetGaps(
         dateLabels,
         currentDataset.data,
-        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek },
+        {
+          dateTypeSelector: this.dateTypeSelector,
+          dayOfWeek: this.dayOfWeek,
+          endDate: this.endDate,
+        },
         false
       );
       fillFromStartDate(

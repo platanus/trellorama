@@ -140,7 +140,7 @@ function fillDatasetGaps(dateLabels, datasetData, dateParams, multipleDatasets) 
   if (dateLabels.length === 0) return;
   let index = 0;
   const lastLabel = getDate(
-    subtractToDate(getCurrentDate(), 1, dateParams.dateTypeSelector, { dayOfWeek: dateParams.dayOfWeek }),
+    subtractToDate(dateParams.endDate, 1, dateParams.dateTypeSelector, { dayOfWeek: dateParams.dayOfWeek }),
     dateParams.dateTypeSelector,
     dateParams.dayOfWeek,
     true

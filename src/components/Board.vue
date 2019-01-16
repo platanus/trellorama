@@ -33,6 +33,7 @@
       v-bind:listIds="listIds"
       v-bind:boardId="board.id"
       v-bind:startDate="startDate"
+      v-bind:endDate="endDate"
     />
     <LeadTime
       v-bind:cardActivities="leadMetricsActivities"

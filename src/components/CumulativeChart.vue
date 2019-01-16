@@ -17,6 +17,7 @@ export default {
     dateTypeSelector: String,
     dayOfWeek: String,
     startDate: Date,
+    endDate: Date,
   },
   data() {
     return {
@@ -50,7 +51,12 @@ export default {
         this.activities,
         this.listIds,
         this.fillBackLists,
-        { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate }
+        {
+          dateTypeSelector: this.dateTypeSelector,
+          dayOfWeek: this.dayOfWeek,
+          startDate: this.startDate,
+          endDate: this.endDate,
+        }
       );
       this.renderChart(this.chartdata, this.chartoptions);
     },
