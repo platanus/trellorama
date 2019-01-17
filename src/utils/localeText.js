@@ -13,6 +13,9 @@ const messages = {
       timeInListStandard: 'Standard Deviation in List  (days)',
       timeInListMode: 'Mode in List  (days)',
     },
+    bugWrapper: {
+      finishedCards: 'Finished Cards',
+    },
   },
   es: {
     board: {
@@ -27,6 +30,9 @@ const messages = {
       timeInListAverage: 'Tiempo Promedio en la Lista (días)',
       timeInListStandard: 'Desviación Estándar en la Lista (días)',
       timeInListMode: 'Moda en la Lista (días)',
+    },
+    bugWrapper: {
+      finishedCards: 'Tarjetas Terminadas',
     },
   },
 };

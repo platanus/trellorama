@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Finished Cards</h2>
+    <h2>{{ $t('bugWrapper.finishedCards') }}</h2>
     <BugChart
       v-bind:cards="cards"
       v-bind:bugLabels="bugLabels"
