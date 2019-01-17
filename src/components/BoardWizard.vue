@@ -138,7 +138,7 @@
         </div>
       </div>
       <div class="wizard--button-container">
-        <button id="back_button" class="button button-disabled" v-on:click="stepBack" disabled>BACK</button>
+        <button id="back_button" class="button" v-on:click="stepBack">{{ backText }}</button>
         <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>
           {{ saveText }}
         </button>
@@ -217,6 +217,11 @@ export default {
     selectedWipLists() {
       return this.allLists.filter((list) => this.wipLists.includes(list.id));
     },
+    backText() {
+      if (this.stage === stages.selectBoard) return 'EXIT';
+
+      return 'BACK';
+    },
   },
   mounted() {
     this.selectedBoard = get('boards', null);
@@ -262,8 +267,6 @@ export default {
     saveData() {
       if (this.stage === stages.selectBoard) {
         this.saveBoard();
-        document.getElementById('back_button').classList.remove('button-disabled');
-        document.getElementById('back_button').disabled = false;
       } else {
         if (this.stage === stages.selectLists) {
           this.saveSpecificLists();
@@ -336,13 +339,13 @@ export default {
     },
     backToStage0(progressBar) {
       this.backToStageBar(progressBar);
-      document.getElementById('back_button').classList.add('button-disabled');
-      document.getElementById('back_button').disabled = true;
       document.getElementById('main_container').classList.remove('wizard--container-wide');
     },
     stepBack() {
       const progressBar = document.getElementById('progress_bar');
-      if (this.stage > stages.selectBoard) {
+      if (this.stage === stages.selectBoard) {
+        this.leaveWizard();
+      } else {
         this.stage--;
         if (this.stage === stages.selectBoard) {
           this.backToStage0(progressBar);
