@@ -8,23 +8,23 @@
     </thead>
     <tbody>
       <tr>
-        <th>Number of Cards</th>
+        <th>{{ $t('boardInfo.numberOfCards') }}</th>
         <td v-for="list in lists" v-bind:key="list.id + '_count'">{{ cardsByList[list.id].length }}</td>
       </tr>
       <tr>
-        <th>Time in List Average (days)</th>
+        <th>{{ $t('boardInfo.timeInListAverage') }}</th>
         <td v-for="list in lists" v-bind:key="list.id + '_time'">
           {{ averageTimeByList[list.id] }}
         </td>
       </tr>
       <tr>
-        <th>Time in List Standard Deviation (days)</th>
+        <th>{{ $t('boardInfo.timeInListStandard') }}</th>
         <td v-for="list in lists" v-bind:key="list.id + '_time'">
           {{ standardDeviationByList[list.id] }}
         </td>
       </tr>
       <tr>
-        <th>Time in List Mode (days)</th>
+        <th>{{ $t('boardInfo.timeInListMode') }}</th>
         <td v-for="list in lists" v-bind:key="list.id + '_time'">
           {{ modeByList[list.id] }}
         </td>
