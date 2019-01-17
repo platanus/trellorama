@@ -1,7 +1,7 @@
 <template>
   <div class="stacked-bar-graph">
     <div class="category-container">
-      <p class="category-text">Time To Live</p>
+      <p class="category-text">Time To Live ({{ timeToLive.toFixed(2) }})</p>
       <div class="category-line category-line-top"></div>
     </div>
     <div v-if="responseTime !== '0'" class="bar-1" :style="responseWidth">{{ responseTime }}</div>
@@ -21,7 +21,7 @@
     </div>
     <div class="category-container" :style="leadWidth">
       <div class="category-line category-line-bottom"></div>
-      <p class="category-text">Lead Time</p>
+      <p class="category-text">Lead Time ({{ leadTime.toFixed(2) }})</p>
     </div>
   </div>
 </template>
@@ -54,6 +54,9 @@ export default {
   computed: {
     timeToLive() {
       return (parseFloat(this.responseTime) + parseFloat(this.cycleTime) + parseFloat(this.deployTime));
+    },
+    leadTime() {
+      return (parseFloat(this.responseTime) + parseFloat(this.cycleTime));
     },
     responseWidth() {
       return { width: `${(parseFloat(this.responseTime) / this.timeToLive) * percentage}%` };
