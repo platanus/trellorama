@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
+import { addToDate, getDate, subtractToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
