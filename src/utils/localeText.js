@@ -13,8 +13,10 @@ const messages = {
       timeInListStandard: 'Standard Deviation in List  (days)',
       timeInListMode: 'Mode in List  (days)',
     },
-    bugWrapper: {
+    bug: {
       finishedCards: 'Finished Cards',
+      bug: 'Bug',
+      notBug: 'Not a Bug',
     },
   },
   es: {
@@ -31,8 +33,10 @@ const messages = {
       timeInListStandard: 'Desviación Estándar en la Lista (días)',
       timeInListMode: 'Moda en la Lista (días)',
     },
-    bugWrapper: {
+    bug: {
       finishedCards: 'Tarjetas Terminadas',
+      bug: 'Bug',
+      notBug: 'No es Bug',
     },
   },
 };
