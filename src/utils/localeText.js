@@ -57,6 +57,9 @@ const messages = {
       deployTime: 'Deploy Time',
       title: 'Time Metrics',
     },
+    general: {
+      settings: 'Settings',
+    },
   },
   es: {
     board: {
@@ -115,6 +118,9 @@ const messages = {
       cycleTime: 'Tiempo de Iteración',
       deployTime: 'Tiempo de Despliegue',
       title: 'Métricas de Tiempo',
+    },
+    general: {
+      settings: 'Ajustes',
     },
   },
 };
