@@ -45,6 +45,10 @@ const messages = {
       title: 'Cumulative Chart',
       fill: 'Fill lists retroactively',
     },
+    teamSpeed: {
+      title: 'Team Speed',
+      byWeek: 'By Week',
+    },
   },
   es: {
     board: {
@@ -91,6 +95,10 @@ const messages = {
     cumulative: {
       title: 'Gráfico Acumulado',
       fill: 'Rellenar listas retroactivamente',
+    },
+    teamSpeed: {
+      title: 'Velocidad de Equipo',
+      byWeek: 'Por Semana',
     },
   },
 };
