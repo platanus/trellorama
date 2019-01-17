@@ -2,7 +2,13 @@
   <div>
     <h3>{{ list.name }} ({{cards.length}}/{{WIPLimit}})</h3>
     <div class="container">
-      <Card v-for="card in sortedCards" :key="card.id" v-bind:card="card" v-bind:warning="warning"/>
+      <Card
+        v-for="card in sortedCards"
+        v-bind:key="card.id"
+        v-bind:card="card"
+        v-bind:warning="warning"
+        v-bind:activities="cardActivities(card.id)"
+      />
     </div>
   </div>
 </template>
@@ -17,6 +23,7 @@ export default {
     list: Object,
     cards: Array,
     WIPLimit: Number,
+    activities: Array,
   },
   components: {
     Card,
@@ -29,6 +36,12 @@ export default {
       if (this.WIPLimit === null) return false;
 
       return this.cards.length > this.WIPLimit;
+    },
+  },
+  methods: {
+    cardActivities(cardId) {
+      return this.activities
+        .filter((activity) => activity.data.card.id === cardId);
     },
   },
 };
