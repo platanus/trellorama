@@ -49,6 +49,14 @@ const messages = {
       title: 'Team Speed',
       byWeek: 'By Week',
     },
+    leadTime: {
+      leadTime: 'Lead Time',
+      timeToLive: 'Time To Live',
+      responseTime: 'Response Time',
+      cycleTime: 'Cycle Time',
+      deployTime: 'Deploy Time',
+      title: 'Time Metrics',
+    },
   },
   es: {
     board: {
@@ -99,6 +107,14 @@ const messages = {
     teamSpeed: {
       title: 'Velocidad de Equipo',
       byWeek: 'Por Semana',
+    },
+    leadTime: {
+      leadTime: 'Tiempo de Entrega',
+      timeToLive: 'Tiempo a Producción',
+      responseTime: 'Tiempo de Respuesta',
+      cycleTime: 'Tiempo de Iteración',
+      deployTime: 'Tiempo de Despliegue',
+      title: 'Métricas de Tiempo',
     },
   },
 };

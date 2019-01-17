@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Lead Time Metrics</h2>
+    <h2>{{ $t('leadTime.title') }}</h2>
     <LeadTimeChart
       v-bind:cardActivities="cardActivities"
       v-bind:endListIds="endListIds"
