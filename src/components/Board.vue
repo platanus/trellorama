@@ -2,25 +2,25 @@
   <div>
     <hr>
     <h1>{{ board.name }}</h1>
-    <h2>Label Filter</h2>
+    <h2>{{ $t('dashboard.labelFilter') }}</h2>
     <div class="label-box-conatiner">
       <div v-for="labelOption in labelOptions" class="label-box" v-bind:key="labelOption.value">
         <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
         <label :for="labelOption.value">{{labelOption.label}}</label>
       </div>
     </div>
-    <h2>Date Filter</h2>
+    <h2>{{ $t('dashboard.dateFilter') }}</h2>
     <div class="date-selector">
       <div class="date-selector--input">
-        <label for="startDate">Start Date: </label>
+        <label for="startDate">{{ $t('dashboard.startDate') }}: </label>
         <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
       </div>
       <div class="date-selector--input">
-        <label for="endDate">End Date: </label>
+        <label for="endDate">{{ $t('dashboard.endDate') }}: </label>
         <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
       </div>
     </div>
-    <h2>Board Status</h2>
+    <h2>{{ $t('dashboard.boardStatus') }}</h2>
     <BoardInfo
         v-bind:lists="lists"
         v-bind:cardsByList="cardsByList"
