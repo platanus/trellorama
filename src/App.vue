@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="authorized">
-      <button v-on:click="swichSettings" v-if="!seeSettings">Settings</button>
+      <button v-on:click="swichSettings" v-if="!seeSettings">{{ $t('general.settings') }}</button>
       <BoardWizard
         v-if="seeSettings"
         v-bind:boards="boards"

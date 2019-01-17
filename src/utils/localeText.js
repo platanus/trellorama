@@ -60,6 +60,39 @@ const messages = {
     general: {
       settings: 'Settings',
     },
+    wizard: {
+      general: {
+        back: 'BACK',
+        next: 'NEXT',
+        finish: 'FINISH',
+        advanced: 'ADVANCED',
+        exit: 'EXIT',
+      },
+      board: {
+        title: 'Choose a Board',
+        description: 'Choose a Trello Board and press Next.',
+      },
+      lists: {
+        title: 'Classify the Lists',
+        description: 'Add the Lists to their respective categories.',
+        backlog: 'Backlog',
+        wip: 'Work In Progress',
+        finished: 'Finished',
+        production: 'Production',
+      },
+      archived: {
+        title: 'Choose the Archived Lists',
+        description: 'Choose the Lists you want to take their archived Cards into the metrics.',
+      },
+      bug: {
+        title: 'Choose the Bug Labels',
+        description: 'Choose the labels you use to mark bugs.',
+      },
+      wipLimit: {
+        title: 'Select the Work in Progress Limit',
+        description: 'Set a limit of Cards for the Work in Progress Lists. Leave empty if no limit.',
+      },
+    },
   },
   es: {
     board: {
@@ -121,6 +154,39 @@ const messages = {
     },
     general: {
       settings: 'Ajustes',
+    },
+    wizard: {
+      general: {
+        back: 'ATRÁS',
+        next: 'SIGUIENTE',
+        finish: 'FINALIZAR',
+        advanced: 'AVANZADO',
+        exit: 'SALIR',
+      },
+      board: {
+        title: 'Elija un Tablero',
+        description: 'Elija un Tablero de Trello y aprete en Siguiente.',
+      },
+      lists: {
+        title: 'Clasifique las Listas',
+        description: 'Agregue las Listas a sus categorías respectivas.',
+        backlog: 'En Cola',
+        wip: 'Trabajo En Progreso',
+        finished: 'Finalizadas',
+        production: 'En Producción',
+      },
+      archived: {
+        title: 'Elija las Listas Archivadas',
+        description: 'Elija las listas de las cuales quiere considerar sus tarjetas archivadas para las métricas.',
+      },
+      bug: {
+        title: 'Elija las Etiquetas de Errores',
+        description: 'Elija las etiquetas que usa para marcar errores.',
+      },
+      wipLimit: {
+        title: 'Elija un Límite de Trabajo en Progreso',
+        description: 'Elija un límite de tarjetas para las listas en progreso. Deje en blanco para dejar sin límite',
+      },
     },
   },
 };
