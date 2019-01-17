@@ -1,6 +1,6 @@
 const messages = {
   en: {
-    dashboard: {
+    board: {
       labelFilter: 'Label Filter',
       dateFilter: 'Date Filter',
       startDate: 'Start Date',
@@ -9,7 +9,7 @@ const messages = {
     },
   },
   es: {
-    dashboard: {
+    board: {
       labelFilter: 'Filtro de Etiquetas',
       dateFilter: 'Filtro de Fechas',
       startDate: 'Fecha de Inicio',
