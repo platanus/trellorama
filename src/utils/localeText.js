@@ -18,6 +18,10 @@ const messages = {
       bug: 'Bug',
       notBug: 'Not a Bug',
     },
+    wip: {
+      wipLists: 'Work In Progress Lists',
+      days: 'Days',
+    },
   },
   es: {
     board: {
@@ -37,6 +41,10 @@ const messages = {
       finishedCards: 'Tarjetas Terminadas',
       bug: 'Bug',
       notBug: 'No es Bug',
+    },
+    wip: {
+      wipLists: 'Listas en Progreso',
+      days: 'Días',
     },
   },
 };

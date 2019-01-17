@@ -1,7 +1,7 @@
 <template>
   <div :class="classObject">
     <h4>{{ card.name }}</h4>
-    <p><b>Days: </b>{{ days }}</p>
+    <p><b>{{ $t('wip.days') }}: </b>{{ days }}</p>
   </div>
 </template>
 
