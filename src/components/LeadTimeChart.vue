@@ -1,7 +1,9 @@
 <template>
   <div class="stacked-bar-graph">
     <div class="category-container">
-      <p class="category-text">{{ $t('leadTime.timeToLive') }} ({{ timeToLive.toLocaleString({maximumFractionDigits: 2}) }}d)</p>
+      <p class="category-text">
+        {{ $t('leadTime.timeToLive') }} ({{ timeToLive.toLocaleString({maximumFractionDigits: 2}) }}) d
+      </p>
       <div class="category-line category-line-top"></div>
     </div>
     <div v-if="responseTime !== '0'" class="bar-1" :style="responseWidth">{{ responseTime }}d</div>
@@ -21,7 +23,9 @@
     </div>
     <div class="category-container" :style="leadWidth">
       <div class="category-line category-line-bottom"></div>
-      <p class="category-text">{{ $t('leadTime.leadTime') }} ({{ leadTime.toLocaleString({maximumFractionDigits: 2}) }}d)</p>
+      <p class="category-text">
+        {{ $t('leadTime.leadTime') }} ({{ leadTime.toLocaleString({maximumFractionDigits: 2})}}) d
+      </p>
     </div>
   </div>
 </template>
