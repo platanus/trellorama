@@ -22,6 +22,9 @@ const messages = {
       wipLists: 'Work In Progress Lists',
       days: 'Days',
     },
+    landing: {
+      body: 'Give me my damn project metrics.',
+    },
   },
   es: {
     board: {
@@ -45,6 +48,9 @@ const messages = {
     wip: {
       wipLists: 'Listas en Progreso',
       days: 'Días',
+    },
+    landing: {
+      body: 'Dame mis malditas métricas de proyecto.',
     },
   },
 };
