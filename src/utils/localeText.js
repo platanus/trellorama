@@ -25,6 +25,26 @@ const messages = {
     landing: {
       body: 'Give me my damn project metrics.',
     },
+    date: {
+      day: 'Day',
+      week: 'Week',
+      month: 'Month',
+      monday: 'Monday',
+      tuesday: 'Tuesday',
+      wednesday: 'Wednesday',
+      thursday: 'Thursday',
+      friday: 'Friday',
+      saturday: 'Saturday',
+      sunday: 'Sunday',
+    },
+    chart: {
+      options: 'Options',
+      dateFormat: 'Date Format',
+    },
+    cumulative: {
+      title: 'Cumulative Chart',
+      fill: 'Fill lists retroactively',
+    },
   },
   es: {
     board: {
@@ -51,6 +71,26 @@ const messages = {
     },
     landing: {
       body: 'Dame mis malditas métricas de proyecto.',
+    },
+    date: {
+      day: 'Día',
+      week: 'Semana',
+      month: 'Mes',
+      monday: 'Lunes',
+      tuesday: 'Martes',
+      wednesday: 'Miércoles',
+      thursday: 'Jueves',
+      friday: 'Viernes',
+      saturday: 'Sábado',
+      sunday: 'Domingo',
+    },
+    chart: {
+      options: 'Opciones',
+      dateFormat: 'Formato de Fecha',
+    },
+    cumulative: {
+      title: 'Gráfico Acumulado',
+      fill: 'Rellenar listas retroactivamente',
     },
   },
 };
