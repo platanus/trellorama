@@ -1,12 +1,12 @@
 <template>
   <div class="stacked-bar-graph">
     <div class="category-container">
-      <p class="category-text">Time To Live ({{ timeToLive.toLocaleString({maximumFractionDigits: 2}) }})</p>
+      <p class="category-text">Time To Live ({{ timeToLive.toLocaleString({maximumFractionDigits: 2}) }}d)</p>
       <div class="category-line category-line-top"></div>
     </div>
-    <div v-if="responseTime !== '0'" class="bar-1" :style="responseWidth">{{ responseTime }}</div>
-    <div v-if="cycleTime !== '0'" class="bar-2" :style="cycleWidth">{{ cycleTime }}</div>
-    <div v-if="deployTime !== '0'" class="bar-3" :style="deployWidth">{{ deployTime }}</div>
+    <div v-if="responseTime !== '0'" class="bar-1" :style="responseWidth">{{ responseTime }}d</div>
+    <div v-if="cycleTime !== '0'" class="bar-2" :style="cycleWidth">{{ cycleTime }}d</div>
+    <div v-if="deployTime !== '0'" class="bar-3" :style="deployWidth">{{ deployTime }}d</div>
     <div v-if="responseTime !== '0'" class="category-container" :style="responseWidth">
       <div class="category-line category-line-bottom"></div>
       <p class="category-text">Response Time</p>
@@ -21,7 +21,7 @@
     </div>
     <div class="category-container" :style="leadWidth">
       <div class="category-line category-line-bottom"></div>
-      <p class="category-text">Lead Time ({{ leadTime.toLocaleString({maximumFractionDigits: 2}) }})</p>
+      <p class="category-text">Lead Time ({{ leadTime.toLocaleString({maximumFractionDigits: 2}) }}d)</p>
     </div>
   </div>
 </template>
