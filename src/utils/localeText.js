@@ -93,6 +93,10 @@ const messages = {
         description: 'Set a limit of Cards for the Work in Progress Lists. Leave empty if no limit.',
       },
     },
+    wipHistogram: {
+      title: 'Work in Progress List Histogram',
+      selectList: 'Select a List',
+    },
   },
   es: {
     board: {
@@ -187,6 +191,10 @@ const messages = {
         title: 'Elija un Límite de Trabajo en Progreso',
         description: 'Elija un límite de tarjetas para las listas en progreso. Deje en blanco para dejar sin límite',
       },
+    },
+    wipHistogram: {
+      title: 'Histograma de Listas en Progreso',
+      selectList: 'Elija una Lista',
     },
   },
 };

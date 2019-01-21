@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Work in Progress List Histogram</h2>
-    <label for="histListSelector">Select a List: </label>
+    <h2>{{ $t('wipHistogram.title') }}</h2>
+    <label for="histListSelector">{{ $t('wipHistogram.selectList') }}: </label>
     <select v-model="selectedList" id="histListSelector">
       <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
     </select>
