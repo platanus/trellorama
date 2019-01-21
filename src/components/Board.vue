@@ -16,7 +16,7 @@
         <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
       </div>
       <div class="date-selector--input">
-        <label for="endDate">End Date (Not inclusive): </label>
+        <label for="endDate">End Date: </label>
         <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
       </div>
     </div>
