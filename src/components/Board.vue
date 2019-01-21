@@ -66,6 +66,10 @@
       v-bind:cards="endListsCards"
       v-bind:boardId="board.id"
     />
+    <wipHistogramWrapper
+      v-bind:wipLists="wipLists"
+      v-bind:cardActivities="cardActivities"
+    />
   </div>
 </template>
 
@@ -82,6 +86,7 @@ import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
 import WIPLists from './WIPLists.vue';
 import BugWrapper from './BugWrapper.vue';
+import wipHistogramWrapper from './wipHistogramWrapper.vue';
 
 const activitiesRequestLimit = 1000;
 
@@ -96,6 +101,7 @@ export default {
     Datepicker,
     WIPLists,
     BugWrapper,
+    wipHistogramWrapper,
   },
   props: {
     board: Object,
