@@ -331,7 +331,7 @@ export default {
       this.toLoad = true;
     },
     leaveWizard() {
-      this.$emit('leaveWizard', true);
+      this.$emit('setSettings', false);
     },
     backToStageBar(progressBar) {
       progressBar.classList.remove(`wizard--progress-bar--step-${this.stage + maxStageBarDifference}`);

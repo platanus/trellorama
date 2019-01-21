@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="board in boards" v-bind:key="board.id">
-      <Board v-bind:board="board"/>
+      <Board v-bind:board="board" @setSettings="setSettings"/>
     </div>
   </div>
 </template>
@@ -16,6 +16,11 @@ export default {
   },
   props: {
     boards: Array,
+  },
+  methods: {
+    setSettings() {
+      this.$emit('setSettings', true);
+    },
   },
 };
 </script>

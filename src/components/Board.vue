@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hr>
+    <button v-on:click="enterWizard">{{ $t('general.settings') }}</button>
     <h1>{{ board.name }}</h1>
     <h2>{{ $t('board.labelFilter') }}</h2>
     <div class="label-box-conatiner">
@@ -269,6 +269,9 @@ export default {
           onRequestError(self.getBoardLabels, [boardId]);
         }
       );
+    },
+    enterWizard() {
+      this.$emit('setSettings', true);
     },
   },
 };

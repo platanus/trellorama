@@ -1,13 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <div v-if="authorized">
-      <button v-on:click="swichSettings" v-if="!seeSettings">{{ $t('general.settings') }}</button>
       <BoardWizard
         v-if="seeSettings"
         v-bind:boards="boards"
-        @leaveWizard="swichSettings"
+        @setSettings="setSettings"
       />
-      <BoardList v-else v-bind:boards="selectedBoards"/>
+      <BoardList class="dashboard" v-else v-bind:boards="selectedBoards" @setSettings="setSettings"/>
     </div>
     <LandingPage v-else/>
   </div>
@@ -56,8 +55,8 @@ export default {
     },
   },
   methods: {
-    swichSettings() {
-      this.seeSettings = !this.seeSettings;
+    setSettings(value) {
+      this.seeSettings = value;
     },
     getBoards() {
       const self = this;
@@ -75,17 +74,5 @@ export default {
 };
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-</style>
+<style type="text/css" src="./assets/style.css"></style>
+
