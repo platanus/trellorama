@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { addToDate, getDate, getCurrentDate, subtractToDate } from '../utils/dateManager.js';
+import { addToDate, getDate, subtractToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -81,6 +81,8 @@ function buildChartDataSet(filteredActivities, labels, datasetName, lineParams =
 }
 
 function buildChartDataSets(activities, labels, listIds) {
+  globalColorIndex = 0;
+
   return listIds.map(
     (listId) => buildChartDataSet(
       activities.filter((activity) => listId === activity.list.id),
