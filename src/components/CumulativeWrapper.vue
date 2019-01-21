@@ -1,27 +1,27 @@
 <template>
   <div>
-    <h2>Cumulative Chart</h2>
+    <h2>{{ $t('cumulative.title') }}</h2>
     <div>
-      <b>Options:</b>
+      <b>{{ $t('chart.options') }}:</b>
       &ensp;
-      <label for="fillBackLists">Fill lists retroactively</label>
+      <label for="fillBackLists">{{ $t('cumulative.fill') }}</label>
       <input type="checkbox" id="fillBackLists" v-model="fillBackLists">
       &ensp;
-      <label for="dateTypeSelector">Date Format: </label>
+      <label for="dateTypeSelector">{{ $t('chart.dateFormat') }}: </label>
       <select id="dateTypeSelector" v-model="dateTypeSelector">
-        <option value="day">Day</option>
-        <option value="week">Week</option>
-        <option value="month">Month</option>
+        <option value="day">{{ $t('date.day') }}</option>
+        <option value="week">{{ $t('date.week') }}</option>
+        <option value="month">{{ $t('date.month') }}</option>
       </select>
       &ensp;
       <select id="dayOfWeek" v-model="dayOfWeek" v-if="dateTypeSelector === 'week'">
-        <option value="monday">Monday</option>
-        <option value="tuesday">Tuesday</option>
-        <option value="wednesday">Wednesday</option>
-        <option value="thursday">Thursday</option>
-        <option value="friday">Friday</option>
-        <option value="saturday">Saturday</option>
-        <option value="sunday">Sunday</option>
+        <option value="monday">{{ $t('date.monday') }}</option>
+        <option value="tuesday">{{ $t('date.tuesday') }}</option>
+        <option value="wednesday">{{ $t('date.wednesday') }}</option>
+        <option value="thursday">{{ $t('date.thursday') }}</option>
+        <option value="friday">{{ $t('date.friday') }}</option>
+        <option value="saturday">{{ $t('date.saturday') }}</option>
+        <option value="sunday">{{ $t('date.sunday') }}</option>
       </select>
     </div>
     <CumulativeChart

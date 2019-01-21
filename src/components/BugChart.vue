@@ -16,7 +16,7 @@ export default {
         maintainAspectRatio: false,
       },
       chartdata: {
-        labels: ['Bug', 'Not a Bug'],
+        labels: [this.$t('bug.bug'), this.$t('bug.notBug')],
         datasets: [
           {
             data: [],

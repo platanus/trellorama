@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Team Speed</h2>
-    <p><b>By Week:</b> {{ speed }}</p>
+    <h2>{{ $t('teamSpeed.title') }}</h2>
+    <p><b>{{ $t('teamSpeed.byWeek') }}:</b> {{ speed }}</p>
   </div>
 </template>
 <script>

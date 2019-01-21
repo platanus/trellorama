@@ -4,8 +4,8 @@
     <div class="wizard--progress-bar wizard--progress-bar--step-1" id="progress_bar"></div>
     <div id="main_container" class="wizard--container">
       <div v-if="stage === 0" class="wizard--container wizard--container-inner">
-        <p class="wizard--title">Choose a Board</p>
-        <p class="wizard--text">Choose a Trello Board and press Next.</p>
+        <p class="wizard--title">{{ $t('wizard.board.title') }}</p>
+        <p class="wizard--text">{{ $t('wizard.board.description') }}</p>
         <div class="wizard--container wizard--container-board">
           <BoardBox
             v-for="board in boards"
@@ -18,12 +18,12 @@
         <div style="width: 100%;"></div>
       </div>
       <div v-if="stage === 1" class="wizard--container wizard--container-center">
-        <p class="wizard--title">Classify the Lists</p>
-        <p class="wizard--text">Add the Lists to their respective categories.</p>
+        <p class="wizard--title">{{ $t('wizard.lists.title') }}</p>
+        <p class="wizard--text">{{ $t('wizard.lists.description') }}</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
         <div class="wizard--container-list-container">
-          <p class="wizard--text">Backlog</p>
+          <p class="wizard--text">{{ $t('wizard.lists.backlog') }}</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="wizard--container-list-container">
-          <p class="wizard--text">Work In Progress</p>
+          <p class="wizard--text">{{ $t('wizard.lists.wip') }}</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists" >
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="wizard--container-list-container">
-          <p class="wizard--text">Finished</p>
+          <p class="wizard--text">{{ $t('wizard.lists.finished') }}</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endLists">
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="wizard--container-list-container">
-          <p class="wizard--text">Production</p>
+          <p class="wizard--text">{{ $t('wizard.lists.production') }}</p>
           <div class="wizard--container wizard--container-list wizard--container-list-special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
@@ -84,8 +84,8 @@
         </div>
       </div>
       <div v-if="stage === 2" class="wizard--container wizard--container-center">
-        <p class="wizard--title">Choose the Archived Lists</p>
-        <p class="wizard--text">Choose the Lists you want to take their archived Cards into the metrics.</p>
+        <p class="wizard--title">{{ $t('wizard.archived.title') }}</p>
+        <p class="wizard--text">{{ $t('wizard.archived.description') }}</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
         <div class="wizard--container wizard--container-list wizard--container-list-alone">
@@ -105,8 +105,8 @@
         </div>
       </div>
       <div v-if="stage === 3" class="wizard--container wizard--container-center">
-        <p class="wizard--title">Choose the Bug Labels</p>
-        <p class="wizard--text">Choose the labels you use to mark bugs.</p>
+        <p class="wizard--title">{{ $t('wizard.bug.title') }}</p>
+        <p class="wizard--text">{{ $t('wizard.archived.description') }}</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
         <div class="wizard--container wizard--container-list wizard--container-list-alone">
@@ -126,8 +126,8 @@
         </div>
       </div>
       <div v-if="stage === 4" class="wizard--container wizard--container-center">
-        <p class="wizard--title">Select the Work in Progress Limit</p>
-        <p class="wizard--text">Set a limit of Cards for the Work in Progress Lists. Leave empty if no limit.</p>
+        <p class="wizard--title">{{ $t('wizard.wipLimit.title') }}</p>
+        <p class="wizard--text">{{ $t('wizard.wipLimit.description') }}</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
         <div style="width: 100%;"></div>
         <div class="wizard--container wizard--container-center wizard--container-wip">
@@ -205,22 +205,22 @@ export default {
       return this.stage >= stages.selectLists && this.stage < stages.setWIPLimit;
     },
     advancedText() {
-      if (this.stage === stages.selectLists) return 'ADVANCED';
+      if (this.stage === stages.selectLists) return this.$t('wizard.general.advanced');
 
-      return 'NEXT';
+      return this.$t('wizard.general.next');
     },
     saveText() {
-      if (this.stage === stages.selectBoard) return 'NEXT';
+      if (this.stage === stages.selectBoard) return this.$t('wizard.general.next');
 
-      return 'FINISH';
+      return this.$t('wizard.general.finish');
     },
     selectedWipLists() {
       return this.allLists.filter((list) => this.wipLists.includes(list.id));
     },
     backText() {
-      if (this.stage === stages.selectBoard) return 'EXIT';
+      if (this.stage === stages.selectBoard) return this.$t('wizard.general.exit');
 
-      return 'BACK';
+      return this.$t('wizard.general.back');
     },
   },
   mounted() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Work In Progress Lists</h2>
+    <h2>{{ $t('wip.wipLists') }}</h2>
     <WIPList
       v-for="list in lists"
       v-bind:key="list.id"
