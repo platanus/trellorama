@@ -6,14 +6,13 @@
         v-bind:boards="boards"
         @setSettings="setSettings"
       />
-      <BoardList class="dashboard" v-else v-bind:boards="selectedBoards" @setSettings="setSettings"/>
+      <BoardList v-else v-bind:boards="selectedBoards" @setSettings="setSettings"/>
     </div>
     <LandingPage v-else/>
   </div>
 </template>
 <script>
 import BoardList from './components/BoardList.vue';
-// import Settings from './components/Settings.vue';
 import { request, onRequestError, isAuthorized } from './utils/trelloManager.js';
 import { get } from './utils/configurationPersistance.js';
 import BoardWizard from './components/BoardWizard.vue';
@@ -23,7 +22,6 @@ export default {
   name: 'app',
   components: {
     BoardList,
-    // Settings,
     BoardWizard,
     LandingPage,
   },

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik');
 
+body {
+  margin: 0px;
+}
+
 .landing {
   height: 768px;
   width: 80%;
@@ -383,11 +387,67 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard {
-  text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.dashboard-options {
+  width: 15%;
+  background-color: #90b6b9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 0 0;
+}
+
+.dashboard-options--text {
+  opacity: 1;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 20px;
+  letter-spacing: 0.4px;
+  line-height: 24px;
+}
+
+.dashboard-options--button {
+  background-color: transparent;
+  width: 56px;
+}
+
+.dashboard-options--option {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: hidden;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.dashboard-options-small {
+  width: 5%;
+}
+
+.date-selector--input {
+  margin: 10px;
+  display: flex;
+}
+
+.dashboard-content {
+  text-align: center;
   display: flex;
   justify-content: center;
   align-content: center;
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 80%;
+  flex-direction: column;
+  margin: 0px auto;
+}
+
+.calendar {
+  width: 95%;
+  background-color: transparent;
+  border-color: black;
+  margin: auto;
 }
