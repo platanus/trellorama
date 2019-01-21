@@ -1,25 +1,20 @@
 <template>
   <div :class="classObject">
     <h4>{{ card.name }}</h4>
-    <p><b>Date: </b>{{ date }}</p>
+    <p><b>Days: </b>{{ days }}</p>
   </div>
 </template>
 
 <script>
-import moment from 'moment';
 
 export default {
   name: 'Card',
   props: {
     card: Object,
     warning: Boolean,
+    days: String,
   },
   computed: {
-    date() {
-      const date = moment(this.card.dateLastActivity).format('YYYY-MM-DD HH:mm:ss');
-
-      return date.toString();
-    },
     classObject() {
       return {
         box: true,

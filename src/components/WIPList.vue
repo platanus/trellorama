@@ -2,7 +2,13 @@
   <div>
     <h3>{{ list.name }} ({{cards.length}}/{{WIPLimit}})</h3>
     <div class="container">
-      <Card v-for="card in sortedCards" :key="card.id" v-bind:card="card" v-bind:warning="warning"/>
+      <Card
+        v-for="card in sortedCards"
+        v-bind:key="card.id"
+        v-bind:card="card"
+        v-bind:warning="warning"
+        v-bind:days="timeInList(card.id).toLocaleString({maximumFractionDigits: 2})"
+      />
     </div>
   </div>
 </template>
@@ -17,18 +23,33 @@ export default {
     list: Object,
     cards: Array,
     WIPLimit: Number,
+    activities: Array,
   },
   components: {
     Card,
   },
   computed: {
     sortedCards() {
-      return this.cards.slice().sort((a, b) => moment(a.dateLastActivity) - moment(b.dateLastActivity));
+      return this.cards.slice().sort((a, b) => this.timeInList(b.id) - this.timeInList(a.id));
     },
     warning() {
       if (this.WIPLimit === null) return false;
 
       return this.cards.length > this.WIPLimit;
+    },
+  },
+  methods: {
+    cardActivities(cardId) {
+      return this.activities
+        .filter((activity) => activity.data.card.id === cardId);
+    },
+    timeInList(cardId) {
+      const activity = this.cardActivities(cardId).slice()
+        .sort((filteredActivity1, filteredActivity2) =>
+          moment(filteredActivity2).diff(filteredActivity1, 'seconds', true)
+        )[0];
+
+      return activity === undefined ? 0 : moment().diff(activity.date, 'days', true);
     },
   },
 };

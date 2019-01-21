@@ -60,6 +60,7 @@
       v-bind:cards="cardsByList"
       v-bind:lists="wipLists"
       v-bind:wipLimits="wipLimits"
+      v-bind:activities="allCardsActivities"
     />
     <BugWrapper
       v-bind:cards="endListsCards"
