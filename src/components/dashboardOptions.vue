@@ -40,7 +40,9 @@
         <div style="width: 100%;" v-if="showLabels">
           <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
             <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
-            <label :for="labelOption.value">{{labelOption.label}}</label>
+            <label :for="labelOption.value" class="dashboard-options--text dashboard-options--text-small">
+              {{labelOption.label}}
+            </label>
           </div>
         </div>
       </div>
@@ -51,19 +53,19 @@
       </button>
       <p class="dashboard-options--text" v-if="!minimized">{{ $t('board.dateFilter') }}</p>
       <div style="width: 100%; height: 100%;" v-if="showDates">
-        <label for="startDate">{{ $t('board.startDate') }}: </label>
+        <label for="startDate" class="dashboard-options--text">{{ $t('board.startDate') }}: </label>
         <datepicker
           v-model="startDate"
-          calendar-class="calendar"
+          calendar-class="dashboard-options--calendar"
           :inline="true"
           name="startDate"
           placeholder="Start Date"
           format="yyyy-MM-dd"
         />
-        <label for="endDate">{{ $t('board.endDate') }}: </label>
+        <label for="endDate" class="dashboard-options--text">{{ $t('board.endDate') }}: </label>
         <datepicker
           v-model="endDate"
-          calendar-class="calendar"
+          calendar-class="dashboard-options--calendar"
           :inline="true"
           name="endDate"
           placeholder="End Date"
@@ -169,3 +171,6 @@ export default {
   },
 };
 </script>
+
+<style type="text/css" src="../assets/style.css"></style>
+
