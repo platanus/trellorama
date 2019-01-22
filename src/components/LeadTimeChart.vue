@@ -114,6 +114,7 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
 .bar-1 {
   background-color: #42e2f4;
   font-size: 5em;
@@ -126,7 +127,7 @@ export default {
 }
 
 .bar-3 {
-  background: orange;
+  background: #ffa500;
   font-size: 5em;
 }
 
@@ -136,8 +137,8 @@ export default {
 
 .category-text {
   font-size: 30px;
-  margin-bottom: 0px;
-  margin-top: 0px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 .category-line {
@@ -147,12 +148,12 @@ export default {
 }
 
 .category-line-top {
-  border-style: solid solid none solid;
+  border-style: solid solid none;
   margin-bottom: 5px;
 }
 
 .category-line-bottom {
-  border-style: none solid solid solid;
+  border-style: none solid solid;
   margin-top: 5px;
 }
 

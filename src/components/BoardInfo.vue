@@ -89,13 +89,14 @@ table {
   width: 100%;
 }
 
-td, th {
-  border: 1px solid #aaaaaa;
+td,
+th {
+  border: 1px solid #aaa;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #ddd;
 }
 </style>

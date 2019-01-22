@@ -31,11 +31,12 @@ export default {
   margin: 1%;
   border-style: solid;
   border-width: 1px;
-  border-color: silver;
+  border-color: #c0c0c0;
   background-color: #eaeaea;
   border-radius: 5px;
 }
+
 .warning {
-  background-color: salmon;
+  background-color: #fa8072;
 }
 </style>
