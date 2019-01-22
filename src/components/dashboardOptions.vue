@@ -123,7 +123,7 @@ export default {
     endDate() {
       this.selectEndDate();
     },
-    dashboardState(oldState, newState) {
+    dashboardState(newState, oldState) {
       document.getElementById(oldState).classList.toggle('dashboard-options--button-active');
       document.getElementById(newState).classList.toggle('dashboard-options--button-active');
     },

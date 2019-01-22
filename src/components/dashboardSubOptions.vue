@@ -9,13 +9,13 @@
       <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.subOptions.menu') }}</p>
     </div>
     <div class="dashboard-options--option">
-      <button id="future" class="button dashboard-options--button">
+      <button id="cumulative" v-on:click="setTab('cumulative')" class="button dashboard-options--button">
         <font-awesome-icon icon="chart-area" />
       </button>
       <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.subOptions.cumulative') }}</p>
     </div>
     <div class="dashboard-options--option">
-      <button id="present" class="button dashboard-options--button">
+      <button id="histogram" v-on:click="setTab('histogram')" class="button dashboard-options--button">
         <font-awesome-icon icon="chart-bar" />
       </button>
       <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.subOptions.histogram') }}</p>
@@ -29,20 +29,33 @@ export default {
   components: {
   },
   props: {
+    dashboardState: String,
   },
   data() {
     return {
       minimized: true,
+      tab: null,
     };
   },
   mounted() {
+    if (this.dashboardState === 'past') {
+      this.setTab('cumulative');
+    }
   },
   watch: {
+    tab(newState, oldState) {
+      if (oldState !== null) document.getElementById(oldState).classList.toggle('dashboard-options--button-active');
+      document.getElementById(newState).classList.toggle('dashboard-options--button-active');
+    },
   },
   methods: {
     toggleOptions() {
       this.minimized = !this.minimized;
       document.getElementById('dashboardSubOptionsContainer').classList.toggle('dashboard-options-small');
+    },
+    setTab(value) {
+      this.tab = value;
+      this.$emit('tab', this.tab);
     },
   },
 };

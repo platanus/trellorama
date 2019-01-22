@@ -18,6 +18,16 @@
       :endListsCards="endListsCards"
       :boardId="board.id"
     />
+    <pastDashboard
+      v-if="dashboardState === 'past'"
+      :cardActivities="cardActivities"
+      :startDate="startDate"
+      :endDate="endDate"
+      :boardId="board.id"
+      :wipLists="wipLists"
+      :listIds="listIds"
+      :tab="tab"
+    />
   </div>
 </template>
 
@@ -26,6 +36,7 @@ import moment from 'moment';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 import presentDashboard from './presentDashboard.vue';
+import pastDashboard from './pastDashboard.vue';
 
 const activitiesRequestLimit = 1000;
 
@@ -33,6 +44,7 @@ export default {
   name: 'Board',
   components: {
     presentDashboard,
+    pastDashboard,
   },
   props: {
     board: Object,
@@ -40,6 +52,7 @@ export default {
     startDate: Date,
     endDate: Date,
     dashboardState: String,
+    tab: String,
   },
   data() {
     return {

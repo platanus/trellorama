@@ -11,6 +11,8 @@
       />
       <dashboardSubOptions
         v-if="dashboardState === 'past'"
+        v-bind:dashboardState="dashboardState"
+        @tab="setTab"
       />
       <Board
         class="dashboard-content"
@@ -19,6 +21,7 @@
         v-bind:startDate="startDate"
         v-bind:endDate="endDate"
         v-bind:dashboardState="dashboardState"
+        v-bind:tab="tab"
       />
     </div>
   </div>
@@ -45,6 +48,7 @@ export default {
       startDate: new Date(),
       endDate: new Date(),
       dashboardState: 'present',
+      tab: null,
     };
   },
   methods: {
@@ -62,6 +66,9 @@ export default {
     },
     setDashboardState(value) {
       this.dashboardState = value;
+    },
+    setTab(value) {
+      this.tab = value;
     },
   },
 };

@@ -91,7 +91,7 @@ const messages = {
       },
     },
     wipHistogram: {
-      title: 'Work in Progress List Histogram',
+      title: 'Lifetime of a Card for a List',
       selectList: 'Select a List',
       genBin: 'Generate Bin Number',
       binWidth: 'Bin Size',
@@ -208,7 +208,7 @@ const messages = {
       },
     },
     wipHistogram: {
-      title: 'Histograma de Listas en Progreso',
+      title: 'Tiempo de vida de Tarjetas para una Lista',
       selectList: 'Elija una Lista',
       genBin: 'Genera la Cantidad de Muestras',
       binWidth: 'Tamaño de la Muestra',

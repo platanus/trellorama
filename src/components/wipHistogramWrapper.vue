@@ -44,9 +44,12 @@ export default {
   watch: {
     wipLists() {
       if (this.wipLists.length === 0) this.selectedList = null;
-
       this.selectedList = this.wipLists[0].id;
     },
+  },
+  mounted() {
+    if (this.wipLists.length === 0) this.selectedList = null;
+    this.selectedList = this.wipLists[0].id;
   },
   methods: {
     listActivities(listId) {
