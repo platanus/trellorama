@@ -19,15 +19,19 @@ function filterDuplicates(card, _, array, reversed) {
   return filterCardsByMovedTwiceInSameList(card, _, array, reversed);
 }
 
-function getAverageTime(createdCards, finishedCards) {
+function getTimes(createdCards, finishedCards) {
   return (
     finishedCards.map((finishedCard) => {
       if (createdCards.find((card) => card.id === finishedCard.id) === undefined) return 0;
 
       return finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true);
     })
-      .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0))
-      .reduce((a, b) => a + b, 0) / finishedCards.length
+      .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0)));
+}
+
+function getAverageTime(createdCards, finishedCards) {
+  return (getTimes(createdCards, finishedCards)
+    .reduce((a, b) => a + b, 0) / finishedCards.length
   ).toFixed(decimalPadding);
 }
 
@@ -110,4 +114,5 @@ export {
   getStandardDeviation,
   getMode,
   getCardsBetweenTwoLists,
+  getTimes,
 };
