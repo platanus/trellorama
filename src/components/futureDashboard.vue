@@ -15,7 +15,7 @@
 import ProjectionWrapper from './ProjectionWrapper.vue';
 
 export default {
-  name: 'presentDashboard',
+  name: 'future',
   components: {
     ProjectionWrapper,
   },
@@ -25,7 +25,7 @@ export default {
     startDate: Date,
     endDate: Date,
     boardId: String,
-    numberOfCards: Array,
+    numberOfCards: Number,
   },
 };
 </script>
