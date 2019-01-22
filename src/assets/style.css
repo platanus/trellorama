@@ -395,7 +395,7 @@ input[type=radio]:checked + .checkbox {
 
 .dashboard-options {
   width: 15%;
-  background-color: #90b6b9;
+  background-color: #1e1c4f;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -404,16 +404,26 @@ input[type=radio]:checked + .checkbox {
 
 .dashboard-options--text {
   opacity: 1;
-  color: #211952;
+  color: #ffffff;
   font-family: Rubik;
   font-size: 20px;
   letter-spacing: 0.4px;
   line-height: 24px;
 }
 
+.dashboard-options--text-small {
+  font-size: 16px;
+}
+
 .dashboard-options--button {
   background-color: transparent;
+  color: #ffffff;
+  border-color: #ffffff;
   width: 56px;
+}
+
+.dashboard-options--button-active {
+  background-color: #fcea10;
 }
 
 .dashboard-options--option {
@@ -445,9 +455,78 @@ input[type=radio]:checked + .checkbox {
   margin: 0px auto;
 }
 
-.calendar {
+.dashboard-options--calendar {
   width: 95%;
   background-color: transparent;
   border-color: black;
+  margin: auto;
+}
+
+.dashboard-present--container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leadTime {
+  width: 60%;
+}
+
+.teamSpeed {
+  width: 15%;
+  border-radius: 1px;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 50px;
+}
+
+.bugsPercentage {
+  width: 15%;
+  border-style: solid;
+  padding: 20px;
+  border-radius: 50px;
+}
+
+.wipLists {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
+.wipList {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: scroll;
+}
+
+.dashboard--text {
+  opacity: 1;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 20px;
+  letter-spacing: 0.4px;
+  line-height: 24px;
+  margin: auto;
+}
+
+.dashboard--text-title {
+  font-size: 28px;
+  align-self: flex-start;
+  text-align: left;
+}
+
+.dashboard--number {
+  opacity: 1;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 60px;
+  letter-spacing: 0.4px;
+  line-height: 40px;
   margin: auto;
 }
