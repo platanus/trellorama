@@ -396,6 +396,7 @@ input[type=radio]:checked + .checkbox {
   min-height: 100vh;
   position: absolute;
   z-index: 2;
+  height: 100%;
 }
 
 .dashboard-options--suboptions {

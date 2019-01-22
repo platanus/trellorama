@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="board in boards" v-bind:key="board.id">
+    <div v-for="board in boards" v-bind:key="board.id" style="position: relative;">
       <dashboardOptions
         v-bind:board="board"
         @selectLabels="selectLabels"
