@@ -2,6 +2,7 @@
   <div>
     <h1>{{ board.name }}</h1>
     <presentDashboard
+      v-if="dashboardState === 'present'"
       :endListIds="endListIds"
       :progressListsIds="progressListsIds"
       :backlogListIds="backlogListIds"

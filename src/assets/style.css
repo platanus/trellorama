@@ -424,7 +424,7 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard-options--button-active {
-  background-color: #fcea10;
+  background-color: #42e2f4;
 }
 
 .dashboard-options--option {

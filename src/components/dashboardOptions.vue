@@ -7,19 +7,20 @@
       <p class="dashboard-options--text" v-if="!minimized">Options</p>
     </div>
     <div class="dashboard-options--option">
-      <button v-on:click="setState('future')" class="button dashboard-options--button">
+      <button id="future" v-on:click="setState('future')" class="button dashboard-options--button">
         <font-awesome-icon icon="clock" />
       </button>
       <p class="dashboard-options--text" v-if="!minimized">Future</p>
     </div>
     <div class="dashboard-options--option">
-      <button v-on:click="setState('present')" class="button dashboard-options--button">
-        <font-awesome-icon icon="info-circle" />
+      <button id="present"
+        v-on:click="setState('present')" class="button dashboard-options--button dashboard-options--button-active">
+        <font-awesome-icon icon="map-marker-alt" />
       </button>
       <p class="dashboard-options--text" v-if="!minimized">Present</p>
     </div>
     <div class="dashboard-options--option">
-      <button v-on:click="setState('past')" class="button dashboard-options--button">
+      <button id="past" v-on:click="setState('past')" class="button dashboard-options--button">
         <font-awesome-icon icon="angle-double-left" />
       </button>
       <p class="dashboard-options--text" v-if="!minimized">Past</p>
@@ -121,6 +122,10 @@ export default {
     },
     endDate() {
       this.selectEndDate();
+    },
+    dashboardState(oldState, newState) {
+      document.getElementById(oldState).classList.toggle('dashboard-options--button-active');
+      document.getElementById(newState).classList.toggle('dashboard-options--button-active');
     },
   },
   methods: {
