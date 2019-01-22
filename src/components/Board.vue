@@ -1,85 +1,37 @@
 <template>
   <div>
     <h1>{{ board.name }}</h1>
-    <h2>{{ $t('board.boardStatus') }}</h2>
-    <BoardInfo
-        v-bind:lists="lists"
-        v-bind:cardsByList="cardsByList"
-        v-bind:cardActivities="cardActivities"
-        v-bind:endListIds="endListIds"
-        v-bind:productionListIds="productionListIds"
-    />
-    <CumulativeWrapper
-      v-bind:cardActivities="cardActivities"
-      v-bind:listIds="listIds"
-      v-bind:boardId="board.id"
-      v-bind:startDate="startDate"
-      v-bind:endDate="endDate"
-    />
-    <LeadTime
-      v-bind:cardActivities="leadMetricsActivities"
-      v-bind:endListIds="endListIds"
-      v-bind:progressListIds="progressListsIds"
-      v-bind:backlogListIds="backlogListIds"
-      v-bind:productionListIds="productionListIds"
-    />
-    <TeamSpeed
-      v-bind:cardActivities="cardActivities"
-      v-bind:endListIds="endListIds"
-      v-bind:startDate="startDate"
-      v-bind:endDate="endDate"
-    />
-    <ProjectionWrapper
-      v-bind:cardActivities="cardActivities"
-      v-bind:endListIds="endListIds"
-      v-bind:numberOfCards="getNumberOfCards()"
-      v-bind:startDate="startDate"
-      v-bind:endDate="endDate"
-      v-bind:boardId="board.id"
-    />
-    <WIPLists
-      v-bind:cards="cardsByList"
-      v-bind:lists="wipLists"
-      v-bind:wipLimits="wipLimits"
-      v-bind:activities="allCardsActivities"
-    />
-    <BugWrapper
-      v-bind:cards="endListsCards"
-      v-bind:boardId="board.id"
-    />
-    <wipHistogramWrapper
-      v-bind:wipLists="wipLists"
-      v-bind:cardActivities="cardActivities"
+    <presentDashboard
+      :endListIds="endListIds"
+      :progressListsIds="progressListsIds"
+      :backlogListIds="backlogListIds"
+      :productionListIds="productionListIds"
+      :leadMetricsActivities="leadMetricsActivities"
+      :cardActivities="cardActivities"
+      :startDate="startDate"
+      :endDate="endDate"
+      :cardsByList="cardsByList"
+      :wipLists="wipLists"
+      :wipLimits="wipLimits"
+      :allCardsActivities="allCardsActivities"
+      :endListsCards="endListsCards"
+      :boardId="board.id"
     />
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
-import CumulativeWrapper from './CumulativeWrapper.vue';
-import TeamSpeed from './TeamSpeed';
-import LeadTime from './LeadTime.vue';
-import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get, save } from '../utils/configurationPersistance.js';
-import WIPLists from './WIPLists.vue';
-import BugWrapper from './BugWrapper.vue';
-import wipHistogramWrapper from './wipHistogramWrapper.vue';
+import presentDashboard from './presentDashboard.vue';
 
 const activitiesRequestLimit = 1000;
 
 export default {
   name: 'Board',
   components: {
-    BoardInfo,
-    TeamSpeed,
-    CumulativeWrapper,
-    LeadTime,
-    ProjectionWrapper,
-    WIPLists,
-    BugWrapper,
-    wipHistogramWrapper,
+    presentDashboard,
   },
   props: {
     board: Object,

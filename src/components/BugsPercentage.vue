@@ -10,10 +10,17 @@ import { get } from '../utils/configurationPersistance.js';
 
 const percent = 100;
 
+function emptyArray() {
+  return [];
+}
+
 export default {
   name: 'BugsPercentage',
   props: {
-    cards: Array,
+    cards: {
+      type: Array,
+      default: emptyArray(),
+    },
     boardId: String,
   },
   data() {
@@ -26,7 +33,7 @@ export default {
   },
   computed: {
     percentage() {
-      if (this.cards === []) return '0';
+      if (this.cards.length === 0) return '0';
 
       return (this.cards.filter((card) =>
         card.labels.map((element) => element.id).some((label) => this.bugLabels.includes(label))
