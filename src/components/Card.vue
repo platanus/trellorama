@@ -27,12 +27,13 @@ export default {
 
 <style>
 .box {
-  width: 18%;
-  margin: 0.5%;
+  width: 100%;
+  margin: 1%;
   border-style: solid;
   border-width: 1px;
   border-color: silver;
-  background-color: gainsboro;
+  background-color: #eaeaea;
+  border-radius: 5px;
 }
 .warning {
   background-color: salmon;

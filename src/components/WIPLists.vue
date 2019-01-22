@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h2>{{ $t('wip.wipLists') }}</h2>
+  <div class="wipLists">
     <WIPList
+      class="wipList"
       v-for="list in lists"
       v-bind:key="list.id"
       v-bind:list="list"

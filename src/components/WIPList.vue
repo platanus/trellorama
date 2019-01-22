@@ -55,10 +55,4 @@ export default {
 };
 </script>
 
-<style>
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-</style>
+
