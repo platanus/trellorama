@@ -14,9 +14,7 @@ const messages = {
       timeInListMode: 'Mode in List  (days)',
     },
     bug: {
-      finishedCards: 'Finished Cards',
-      bug: 'Bug',
-      notBug: 'Not a Bug',
+      legend: 'Of Cards are Bugs',
     },
     wip: {
       wipLists: 'Work In Progress Lists',
@@ -46,8 +44,7 @@ const messages = {
       fill: 'Fill lists retroactively',
     },
     teamSpeed: {
-      title: 'Team Speed',
-      byWeek: 'By Week',
+      legend: 'Cards/Week',
     },
     leadTime: {
       leadTime: 'Lead Time',
@@ -101,6 +98,18 @@ const messages = {
       xTitle: 'Days in the List',
       yTitle: 'Number of Cards',
     },
+    dashboard: {
+      present: {
+        speedVsBugs: 'Speed Vs Bugs',
+        boardNow: 'Your Board right Now',
+      },
+      options: {
+        menu: 'Menu',
+        future: 'Future',
+        present: 'Present',
+        past: 'Past',
+      },
+    },
   },
   es: {
     board: {
@@ -117,9 +126,7 @@ const messages = {
       timeInListMode: 'Moda en la Lista (días)',
     },
     bug: {
-      finishedCards: 'Tarjetas Terminadas',
-      bug: 'Bug',
-      notBug: 'No es Bug',
+      legend: 'De Tarjetas son Bugs',
     },
     wip: {
       wipLists: 'Listas en Progreso',
@@ -149,8 +156,7 @@ const messages = {
       fill: 'Rellenar listas retroactivamente',
     },
     teamSpeed: {
-      title: 'Velocidad de Equipo',
-      byWeek: 'Por Semana',
+      legend: 'Tarjetas/Semana',
     },
     leadTime: {
       leadTime: 'Tiempo de Entrega',
@@ -203,6 +209,18 @@ const messages = {
       binWidth: 'Tamaño de la Muestra',
       xTitle: 'Días en la Lista',
       yTitle: 'Numbero de Tarjetas',
+    },
+    dashboard: {
+      present: {
+        speedVsBugs: 'Velocidad Vs Bugs',
+        boardNow: 'Tu Tablero en este momento',
+      },
+      options: {
+        menu: 'Menú',
+        future: 'Futuro',
+        present: 'Presente',
+        past: 'Pasado',
+      },
     },
   },
 };

@@ -10,7 +10,9 @@
         v-bind:productionListIds="productionListIds"
       />
       <div class="dashboard-present--numbers-container">
-        <p class="dashboard--text dashboard--text-title dashboard--text-spaced">Speed Vs Bugs</p>
+        <p class="dashboard--text dashboard--text-title dashboard--text-spaced">
+          {{ $t('dashboard.present.speedVsBugs') }}
+        </p>
         <TeamSpeed
           class="teamSpeed"
           v-bind:cardActivities="cardActivities"

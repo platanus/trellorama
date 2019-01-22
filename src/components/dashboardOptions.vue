@@ -4,26 +4,26 @@
       <button class="button dashboard-options--button" v-on:click="toggleOptions">
         <font-awesome-icon icon="bars" />
       </button>
-      <p class="dashboard-options--text" v-if="!minimized">Options</p>
+      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.menu') }}</p>
     </div>
     <div class="dashboard-options--option">
       <button id="future" v-on:click="setState('future')" class="button dashboard-options--button">
         <font-awesome-icon icon="clock" />
       </button>
-      <p class="dashboard-options--text" v-if="!minimized">Future</p>
+      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.future') }}</p>
     </div>
     <div class="dashboard-options--option">
       <button id="present"
         v-on:click="setState('present')" class="button dashboard-options--button dashboard-options--button-active">
         <font-awesome-icon icon="map-marker-alt" />
       </button>
-      <p class="dashboard-options--text" v-if="!minimized">Present</p>
+      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.present') }}</p>
     </div>
     <div class="dashboard-options--option">
       <button id="past" v-on:click="setState('past')" class="button dashboard-options--button">
         <font-awesome-icon icon="angle-double-left" />
       </button>
-      <p class="dashboard-options--text" v-if="!minimized">Past</p>
+      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.past') }}</p>
     </div>
     <hr style="width: 90%">
     <div class="dashboard-options--option">

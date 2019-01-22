@@ -1,6 +1,6 @@
 <template>
   <div class="wipLists">
-    <p class="dashboard--text dashboard--text-title">Your Board Right Now</p>
+    <p class="dashboard--text dashboard--text-title">{{ $t('dashboard.present.boardNow') }}</p>
     <WIPList
       class="wipList"
       v-for="list in lists"
