@@ -109,6 +109,11 @@ const messages = {
         present: 'Present',
         past: 'Past',
       },
+      subOptions: {
+        menu: 'Sub Menu',
+        cumulative: 'Cumulative Chart',
+        histogram: 'List Histogram',
+      },
     },
   },
   es: {
@@ -220,6 +225,11 @@ const messages = {
         future: 'Futuro',
         present: 'Presente',
         past: 'Pasado',
+      },
+      subOptions: {
+        menu: 'Sub Menú',
+        cumulative: 'Gráfico Acumulado',
+        histogram: 'Histograma de Listas',
       },
     },
   },

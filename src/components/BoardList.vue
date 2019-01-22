@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="dashboard" v-for="board in boards" v-bind:key="board.id">
+    <div v-for="board in boards" v-bind:key="board.id">
       <dashboardOptions
         v-bind:board="board"
         @selectLabels="selectLabels"
@@ -8,6 +8,9 @@
         @selectStartDate="selectStartDate"
         @selectEndDate="selectEndDate"
         @dashboardState="setDashboardState"
+      />
+      <dashboardSubOptions
+        v-if="dashboardState === 'past'"
       />
       <Board
         class="dashboard-content"
@@ -24,12 +27,14 @@
 <script>
 import Board from './Board.vue';
 import dashboardOptions from './dashboardOptions.vue';
+import dashboardSubOptions from './dashboardSubOptions.vue';
 
 export default {
   name: 'BoardList',
   components: {
     Board,
     dashboardOptions,
+    dashboardSubOptions,
   },
   props: {
     boards: Array,
