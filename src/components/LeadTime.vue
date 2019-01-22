@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ $t('leadTime.title') }}</h2>
+    <p class="dashboard--text dashboard--text-title">{{ $t('leadTime.title') }}</p>
     <LeadTimeChart
       v-bind:cardActivities="cardActivities"
       v-bind:endListIds="endListIds"
@@ -33,3 +33,5 @@ export default {
   },
 };
 </script>
+
+<style type="text/css" src="../assets/style.css"></style>

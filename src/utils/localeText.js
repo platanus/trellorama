@@ -55,7 +55,7 @@ const messages = {
       responseTime: 'Response Time',
       cycleTime: 'Cycle Time',
       deployTime: 'Deploy Time',
-      title: 'Time Metrics',
+      title: 'Average Time per Stage',
     },
     general: {
       settings: 'Settings',
@@ -158,7 +158,7 @@ const messages = {
       responseTime: 'Tiempo de Respuesta',
       cycleTime: 'Tiempo de Iteración',
       deployTime: 'Tiempo de Despliegue',
-      title: 'Métricas de Tiempo',
+      title: 'Tiempo Promedio en cada Estado',
     },
     general: {
       settings: 'Ajustes',
