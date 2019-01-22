@@ -28,6 +28,15 @@
       :listIds="listIds"
       :tab="tab"
     />
+    <futureDashboard
+      v-if="dashboardState === 'future'"
+      :endListIds="endListIds"
+      :cardActivities="cardActivities"
+      :startDate="startDate"
+      :endDate="endDate"
+      :boardId="board.id"
+      :numberOfCards="getNumberOfCards()"
+    />
   </div>
 </template>
 
@@ -37,6 +46,7 @@ import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 import presentDashboard from './presentDashboard.vue';
 import pastDashboard from './pastDashboard.vue';
+import futureDashboard from './futureDashboard.vue';
 
 const activitiesRequestLimit = 1000;
 
@@ -45,6 +55,7 @@ export default {
   components: {
     presentDashboard,
     pastDashboard,
+    futureDashboard,
   },
   props: {
     board: Object,
