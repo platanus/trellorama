@@ -105,9 +105,9 @@ const messages = {
       },
       options: {
         menu: 'Menu',
-        future: 'Future',
-        present: 'Present',
-        past: 'Past',
+        future: 'Projection',
+        present: 'Current',
+        past: 'Historical',
       },
       subOptions: {
         menu: 'Sub Menu',
@@ -222,9 +222,9 @@ const messages = {
       },
       options: {
         menu: 'Menú',
-        future: 'Futuro',
-        present: 'Presente',
-        past: 'Pasado',
+        future: 'Proyección',
+        present: 'Actual',
+        past: 'Historico',
       },
       subOptions: {
         menu: 'Sub Menú',
