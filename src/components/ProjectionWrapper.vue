@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Projection Chart</h2>
+    <p class="dashboard__text dashboard__text-title">Projection Chart</p>
     <div>
       <b>Options:</b>
       &ensp;

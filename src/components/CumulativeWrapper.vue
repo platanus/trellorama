@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ $t('cumulative.title') }}</h2>
+    <p class="dashboard__text dashboard__text-title">{{ $t('cumulative.title') }}</p>
     <div>
       <b>{{ $t('chart.options') }}:</b>
       &ensp;

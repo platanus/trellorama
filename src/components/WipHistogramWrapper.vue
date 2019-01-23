@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ $t('wipHistogram.title') }}</h2>
+    <p class="dashboard__text dashboard__text-title">{{ $t('wipHistogram.title') }}</p>
     <label for="histListSelector">{{ $t('wipHistogram.selectList') }}: </label>
     <select v-model="selectedList" id="histListSelector">
       <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
