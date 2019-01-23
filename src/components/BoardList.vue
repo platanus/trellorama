@@ -9,11 +9,13 @@
         @selectEndDate="selectEndDate"
         @dashboardState="setDashboardState"
       />
-      <DashboardSubOptions
-        v-if="dashboardState === 'past'"
-        v-bind:dashboardState="dashboardState"
-        @tab="setTab"
-      />
+      <transition name="hide-sub-options">
+        <DashboardSubOptions
+          v-if="dashboardState === 'past'"
+          v-bind:dashboardState="dashboardState"
+          @tab="setTab"
+        />
+      </transition>
       <Board
         class="dashboard-content"
         v-bind:board="board"

@@ -3,7 +3,9 @@
   <button :class="buttonClass" v-on:click="buttonFunction">
     <font-awesome-icon :icon="icon" />
   </button>
-  <p class="dashboard-options__text" v-if="!minimized">{{ text }}</p>
+  <transition name="hide">
+    <p class="dashboard-options__text" v-if="!minimized">{{ text }}</p>
+  </transition>
 </div>
 </template>
 
@@ -34,7 +36,7 @@ export default {
     containerClass() {
       return {
         'dashboard-options__option': true,
-        'dashboard-options__option--centered': this.minimized,
+        // 'dashboard-options__option--centered': this.minimized,
       };
     },
   },

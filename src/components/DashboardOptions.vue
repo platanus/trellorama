@@ -1,5 +1,5 @@
 <template>
-  <div id="dashboardOptionsContainer" class="dashboard-options dashboard-options-small">
+  <div :class="containerClass">
     <DashboardOption
       :text="$t('dashboard.options.menu')"
       icon="bars"
@@ -34,14 +34,14 @@
       :minimized="minimized"
       :buttonFunction="enterWizard"
     />
-    <div class="dashboard-options__option">
-      <DashboardOption
-        :text="$t('board.labelFilter')"
-        icon="tags"
-        :minimized="minimized"
-        :buttonFunction="toggleLabels"
-      />
-      <div style="width: 100%;" v-if="showLabels">
+    <DashboardOption
+      :text="$t('board.labelFilter')"
+      icon="tags"
+      :minimized="minimized"
+      :buttonFunction="toggleLabels"
+    />
+    <transition name="hide">
+      <div style="width: 100%; padding: 5px;" v-if="showLabels">
         <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
           <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
           <label :for="labelOption.value" class="dashboard-options__text dashboard-options__text-small">
@@ -49,15 +49,15 @@
           </label>
         </div>
       </div>
-    </div>
-    <div class="dashboard-options__option">
-      <DashboardOption
-        :text="$t('board.dateFilter')"
-        icon="calendar-day"
-        :minimized="minimized"
-        :buttonFunction="toggleDates"
-      />
-      <div style="width: 100%; height: 100%;" v-if="showDates">
+    </transition>
+    <DashboardOption
+      :text="$t('board.dateFilter')"
+      icon="calendar-day"
+      :minimized="minimized"
+      :buttonFunction="toggleDates"
+    />
+    <transition name="hide">
+      <div style="width: 100%; height: 100%; padding: 5px;" v-if="showDates">
         <label for="startDate" class="dashboard-options__text">{{ $t('board.startDate') }}: </label>
         <datepicker
           v-model="startDate"
@@ -77,7 +77,7 @@
           format="yyyy-MM-dd"
         />
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -116,7 +116,14 @@ export default {
     this.getBoardLabels(this.board.id);
     this.selectStartDate();
     this.selectEndDate();
-    this.$emit('dashboardState', this.dashboardState);
+  },
+  computed: {
+    containerClass() {
+      return {
+        'dashboard-options': true,
+        'dashboard-options-open': !this.minimized,
+      };
+    },
   },
   watch: {
     selectedLabels() {
@@ -133,10 +140,9 @@ export default {
   methods: {
     toggleOptions() {
       this.minimized = !this.minimized;
-      document.getElementById('dashboardOptionsContainer').classList.toggle('dashboard-options-small');
       if (this.minimized) {
-        this.showLabels = false;
-        this.showDates = false;
+        if (this.showLabels) this.showLabels = false;
+        if (this.showDates) this.showDates = false;
       }
     },
     getBoardLabels(boardId) {

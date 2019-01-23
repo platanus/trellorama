@@ -1,12 +1,11 @@
 <template>
   <div
-    id="dashboardSubOptionsContainer"
-    class="dashboard-options dashboard-options__suboptions dashboard-options-small">
+    :class="containerClass">
     <DashboardOption
       :text="$t('dashboard.subOptions.menu')"
       icon="bars"
       :minimized="minimized"
-      :buttonFunction="toggleOptions"
+      :buttonFunction="toggleSubOptions"
     />
     <DashboardOption
       :text="$t('dashboard.subOptions.cumulative')"
@@ -47,10 +46,18 @@ export default {
       this.setTab('cumulative');
     }
   },
+  computed: {
+    containerClass() {
+      return {
+        'dashboard-options': true,
+        'dashboard-options__suboptions': true,
+        'dashboard-options-open': !this.minimized,
+      };
+    },
+  },
   methods: {
-    toggleOptions() {
+    toggleSubOptions() {
       this.minimized = !this.minimized;
-      document.getElementById('dashboardSubOptionsContainer').classList.toggle('dashboard-options-small');
     },
     setTab(value) {
       this.tab = value;
