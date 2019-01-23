@@ -7,25 +7,21 @@ function sortDate(activity1, activity2) {
   return moment(activity1.date).diff(activity2.date, 'days');
 }
 
-function filterActivitiesByMovedTwiceInSameList(activity, _, array) {
-  return array.filter((filterActivity) => filterActivity.id === activity.id)
-    .sort((activity1, activity2) => (activity1.date - activity2.date))[0]
-    .id === activity.id;
-}
-
-function filterDuplicates(activity, _, array) {
-  if (array.filter((filterActivity) => filterActivity.id === activity.id).length === 1) {
-    return true;
-  }
-
-  return filterActivitiesByMovedTwiceInSameList(activity, _, array);
+function filterDuplicates(activities) {
+  return activities
+    .filter((activity) =>
+      activities.filter((filteredActivity) => filteredActivity.id === activity.id).length === 1
+    ).concat(Object.values(
+      activities.filter((activity) =>
+        activities.filter((filteredActivity) => filteredActivity.id === activity.id).length > 1
+      ).reduce((acc, cur) => Object.assign(acc, { [cur.id]: cur }), {}))
+    );
 }
 
 function filterActivities(activities, endListIds, dateTypeSelector, dayOfWeek = 'monday') {
-  return activities.filter((activity) => activity.type === 'updateCard')
+  return filterDuplicates(activities.filter((activity) => activity.type === 'updateCard')
     .filter((activity) => endListIds.includes(activity.data.listAfter.id))
-    .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, dateTypeSelector, dayOfWeek) }))
-    .filter((activity, _, array) => filterDuplicates(activity, _, array))
+    .map((activity) => ({ id: activity.data.card.id, date: getDate(activity.date, dateTypeSelector, dayOfWeek) })))
     .sort(sortDate);
 }
 

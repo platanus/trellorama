@@ -2,7 +2,7 @@
   <div class="stacked-bar-graph">
     <div class="category-container">
       <p class="category-text">
-        {{ $t('leadTime.timeToLive') }} ({{ timeToLive.toLocaleString({maximumFractionDigits: 2}) }}) d
+        {{ $t('leadTime.timeToLive') }} ({{ timeToLive.toLocaleString({maximumFractionDigits: 1}) }}) d
       </p>
       <div class="category-line category-line-top"></div>
     </div>
@@ -24,7 +24,7 @@
     <div class="category-container" :style="leadWidth">
       <div class="category-line category-line-bottom"></div>
       <p class="category-text">
-        {{ $t('leadTime.leadTime') }} ({{ leadTime.toLocaleString({maximumFractionDigits: 2})}}) d
+        {{ $t('leadTime.leadTime') }} ({{ leadTime.toLocaleString({maximumFractionDigits: 1})}}) d
       </p>
     </div>
   </div>
@@ -83,15 +83,18 @@ export default {
   methods: {
     calculate() {
       this.responseTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListIds, this.progressListIds)
+        ...getCardsBetweenTwoLists(this.cardActivities, this.backlogListIds, this.progressListIds),
+        1
       );
       if (this.responseTime === 'NaN') this.responseTime = '0';
       this.cycleTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.progressListIds, this.endListIds)
+        ...getCardsBetweenTwoLists(this.cardActivities, this.progressListIds, this.endListIds),
+        1
       );
       if (this.cycleTime === 'NaN') this.cycleTime = '0';
       this.deployTime = getAverageTime(
-        ...getCardsBetweenTwoLists(this.cardActivities, this.endListIds, this.productionListIds)
+        ...getCardsBetweenTwoLists(this.cardActivities, this.endListIds, this.productionListIds),
+        1
       );
       if (this.deployTime === 'NaN') this.deployTime = '0';
     },
