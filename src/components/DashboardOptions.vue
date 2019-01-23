@@ -1,58 +1,62 @@
 <template>
   <div id="dashboardOptionsContainer" class="dashboard-options dashboard-options-small">
-    <div class="dashboard-options--option">
-      <button class="button dashboard-options--button" v-on:click="toggleOptions">
-        <font-awesome-icon icon="bars" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.menu') }}</p>
-    </div>
-    <div class="dashboard-options--option">
-      <button id="future" v-on:click="setState('future')" class="button dashboard-options--button">
-        <font-awesome-icon icon="clock" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.future') }}</p>
-    </div>
-    <div class="dashboard-options--option">
-      <button id="present"
-        v-on:click="setState('present')" class="button dashboard-options--button dashboard-options--button-active">
-        <font-awesome-icon icon="map-marker-alt" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.present') }}</p>
-    </div>
-    <div class="dashboard-options--option">
-      <button id="past" v-on:click="setState('past')" class="button dashboard-options--button">
-        <font-awesome-icon icon="angle-double-left" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.options.past') }}</p>
-    </div>
+    <DashboardOption
+      :text="$t('dashboard.options.menu')"
+      icon="bars"
+      :minimized="minimized"
+      :buttonFunction="toggleOptions"
+    />
+    <DashboardOption
+      :text="$t('dashboard.options.future')"
+      icon="clock"
+      :minimized="minimized"
+      :buttonFunction="() => {setState('future')}"
+      :selected="dashboardState === 'future'"
+    />
+    <DashboardOption
+      :text="$t('dashboard.options.present')"
+      icon="map-marker-alt"
+      :minimized="minimized"
+      :buttonFunction="() => {setState('present')}"
+      :selected="dashboardState === 'present'"
+    />
+    <DashboardOption
+      :text="$t('dashboard.options.past')"
+      icon="angle-double-left"
+      :minimized="minimized"
+      :buttonFunction="() => {setState('past')}"
+      :selected="dashboardState === 'past'"
+    />
     <hr style="width: 90%">
+    <DashboardOption
+      :text="$t('general.settings')"
+      icon="cogs"
+      :minimized="minimized"
+      :buttonFunction="enterWizard"
+    />
     <div class="dashboard-options--option">
-      <button v-on:click="enterWizard" class="button dashboard-options--button">
-        <font-awesome-icon icon="cogs" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('general.settings') }}</p>
-    </div>
-    <div class="dashboard-options--option">
-      <div class="dashboard-options--option">
-        <button v-on:click="toggleLabels" class="button dashboard-options--button">
-          <font-awesome-icon icon="tags" />
-        </button>
-        <p class="dashboard-options--text" v-if="!minimized">{{ $t('board.labelFilter') }}</p>
-        <div style="width: 100%;" v-if="showLabels">
-          <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
-            <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
-            <label :for="labelOption.value" class="dashboard-options--text dashboard-options--text-small">
-              {{labelOption.label}}
-            </label>
-          </div>
+      <DashboardOption
+        :text="$t('board.labelFilter')"
+        icon="tags"
+        :minimized="minimized"
+        :buttonFunction="toggleLabels"
+      />
+      <div style="width: 100%;" v-if="showLabels">
+        <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
+          <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
+          <label :for="labelOption.value" class="dashboard-options--text dashboard-options--text-small">
+            {{labelOption.label}}
+          </label>
         </div>
       </div>
     </div>
     <div class="dashboard-options--option">
-      <button class="button dashboard-options--button" v-on:click="toggleDates">
-        <font-awesome-icon icon="calendar-day" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('board.dateFilter') }}</p>
+      <DashboardOption
+        :text="$t('board.dateFilter')"
+        icon="calendar-day"
+        :minimized="minimized"
+        :buttonFunction="toggleDates"
+      />
       <div style="width: 100%; height: 100%;" v-if="showDates">
         <label for="startDate" class="dashboard-options--text">{{ $t('board.startDate') }}: </label>
         <datepicker
@@ -82,11 +86,13 @@ import Datepicker from 'vuejs-datepicker';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
+import DashboardOption from './DashboardOption.vue';
 
 export default {
   name: 'dashboardOptions',
   components: {
     Datepicker,
+    DashboardOption,
   },
   props: {
     board: Object,
@@ -122,10 +128,6 @@ export default {
     },
     endDate() {
       this.selectEndDate();
-    },
-    dashboardState(newState, oldState) {
-      document.getElementById(oldState).classList.toggle('dashboard-options--button-active');
-      document.getElementById(newState).classList.toggle('dashboard-options--button-active');
     },
   },
   methods: {
