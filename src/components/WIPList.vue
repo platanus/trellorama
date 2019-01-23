@@ -7,6 +7,7 @@
         v-bind:key="card.id"
         v-bind:card="card"
         v-bind:days="timeInList(card.id).toLocaleString({maximumFractionDigits: 2})"
+        v-bind:average="averageTime"
       />
     </div>
   </div>
@@ -23,6 +24,7 @@ export default {
     cards: Array,
     WIPLimit: Number,
     activities: Array,
+    averageTime: Number,
   },
   components: {
     Card,

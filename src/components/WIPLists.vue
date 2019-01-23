@@ -9,6 +9,7 @@
         v-bind:cards="cards[list.id]"
         v-bind:WIPLimit="getWip(list.id)"
         v-bind:activities="listActivities(list.id)"
+        v-bind:averageTime="averageTime(list.id)"
       />
     </div>
   </div>
@@ -16,6 +17,7 @@
 
 <script>
 import WIPList from './WIPList.vue';
+import { getListCards, getAverageTime } from '../utils/timeBetweenLists.js';
 
 export default {
   name: 'WIPLists',
@@ -43,6 +45,9 @@ export default {
             .filter((activity) => activity.type === 'createCard')
             .filter((activity) => activity.data.list.id === listId)
         );
+    },
+    averageTime(listId) {
+      return parseFloat(getAverageTime(...getListCards(this.activities, listId)));
     },
   },
 };

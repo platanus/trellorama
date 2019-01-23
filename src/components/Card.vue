@@ -1,5 +1,5 @@
 <template>
-  <div :class="classObject">
+  <div :class="classObject" :style="style">
     <h4>{{ card.name }}</h4>
     <p><b>{{ $t('wip.days') }}: </b>{{ days }}</p>
   </div>
@@ -11,7 +11,7 @@ export default {
   name: 'Card',
   props: {
     card: Object,
-    warning: Boolean,
+    average: Number,
     days: String,
   },
   computed: {
@@ -19,6 +19,19 @@ export default {
       return {
         box: true,
       };
+    },
+    style() {
+      return {
+        backgroundColor: this.genBackgroundColor(),
+      };
+    },
+  },
+  methods: {
+    genBackgroundColor() {
+      const days = parseFloat(this.days);
+      if (days < this.average) return '#eaeaea';
+
+      return `rgba(255, 0, 0, ${(days - this.average) / this.average})`;
     },
   },
 };

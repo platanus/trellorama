@@ -569,6 +569,9 @@ input[type=radio]:checked + .checkbox {
   align-items: stretch;
   overflow: scroll;
   padding: 5px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #000;
 }
 
 .box {
@@ -576,13 +579,11 @@ input[type=radio]:checked + .checkbox {
   border-style: solid;
   border-width: 1px;
   border-color: #c0c0c0;
-  background-color: #eaeaea;
   border-radius: 5px;
 }
 
 .wip-list--warning {
   background-color: #e5c008;
-  border-radius: 10px;
 }
 
 .wip-list--warning > h3 {
