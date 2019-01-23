@@ -1,20 +1,24 @@
 <template>
-  <div>
-    <p class="dashboard__text dashboard__text-title">{{ $t('wipHistogram.title') }}</p>
-    <label for="histListSelector">{{ $t('wipHistogram.selectList') }}: </label>
-    <select v-model="selectedList" id="histListSelector">
-      <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
-    </select>
-    &ensp;
-    <input type="checkbox" id="genBinSize" v-model="genBinSize">
-    <label for="genBinSize">{{$t('wipHistogram.genBin') }}</label>
-    <div v-if="!genBinSize">
+  <div class="dashboard__single-item-container">
+    <h3 class="dashboard__text dashboard__subsection-title">{{ $t('wipHistogram.title') }}</h3>
+    <div class="dashboard__content-options">
+      <b>{{ $t('chart.options') }}:</b>
       &ensp;
-      <label for="binWidth">{{$t('wipHistogram.binWidth') }}: </label>
-      <input type="number" id="binWidth" v-model="binWidth">
+      <label for="histListSelector">{{ $t('wipHistogram.selectList') }}: </label>
+      <select v-model="selectedList" id="histListSelector">
+        <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
+      </select>
+      &ensp;
+      <input type="checkbox" id="genBinSize" v-model="genBinSize">
+      <label for="genBinSize">{{$t('wipHistogram.genBin') }}</label>
+      <div v-if="!genBinSize">
+        &ensp;
+        <label for="binWidth">{{$t('wipHistogram.binWidth') }}: </label>
+        <input type="number" id="binWidth" v-model="binWidth">
+      </div>
     </div>
-    <wipHistogram
-      :activities="listActivities(selectedList)"
+    <WipHistogram
+      v-bind:activities="listActivities(selectedList)"
       :genBinSize="genBinSize"
       :binWidth="binWidth"
     />

@@ -100,8 +100,12 @@ const messages = {
     },
     dashboard: {
       present: {
+        stats: 'Board Stats',
         speedVsBugs: 'Speed Vs Bugs',
         boardNow: 'Your Board right Now',
+      },
+      future: {
+        title: 'Board Projection',
       },
       options: {
         menu: 'Menu',
@@ -217,8 +221,12 @@ const messages = {
     },
     dashboard: {
       present: {
+        stats: 'Estadísticas del Tablero',
         speedVsBugs: 'Velocidad Vs Bugs',
         boardNow: 'Tu Tablero en este momento',
+      },
+      future: {
+        title: 'Proyección del Tablero',
       },
       options: {
         menu: 'Menú',

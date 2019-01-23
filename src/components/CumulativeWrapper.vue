@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <p class="dashboard__text dashboard__text-title">{{ $t('cumulative.title') }}</p>
-    <div>
+  <div class="dashboard__single-item-container">
+    <h3 class="dashboard__text dashboard__subsection-title">{{ $t('cumulative.title') }}</h3>
+    <div class="dashboard__content-options">
       <b>{{ $t('chart.options') }}:</b>
       &ensp;
       <label for="fillBackLists">{{ $t('cumulative.fill') }}</label>

@@ -27,7 +27,6 @@ export default {
 
 <style>
 .box {
-  width: 100%;
   margin: 1%;
   border-style: solid;
   border-width: 1px;

@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <p class="dashboard__text dashboard__text-title">Projection Chart</p>
-    <div>
+  <div class="dashboard__single-item-container">
+    <h3 class="dashboard__text dashboard__subsection-title">Projection Chart</h3>
+    <div class="dashboard__content-options">
       <b>Options:</b>
       &ensp;
       <label for="dateTypeSelector">Date Format: </label>

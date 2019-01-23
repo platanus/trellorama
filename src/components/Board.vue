@@ -1,43 +1,43 @@
 <template>
   <div>
-    <h1>{{ board.name }}</h1>
+    <h1 class="dashboard__board-title">{{ board.name }}</h1>
     <transition name="toggle" mode="out-in" appear>
-    <PresentDashboard
-      v-if="dashboardState === 'present'"
-      :endListIds="endListIds"
-      :progressListsIds="progressListsIds"
-      :backlogListIds="backlogListIds"
-      :productionListIds="productionListIds"
-      :leadMetricsActivities="leadMetricsActivities"
-      :cardActivities="cardActivities"
-      :startDate="startDate"
-      :endDate="endDate"
-      :cardsByList="cardsByList"
-      :wipLists="wipLists"
-      :wipLimits="wipLimits"
-      :allCardsActivities="allCardsActivities"
-      :endListsCards="endListsCards"
-      :boardId="board.id"
-    />
-    <PastDashboard
-      v-if="dashboardState === 'past'"
-      :cardActivities="cardActivities"
-      :startDate="startDate"
-      :endDate="endDate"
-      :boardId="board.id"
-      :wipLists="wipLists"
-      :listIds="listIds"
-      :tab="tab"
-    />
-    <FutureDashboard
-      v-if="dashboardState === 'future'"
-      :endListIds="endListIds"
-      :cardActivities="cardActivities"
-      :startDate="startDate"
-      :endDate="endDate"
-      :boardId="board.id"
-      :numberOfCards="getNumberOfCards()"
-    />
+      <PresentDashboard
+        v-if="dashboardState === 'present'"
+        :endListIds="endListIds"
+        :progressListsIds="progressListsIds"
+        :backlogListIds="backlogListIds"
+        :productionListIds="productionListIds"
+        :leadMetricsActivities="leadMetricsActivities"
+        :cardActivities="cardActivities"
+        :startDate="startDate"
+        :endDate="endDate"
+        :cardsByList="cardsByList"
+        :wipLists="wipLists"
+        :wipLimits="wipLimits"
+        :allCardsActivities="allCardsActivities"
+        :endListsCards="endListsCards"
+        :boardId="board.id"
+      />
+      <PastDashboard
+        v-if="dashboardState === 'past'"
+        :cardActivities="cardActivities"
+        :startDate="startDate"
+        :endDate="endDate"
+        :boardId="board.id"
+        :wipLists="wipLists"
+        :listIds="listIds"
+        :tab="tab"
+      />
+      <FutureDashboard
+        v-if="dashboardState === 'future'"
+        :endListIds="endListIds"
+        :cardActivities="cardActivities"
+        :startDate="startDate"
+        :endDate="endDate"
+        :boardId="board.id"
+        :numberOfCards="getNumberOfCards()"
+      />
     </transition>
   </div>
 </template>

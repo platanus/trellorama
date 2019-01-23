@@ -1,38 +1,42 @@
 <template>
-  <div>
-    <div class="dashboard-present__container">
+  <div class="dashboard-content__container">
+    <div class="dashboard__section">
+      <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.stats') }}</h2>
       <LeadTime
-        class="lead-time"
+        class="dashboard__single-item-container"
         v-bind:cardActivities="leadMetricsActivities"
         v-bind:endListIds="endListIds"
         v-bind:progressListIds="progressListsIds"
         v-bind:backlogListIds="backlogListIds"
         v-bind:productionListIds="productionListIds"
       />
+      <h3 class="dashboard__text dashboard__subsection-title">
+        {{ $t('dashboard.present.speedVsBugs') }}
+      </h3>
       <div class="dashboard-present__numbers-container">
-        <p class="dashboard__text dashboard__text-title dashboard__text-spaced">
-          {{ $t('dashboard.present.speedVsBugs') }}
-        </p>
         <TeamSpeed
-          class="team-speed"
+          class="stats"
           v-bind:cardActivities="cardActivities"
           v-bind:endListIds="endListIds"
           v-bind:startDate="startDate"
           v-bind:endDate="endDate"
         />
         <BugsPercentage
-          class="bugs-percentage"
+          class="stats"
           v-bind:cards="endListsCards"
           v-bind:boardId="boardId"
         />
       </div>
     </div>
-    <WIPLists
-      v-bind:cards="cardsByList"
-      v-bind:lists="wipLists"
-      v-bind:wipLimits="wipLimits"
-      v-bind:activities="allCardsActivities"
-    />
+    <div class="dashboard__section">
+      <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.boardNow') }}</h2>
+      <WIPLists
+        v-bind:cards="cardsByList"
+        v-bind:lists="wipLists"
+        v-bind:wipLimits="wipLimits"
+        v-bind:activities="allCardsActivities"
+      />
+    </div>
   </div>
 </template>
 
