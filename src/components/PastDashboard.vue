@@ -21,7 +21,7 @@ import CumulativeWrapper from './CumulativeWrapper.vue';
 import wipHistogramWrapper from './wipHistogramWrapper.vue';
 
 export default {
-  name: 'presentDashboard',
+  name: 'pastDashboard',
   components: {
     CumulativeWrapper,
     wipHistogramWrapper,

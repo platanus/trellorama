@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="board in boards" v-bind:key="board.id" style="position: relative;">
-      <dashboardOptions
+      <DashboardOptions
         v-bind:board="board"
         @selectLabels="selectLabels"
         @setSettings="setSettings"
@@ -9,7 +9,7 @@
         @selectEndDate="selectEndDate"
         @dashboardState="setDashboardState"
       />
-      <dashboardSubOptions
+      <DashboardSubOptions
         v-if="dashboardState === 'past'"
         v-bind:dashboardState="dashboardState"
         @tab="setTab"
@@ -29,15 +29,15 @@
 
 <script>
 import Board from './Board.vue';
-import dashboardOptions from './dashboardOptions.vue';
-import dashboardSubOptions from './dashboardSubOptions.vue';
+import DashboardOptions from './DashboardOptions.vue';
+import DashboardSubOptions from './DashboardSubOptions.vue';
 
 export default {
   name: 'BoardList',
   components: {
     Board,
-    dashboardOptions,
-    dashboardSubOptions,
+    DashboardOptions,
+    DashboardSubOptions,
   },
   props: {
     boards: Array,

@@ -15,7 +15,7 @@
 import ProjectionWrapper from './ProjectionWrapper.vue';
 
 export default {
-  name: 'future',
+  name: 'futureDashboard',
   components: {
     ProjectionWrapper,
   },

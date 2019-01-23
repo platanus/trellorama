@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ board.name }}</h1>
-    <presentDashboard
+    <PresentDashboard
       v-if="dashboardState === 'present'"
       :endListIds="endListIds"
       :progressListsIds="progressListsIds"
@@ -18,7 +18,7 @@
       :endListsCards="endListsCards"
       :boardId="board.id"
     />
-    <pastDashboard
+    <PastDashboard
       v-if="dashboardState === 'past'"
       :cardActivities="cardActivities"
       :startDate="startDate"
@@ -28,7 +28,7 @@
       :listIds="listIds"
       :tab="tab"
     />
-    <futureDashboard
+    <FutureDashboard
       v-if="dashboardState === 'future'"
       :endListIds="endListIds"
       :cardActivities="cardActivities"
@@ -44,18 +44,18 @@
 import moment from 'moment';
 import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
-import presentDashboard from './presentDashboard.vue';
-import pastDashboard from './pastDashboard.vue';
-import futureDashboard from './futureDashboard.vue';
+import PresentDashboard from './PresentDashboard.vue';
+import PastDashboard from './PastDashboard.vue';
+import FutureDashboard from './FutureDashboard.vue';
 
 const activitiesRequestLimit = 1000;
 
 export default {
   name: 'Board',
   components: {
-    presentDashboard,
-    pastDashboard,
-    futureDashboard,
+    PresentDashboard,
+    PastDashboard,
+    FutureDashboard,
   },
   props: {
     board: Object,
