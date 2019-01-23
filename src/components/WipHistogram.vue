@@ -3,17 +3,13 @@ import { Bar } from 'vue-chartjs';
 import { getTimes } from '../utils/timeBetweenLists.js';
 import { getColor } from '../utils/chartUtils.js';
 
-const decimalRoundParameter = 100;
-const numberOfDecimals = 2;
-const decimalBase = 10;
+const decimalRoundParameter = 10;
 
 export default {
   name: 'wipHistogram',
   mixins: [Bar],
   props: {
     activities: Array,
-    genBinSize: Boolean,
-    binWidth: Number,
   },
   data() {
     return {
@@ -21,27 +17,11 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: this.$t('wipHistogram.xTitle'),
-              },
-              barPercentage: 1.0,
-              categoryPercentage: 1.0,
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
             },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: this.$t('wipHistogram.yTitle'),
-              },
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
+          }],
         },
       },
       chartdata: {
@@ -53,30 +33,13 @@ export default {
   computed: {
     listTimes() {
       return getTimes(...this.activities)
-        .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter)
-        .sort((a, b) => a - b);
+        .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter);
     },
     labels() {
-      let width;
-      let binSize;
-      if (this.genBinSize) {
-        binSize = Math.ceil(Math.sqrt(this.listTimes.length));
-        width = (this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / binSize;
-      } else {
-        width = this.binWidth;
-        binSize = Math.ceil((this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / width);
-      }
-
-      return [...Array(binSize).keys()].map((label) => label * width);
+      return Array.from(new Set(this.listTimes)).sort((a, b) => a - b);
     },
     data() {
-      const data = [...Array(this.labels.length).keys()];
-
-      return data.map((_, index) =>
-        this.listTimes.filter((time) => time >= this.labels[index])
-          .filter((time) => (index === this.labels.length - 1 ? true : time < this.labels[index + 1]))
-          .length
-      );
+      return this.labels.map((label) => this.listTimes.filter((time) => time === label).length);
     },
   },
   watch: {
@@ -89,21 +52,14 @@ export default {
   },
   methods: {
     renderData() {
-      this.chartdata.labels = this.genLabels();
+      this.chartdata.labels = this.labels;
       this.chartdata.datasets[0] = {
         label: '',
-        labels: this.genLabels(),
+        labels: this.labels,
         data: this.data,
         backgroundColor: getColor('blue')[0],
       };
       this.renderChart(this.chartdata, this.chartoptions);
-    },
-    genLabels() {
-      return this.labels.map((label, index, arr) =>
-        `[${label.toFixed(numberOfDecimals, decimalBase)} - ${arr[index + 1] === undefined ?
-          this.listTimes[this.listTimes.length - 1].toFixed(numberOfDecimals, decimalBase) :
-          arr[index + 1].toFixed(numberOfDecimals, decimalBase)}[`
-      );
     },
   },
 };
