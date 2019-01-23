@@ -1,12 +1,12 @@
 <template>
   <div class="wizard">
-    <div class="wizard--progress-bar"></div>
-    <div class="wizard--progress-bar wizard--progress-bar--step-1" id="progress_bar"></div>
-    <div id="main_container" class="wizard--container">
-      <div v-if="stage === 0" class="wizard--container wizard--container-inner">
-        <p class="wizard--title">{{ $t('wizard.board.title') }}</p>
-        <p class="wizard--text">{{ $t('wizard.board.description') }}</p>
-        <div class="wizard--container wizard--container-board">
+    <div class="wizard__progress-bar"></div>
+    <div class="wizard__progress-bar wizard__progress-bar--step-1" id="progress_bar"></div>
+    <div id="main_container" class="wizard__container">
+      <div v-if="stage === 0" class="wizard__container wizard__container--inner">
+        <p class="wizard__title">{{ $t('wizard.board.title') }}</p>
+        <p class="wizard__text">{{ $t('wizard.board.description') }}</p>
+        <div class="wizard__container wizard__container--board">
           <BoardBox
             v-for="board in boards"
             :key="board.id"
@@ -17,14 +17,14 @@
         </div>
         <div style="width: 100%;"></div>
       </div>
-      <div v-if="stage === 1" class="wizard--container wizard--container-center">
-        <p class="wizard--title">{{ $t('wizard.lists.title') }}</p>
-        <p class="wizard--text">{{ $t('wizard.lists.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+      <div v-if="stage === 1" class="wizard__container wizard__container--center">
+        <p class="wizard__title">{{ $t('wizard.lists.title') }}</p>
+        <p class="wizard__text">{{ $t('wizard.lists.description') }}</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
         <div style="width: 100%;"></div>
-        <div class="wizard--container-list-container">
-          <p class="wizard--text">{{ $t('wizard.lists.backlog') }}</p>
-          <div class="wizard--container wizard--container-list wizard--container-list-special">
+        <div class="wizard__container__list--container">
+          <p class="wizard__text">{{ $t('wizard.lists.backlog') }}</p>
+          <div class="wizard__container wizard__container__list wizard__container__list--special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
@@ -34,39 +34,39 @@
                 v-model="backlogLists"
               >
               <label :for="`back_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`back_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+              <label :for="`back_${list.id}`" class="wizard__text--list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
-        <div class="wizard--container-list-container">
-          <p class="wizard--text">{{ $t('wizard.lists.wip') }}</p>
-          <div class="wizard--container wizard--container-list wizard--container-list-special">
+        <div class="wizard__container__list--container">
+          <p class="wizard__text">{{ $t('wizard.lists.wip') }}</p>
+          <div class="wizard__container wizard__container__list wizard__container__list--special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists" >
               <label :for="`wip_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`wip_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+              <label :for="`wip_${list.id}`" class="wizard__text--list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
-        <div class="wizard--container-list-container">
-          <p class="wizard--text">{{ $t('wizard.lists.finished') }}</p>
-          <div class="wizard--container wizard--container-list wizard--container-list-special">
+        <div class="wizard__container__list--container">
+          <p class="wizard__text">{{ $t('wizard.lists.finished') }}</p>
+          <div class="wizard__container wizard__container__list wizard__container__list--special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endLists">
               <label :for="`end_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`end_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+              <label :for="`end_${list.id}`" class="wizard__text--list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
-        <div class="wizard--container-list-container">
-          <p class="wizard--text">{{ $t('wizard.lists.production') }}</p>
-          <div class="wizard--container wizard--container-list wizard--container-list-special">
+        <div class="wizard__container__list--container">
+          <p class="wizard__text">{{ $t('wizard.lists.production') }}</p>
+          <div class="wizard__container wizard__container__list wizard__container__list--special">
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
@@ -76,19 +76,19 @@
                 v-model="productionLists"
               >
               <label :for="`prod_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
-              <label :for="`prod_${list.id}`" class="wizard--text-list" v-on:click="generalListChanged">
+              <label :for="`prod_${list.id}`" class="wizard__text--list" v-on:click="generalListChanged">
                 {{ list.name }}
               </label>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="stage === 2" class="wizard--container wizard--container-center">
-        <p class="wizard--title">{{ $t('wizard.archived.title') }}</p>
-        <p class="wizard--text">{{ $t('wizard.archived.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+      <div v-if="stage === 2" class="wizard__container wizard__container--center">
+        <p class="wizard__title">{{ $t('wizard.archived.title') }}</p>
+        <p class="wizard__text">{{ $t('wizard.archived.description') }}</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
         <div style="width: 100%;"></div>
-        <div class="wizard--container wizard--container-list wizard--container-list-alone">
+        <div class="wizard__container wizard__container__list wizard__container__list--alone">
           <div class="checkbox-container" v-for="list in selectedLists" :key="list.id">
             <input
               type="checkbox"
@@ -98,18 +98,18 @@
               v-model="archivedLists"
             >
             <label :for="`arc_${list.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
-            <label :for="`arc_${list.id}`" class="wizard--text-list" v-on:click="generalListChangedNoDisable">
+            <label :for="`arc_${list.id}`" class="wizard__text--list" v-on:click="generalListChangedNoDisable">
               {{ list.name }}
             </label>
           </div>
         </div>
       </div>
-      <div v-if="stage === 3" class="wizard--container wizard--container-center">
-        <p class="wizard--title">{{ $t('wizard.bug.title') }}</p>
-        <p class="wizard--text">{{ $t('wizard.archived.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+      <div v-if="stage === 3" class="wizard__container wizard__container--center">
+        <p class="wizard__title">{{ $t('wizard.bug.title') }}</p>
+        <p class="wizard__text">{{ $t('wizard.archived.description') }}</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
         <div style="width: 100%;"></div>
-        <div class="wizard--container wizard--container-list wizard--container-list-alone">
+        <div class="wizard__container wizard__container__list wizard__container__list--alone">
           <div class="checkbox-container" v-for="label in labels" :key="label.id">
             <input
               type="checkbox"
@@ -119,27 +119,27 @@
               v-model="bugLabels"
             >
             <label :for="`bugLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
-            <label :for="`bugLabels_${label.id}`" class="wizard--text-list" v-on:click="generalListChangedNoDisable">
+            <label :for="`bugLabels_${label.id}`" class="wizard__text--list" v-on:click="generalListChangedNoDisable">
               {{ label.name }}
             </label>
           </div>
         </div>
       </div>
-      <div v-if="stage === 4" class="wizard--container wizard--container-center">
-        <p class="wizard--title">{{ $t('wizard.wipLimit.title') }}</p>
-        <p class="wizard--text">{{ $t('wizard.wipLimit.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard--board-selected"/>
+      <div v-if="stage === 4" class="wizard__container wizard__container--center">
+        <p class="wizard__title">{{ $t('wizard.wipLimit.title') }}</p>
+        <p class="wizard__text">{{ $t('wizard.wipLimit.description') }}</p>
+        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
         <div style="width: 100%;"></div>
-        <div class="wizard--container wizard--container-center wizard--container-wip">
-          <div v-for="list in selectedWipLists" :key="list.id" class="wizard--wip">
-            <p class="wizard--text wizard--text-normal">{{ list.name }}</p>
-            <input type="number" min="0" value="null" class="wizard--wip-input" v-model="wipLimits[list.id]">
+        <div class="wizard__container wizard__container--center wizard__container-wip">
+          <div v-for="list in selectedWipLists" :key="list.id" class="wizard__wip">
+            <p class="wizard__text wizard__text--normal">{{ list.name }}</p>
+            <input type="number" min="0" value="null" class="wizard__wip-input" v-model="wipLimits[list.id]">
           </div>
         </div>
       </div>
-      <div class="wizard--button-container">
+      <div class="wizard__button-container">
         <button id="back_button" class="button" v-on:click="stepBack">{{ backText }}</button>
-        <button id="save_button" class="button button-save button-disabled" v-on:click="saveData" disabled>
+        <button id="save_button" class="button button--save button--disabled" v-on:click="saveData" disabled>
           {{ saveText }}
         </button>
         <button v-if="advancedShow" id="advanced_button" class="button" v-on:click="advancedActions">
@@ -228,15 +228,15 @@ export default {
     if (this.selectedBoard !== null) {
       this.selectedBoard = this.selectedBoard[0];
       document.getElementById(this.selectedBoard)
-        .classList.toggle('wizard--board-selected');
-      document.getElementById('save_button').classList.remove('button-disabled');
+        .classList.toggle('wizard__board--selected');
+      document.getElementById('save_button').classList.remove('button--disabled');
       document.getElementById('save_button').disabled = false;
     }
   },
   updated() {
     if (this.stage === stages.selectBoard && this.selectedBoard !== null) {
       document.getElementById(this.selectedBoard)
-        .classList.add('wizard--board-selected');
+        .classList.add('wizard__board--selected');
     } else if (this.stage === stages.selectLists && this.toLoad && this.allLists.length > 0) {
       this.loadStage1();
     } else if (this.stage === stages.selectArchived && this.toLoad) {
@@ -288,7 +288,7 @@ export default {
       listArray.forEach((list) => {
         elem = document.getElementById(`${tag}${list}`);
         if (elem !== null) {
-          elem.parentElement.classList.toggle('checkbox-container-selected');
+          elem.parentElement.classList.toggle('checkbox-container--selected');
           this.disableOtherCheckboxes(elem.parentElement);
         }
       });
@@ -298,19 +298,19 @@ export default {
       listArray.forEach((list) => {
         elem = document.getElementById(`${tag}${list}`);
         if (elem !== null) {
-          elem.parentElement.classList.toggle('checkbox-container-selected');
+          elem.parentElement.classList.toggle('checkbox-container--selected');
         }
       });
     },
     selectBoard(event) {
       let element = event.target;
       if (element.tagName === 'P') element = event.target.parentElement;
-      for (const elem of document.getElementsByClassName('wizard--board-selected')) {
-        elem.classList.toggle('wizard--board-selected');
+      for (const elem of document.getElementsByClassName('wizard__board--selected')) {
+        elem.classList.toggle('wizard__board--selected');
       }
-      element.classList.toggle('wizard--board-selected');
+      element.classList.toggle('wizard__board--selected');
       this.selectedBoard = element.id;
-      document.getElementById('save_button').classList.remove('button-disabled');
+      document.getElementById('save_button').classList.remove('button--disabled');
       document.getElementById('save_button').disabled = false;
     },
     getBoardValues() {
@@ -325,7 +325,7 @@ export default {
       const progressBar = document.getElementById('progress_bar');
       this.forwardToStageBar(progressBar);
 
-      document.getElementById('main_container').classList.toggle('wizard--container-wide');
+      document.getElementById('main_container').classList.toggle('wizard__container-wide');
 
       this.stage++;
       this.toLoad = true;
@@ -334,12 +334,12 @@ export default {
       this.$emit('setSettings', false);
     },
     backToStageBar(progressBar) {
-      progressBar.classList.remove(`wizard--progress-bar--step-${this.stage + maxStageBarDifference}`);
-      progressBar.classList.add(`wizard--progress-bar--step-${this.stage + 1}`);
+      progressBar.classList.remove(`wizard__progress-bar--step-${this.stage + maxStageBarDifference}`);
+      progressBar.classList.add(`wizard__progress-bar--step-${this.stage + 1}`);
     },
     backToStage0(progressBar) {
       this.backToStageBar(progressBar);
-      document.getElementById('main_container').classList.remove('wizard--container-wide');
+      document.getElementById('main_container').classList.remove('wizard__container-wide');
     },
     stepBack() {
       const progressBar = document.getElementById('progress_bar');
@@ -392,24 +392,24 @@ export default {
       if (triggerElement.getAttribute('name') === undefined || triggerElement.getAttribute('name') === null) return;
       for (const element of document.getElementsByName(`${triggerElement.getAttribute('name').split('_')}`)) {
         if (element !== triggerElement) {
-          element.classList.toggle('checkbox-container-disabled');
+          element.classList.toggle('checkbox-container--disabled');
         }
       }
     },
     generalListChanged(event) {
-      event.target.parentElement.classList.toggle('checkbox-container-selected');
+      event.target.parentElement.classList.toggle('checkbox-container--selected');
       this.disableOtherCheckboxes(event.target.parentElement);
     },
     generalListChangedNoDisable(event) {
-      event.target.parentElement.classList.toggle('checkbox-container-selected');
+      event.target.parentElement.classList.toggle('checkbox-container--selected');
     },
     radioListChanged(event) {
       for (const elem of event.target.parentElement.parentElement.children) {
-        if (elem.classList.contains('checkbox-container-selected')) {
-          elem.classList.remove('checkbox-container-selected');
+        if (elem.classList.contains('checkbox-container--selected')) {
+          elem.classList.remove('checkbox-container--selected');
         }
       }
-      event.target.parentElement.classList.toggle('checkbox-container-selected');
+      event.target.parentElement.classList.toggle('checkbox-container--selected');
     },
     saveSpecificLists() {
       save(`wip_${this.selectedBoard}`, this.wipLists);
@@ -422,8 +422,8 @@ export default {
         .concat(this.productionLists));
     },
     forwardToStageBar(progressBar) {
-      progressBar.classList.remove(`wizard--progress-bar--step-${this.stage + 1}`);
-      progressBar.classList.add(`wizard--progress-bar--step-${this.stage + maxStageBarDifference}`);
+      progressBar.classList.remove(`wizard__progress-bar--step-${this.stage + 1}`);
+      progressBar.classList.add(`wizard__progress-bar--step-${this.stage + maxStageBarDifference}`);
     },
     goAdvanced() {
       this.toLoad = true;
