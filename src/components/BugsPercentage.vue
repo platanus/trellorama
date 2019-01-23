@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p class="dashboard--number">{{ percentage }}%</p>
-    <p class="dashboard--text">{{ $t('bug.legend') }}</p>
+    <p class="dashboard__number">{{ percentage }}%</p>
+    <p class="dashboard__text">{{ $t('bug.legend') }}</p>
   </div>
 </template>
 

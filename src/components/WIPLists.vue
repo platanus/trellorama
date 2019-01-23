@@ -1,8 +1,8 @@
 <template>
-  <div class="wipLists">
-    <p class="dashboard--text dashboard--text-title">{{ $t('dashboard.present.boardNow') }}</p>
+  <div class="wip-lists">
+    <p class="dashboard__text dashboard__text-title">{{ $t('dashboard.present.boardNow') }}</p>
     <WIPList
-      class="wipList"
+      class="wip-list"
       v-for="list in lists"
       v-bind:key="list.id"
       v-bind:list="list"

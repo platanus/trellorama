@@ -1,27 +1,27 @@
 <template>
   <div>
-    <div class="dashboard-present--container">
+    <div class="dashboard-present__container">
       <LeadTime
-        class="leadTime"
+        class="lead-time"
         v-bind:cardActivities="leadMetricsActivities"
         v-bind:endListIds="endListIds"
         v-bind:progressListIds="progressListsIds"
         v-bind:backlogListIds="backlogListIds"
         v-bind:productionListIds="productionListIds"
       />
-      <div class="dashboard-present--numbers-container">
-        <p class="dashboard--text dashboard--text-title dashboard--text-spaced">
+      <div class="dashboard-present__numbers-container">
+        <p class="dashboard__text dashboard__text-title dashboard__text-spaced">
           {{ $t('dashboard.present.speedVsBugs') }}
         </p>
         <TeamSpeed
-          class="teamSpeed"
+          class="team-speed"
           v-bind:cardActivities="cardActivities"
           v-bind:endListIds="endListIds"
           v-bind:startDate="startDate"
           v-bind:endDate="endDate"
         />
         <BugsPercentage
-          class="bugsPercentage"
+          class="bugs-percentage"
           v-bind:cards="endListsCards"
           v-bind:boardId="boardId"
         />

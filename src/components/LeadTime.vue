@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="dashboard--text dashboard--text-title">{{ $t('leadTime.title') }}</p>
+    <p class="dashboard__text dashboard__text-title">{{ $t('leadTime.title') }}</p>
     <LeadTimeChart
       v-bind:cardActivities="cardActivities"
       v-bind:endListIds="endListIds"

@@ -1,7 +1,7 @@
 <template>
   <div
     id="dashboardSubOptionsContainer"
-    class="dashboard-options dashboard-options--suboptions dashboard-options-small">
+    class="dashboard-options dashboard-options__suboptions dashboard-options-small">
     <DashboardOption
       :text="$t('dashboard.subOptions.menu')"
       icon="bars"

@@ -401,13 +401,13 @@ input[type=radio]:checked + .checkbox {
   overflow: scroll;
 }
 
-.dashboard-options--suboptions {
+.dashboard-options__suboptions {
   z-index: 1;
-  margin-left: 5%;
+  margin-left: 70px;
   background-color: #2e3e4e;
 }
 
-.dashboard-options--text {
+.dashboard-options__text {
   opacity: 1;
   color: #fff;
   font-family: Rubik;
@@ -416,22 +416,22 @@ input[type=radio]:checked + .checkbox {
   line-height: 24px;
 }
 
-.dashboard-options--text-small {
+.dashboard-options__text-small {
   font-size: 16px;
 }
 
-.dashboard-options--button {
+.dashboard-options__button {
   background-color: transparent;
   color: #fff;
   border-color: #fff;
   width: 56px;
 }
 
-.dashboard-options--button-active {
+.dashboard-options__button-active {
   background-color: #42e2f4;
 }
 
-.dashboard-options--option {
+.dashboard-options__option {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -441,12 +441,12 @@ input[type=radio]:checked + .checkbox {
   justify-content: flex-start;
 }
 
-.dashboard-options--option__centered {
+.dashboard-options__option--centered {
   justify-content: center;
 }
 
 .dashboard-options-small {
-  width: 5%;
+  width: 70px;
 }
 
 .date-selector--input {
@@ -461,17 +461,16 @@ input[type=radio]:checked + .checkbox {
   align-content: center;
   width: 80%;
   flex-direction: column;
-  position: relative;
-  left: 12%;
+  margin: auto 150px;
 }
 
-.dashboard-options--calendar {
+.dashboard-options__calendar {
   width: 95%;
   border-color: #000;
   margin: auto;
 }
 
-.dashboard-present--container {
+.dashboard-present__container {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -480,11 +479,11 @@ input[type=radio]:checked + .checkbox {
   margin-bottom: 20px;
 }
 
-.leadTime {
+.lead-time {
   width: 60%;
 }
 
-.dashboard-present--numbers-container {
+.dashboard-present__numbers-container {
   width: 35%;
   display: flex;
   flex-direction: row;
@@ -494,21 +493,21 @@ input[type=radio]:checked + .checkbox {
   height: 100%;
 }
 
-.teamSpeed {
+.team-speed {
   width: 40%;
   border-style: solid;
   padding: 10px;
   border-radius: 50px;
 }
 
-.bugsPercentage {
+.bugs-percentage {
   width: 40%;
   border-style: solid;
   padding: 20px;
   border-radius: 50px;
 }
 
-.wipLists {
+.wip-lists {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -517,7 +516,7 @@ input[type=radio]:checked + .checkbox {
   overflow: scroll;
 }
 
-.wipList {
+.wip-list {
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -525,7 +524,7 @@ input[type=radio]:checked + .checkbox {
   overflow: scroll;
 }
 
-.dashboard--text {
+.dashboard__text {
   opacity: 1;
   color: #211952;
   font-family: Rubik;
@@ -535,18 +534,18 @@ input[type=radio]:checked + .checkbox {
   margin: auto;
 }
 
-.dashboard--text-title {
+.dashboard__text-title {
   font-size: 28px;
   align-self: flex-start;
   text-align: left;
   width: 100%;
 }
 
-.dashboard--text-spaced {
+.dashboard__text-spaced {
   margin-bottom: 70px;
 }
 
-.dashboard--number {
+.dashboard__number {
   opacity: 1;
   color: #211952;
   font-family: Rubik;

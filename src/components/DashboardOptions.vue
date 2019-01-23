@@ -34,7 +34,7 @@
       :minimized="minimized"
       :buttonFunction="enterWizard"
     />
-    <div class="dashboard-options--option">
+    <div class="dashboard-options__option">
       <DashboardOption
         :text="$t('board.labelFilter')"
         icon="tags"
@@ -44,13 +44,13 @@
       <div style="width: 100%;" v-if="showLabels">
         <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
           <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
-          <label :for="labelOption.value" class="dashboard-options--text dashboard-options--text-small">
+          <label :for="labelOption.value" class="dashboard-options__text dashboard-options__text-small">
             {{labelOption.label}}
           </label>
         </div>
       </div>
     </div>
-    <div class="dashboard-options--option">
+    <div class="dashboard-options__option">
       <DashboardOption
         :text="$t('board.dateFilter')"
         icon="calendar-day"
@@ -58,19 +58,19 @@
         :buttonFunction="toggleDates"
       />
       <div style="width: 100%; height: 100%;" v-if="showDates">
-        <label for="startDate" class="dashboard-options--text">{{ $t('board.startDate') }}: </label>
+        <label for="startDate" class="dashboard-options__text">{{ $t('board.startDate') }}: </label>
         <datepicker
           v-model="startDate"
-          calendar-class="dashboard-options--calendar"
+          calendar-class="dashboard-options__calendar"
           :inline="true"
           name="startDate"
           placeholder="Start Date"
           format="yyyy-MM-dd"
         />
-        <label for="endDate" class="dashboard-options--text">{{ $t('board.endDate') }}: </label>
+        <label for="endDate" class="dashboard-options__text">{{ $t('board.endDate') }}: </label>
         <datepicker
           v-model="endDate"
-          calendar-class="dashboard-options--calendar"
+          calendar-class="dashboard-options__calendar"
           :inline="true"
           name="endDate"
           placeholder="End Date"
