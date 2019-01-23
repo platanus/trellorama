@@ -2,31 +2,36 @@
   <div
     id="dashboardSubOptionsContainer"
     class="dashboard-options dashboard-options--suboptions dashboard-options-small">
-    <div class="dashboard-options--option">
-      <button class="button dashboard-options--button" v-on:click="toggleOptions">
-        <font-awesome-icon icon="bars" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.subOptions.menu') }}</p>
-    </div>
-    <div class="dashboard-options--option">
-      <button id="cumulative" v-on:click="setTab('cumulative')" class="button dashboard-options--button">
-        <font-awesome-icon icon="chart-area" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.subOptions.cumulative') }}</p>
-    </div>
-    <div class="dashboard-options--option">
-      <button id="histogram" v-on:click="setTab('histogram')" class="button dashboard-options--button">
-        <font-awesome-icon icon="chart-bar" />
-      </button>
-      <p class="dashboard-options--text" v-if="!minimized">{{ $t('dashboard.subOptions.histogram') }}</p>
-    </div>
+    <DashboardOption
+      :text="$t('dashboard.subOptions.menu')"
+      icon="bars"
+      :minimized="minimized"
+      :buttonFunction="toggleOptions"
+    />
+    <DashboardOption
+      :text="$t('dashboard.subOptions.cumulative')"
+      icon="chart-area"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('cumulative')}"
+      :selected="tab === 'cumulative'"
+    />
+    <DashboardOption
+      :text="$t('dashboard.subOptions.histogram')"
+      icon="chart-bar"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('histogram')}"
+      :selected="tab === 'histogram'"
+    />
   </div>
 </template>
 
 <script>
+import DashboardOption from './DashboardOption.vue';
+
 export default {
   name: 'dashboardSubOptions',
   components: {
+    DashboardOption,
   },
   props: {
     dashboardState: String,
@@ -41,12 +46,6 @@ export default {
     if (this.dashboardState === 'past') {
       this.setTab('cumulative');
     }
-  },
-  watch: {
-    tab(newState, oldState) {
-      if (oldState !== null) document.getElementById(oldState).classList.toggle('dashboard-options--button-active');
-      document.getElementById(newState).classList.toggle('dashboard-options--button-active');
-    },
   },
   methods: {
     toggleOptions() {
