@@ -1,5 +1,5 @@
 <template>
-<div class="dashboard-options--option">
+<div :class="containerClass">
   <button :class="buttonClass" v-on:click="buttonFunction">
     <font-awesome-icon :icon="icon" />
   </button>
@@ -29,6 +29,12 @@ export default {
         'button': true,
         'dashboard-options--button': true,
         'dashboard-options--button-active': this.selected,
+      };
+    },
+    containerClass() {
+      return {
+        'dashboard-options--option': true,
+        'dashboard-options--option__centered': this.minimized,
       };
     },
   },

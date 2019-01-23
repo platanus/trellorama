@@ -441,6 +441,10 @@ input[type=radio]:checked + .checkbox {
   justify-content: flex-start;
 }
 
+.dashboard-options--option__centered {
+  justify-content: center;
+}
+
 .dashboard-options-small {
   width: 5%;
 }
