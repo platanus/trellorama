@@ -18,24 +18,8 @@ export default {
     classObject() {
       return {
         box: true,
-        warning: this.warning,
       };
     },
   },
 };
 </script>
-
-<style>
-.box {
-  margin: 1%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #c0c0c0;
-  background-color: #eaeaea;
-  border-radius: 5px;
-}
-
-.warning {
-  background-color: #fa8072;
-}
-</style>

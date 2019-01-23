@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div :class="listClass">
     <h3>{{ list.name }} ({{cards.length}}/{{WIPLimit}})</h3>
-    <div class="container">
+    <div>
       <Card
         v-for="card in sortedCards"
         v-bind:key="card.id"
         v-bind:card="card"
-        v-bind:warning="warning"
         v-bind:days="timeInList(card.id).toLocaleString({maximumFractionDigits: 2})"
       />
     </div>
@@ -36,6 +35,11 @@ export default {
       if (this.WIPLimit === null) return false;
 
       return this.cards.length > this.WIPLimit;
+    },
+    listClass() {
+      return {
+        'wip-list--warning': this.warning,
+      };
     },
   },
   methods: {
