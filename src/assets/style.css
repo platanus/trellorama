@@ -449,6 +449,16 @@ input[type=radio]:checked + .checkbox {
   justify-content: center;
 }
 
+.toggle-enter-active,
+.toggle-leave-active {
+  transition: opacity .25s;
+}
+
+.toggle-enter,
+.toggle-leave-to {
+  opacity: 0;
+}
+
 .hide-enter-active,
 .hide-leave-active {
   transition: opacity .5s;

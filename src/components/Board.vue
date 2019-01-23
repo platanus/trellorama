@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{ board.name }}</h1>
+    <transition name="toggle" mode="out-in" appear>
     <PresentDashboard
       v-if="dashboardState === 'present'"
       :endListIds="endListIds"
@@ -37,6 +38,7 @@
       :boardId="board.id"
       :numberOfCards="getNumberOfCards()"
     />
+    </transition>
   </div>
 </template>
 
