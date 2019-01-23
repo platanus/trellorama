@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <h2>{{ $t('wipHistogram.title') }}</h2>
-    <label for="histListSelector">{{ $t('wipHistogram.selectList') }}: </label>
-    <select v-model="selectedList" id="histListSelector">
-      <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
-    </select>
+  <div class="dashboard__single-item-container">
+    <p class="dashboard__text dashboard__subsection-title">{{ $t('wipHistogram.title') }}</p>
+    <div class="dashboard__content-options">
+      <b>{{ $t('chart.options') }}:</b>
+      &ensp;
+      <label for="histListSelector">{{ $t('wipHistogram.selectList') }}: </label>
+      <select v-model="selectedList" id="histListSelector">
+        <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
+      </select>
+    </div>
     <WipHistogram
       v-bind:activities="listActivities(selectedList)"
     />

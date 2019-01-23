@@ -102,6 +102,7 @@ const messages = {
       present: {
         stats: 'Board Stats',
         speedVsBugs: 'Speed and Bugs',
+
         boardNow: 'Your Board right Now',
       },
       future: {
