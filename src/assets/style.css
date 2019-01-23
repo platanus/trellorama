@@ -600,3 +600,18 @@ input[type=radio]:checked + .checkbox {
   line-height: 40px;
   margin: auto;
 }
+
+.dashboard-options__hr {
+  width: 90%;
+}
+
+.dashboard-options__labels {
+  width: 100%;
+  padding: 5px;
+}
+
+.dashboard-options__calendars {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+}

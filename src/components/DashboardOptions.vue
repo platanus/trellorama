@@ -27,7 +27,7 @@
       :buttonFunction="() => {setState('past')}"
       :selected="dashboardState === 'past'"
     />
-    <hr style="width: 90%">
+    <hr class="dashboard-options__hr">
     <DashboardOption
       :text="$t('general.settings')"
       icon="cogs"
@@ -41,7 +41,7 @@
       :buttonFunction="toggleLabels"
     />
     <transition name="hide">
-      <div style="width: 100%; padding: 5px;" v-if="showLabels">
+      <div class="dashboard-options__labels" v-if="showLabels">
         <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
           <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
           <label :for="labelOption.value" class="dashboard-options__text dashboard-options__text-small">
@@ -57,7 +57,7 @@
       :buttonFunction="toggleDates"
     />
     <transition name="hide">
-      <div style="width: 100%; height: 100%; padding: 5px;" v-if="showDates">
+      <div class="dashboard-options__calendars" v-if="showDates">
         <label for="startDate" class="dashboard-options__text">{{ $t('board.startDate') }}: </label>
         <datepicker
           v-model="startDate"
