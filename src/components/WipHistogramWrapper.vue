@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import wipHistogram from './wipHistogram.vue';
+import WipHistogram from './WipHistogram.vue';
 import { getListCards } from '../utils/timeBetweenLists.js';
 
 export default {
@@ -32,7 +32,7 @@ export default {
     wipLists: Array,
   },
   components: {
-    wipHistogram,
+    WipHistogram,
   },
   data() {
     return {

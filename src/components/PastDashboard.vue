@@ -8,7 +8,7 @@
       v-bind:startDate="startDate"
       v-bind:endDate="endDate"
     />
-    <wipHistogramWrapper
+    <WipHistogramWrapper
       v-if="tab === 'histogram'"
       v-bind:wipLists="wipLists"
       v-bind:cardActivities="cardActivities"
@@ -18,13 +18,13 @@
 
 <script>
 import CumulativeWrapper from './CumulativeWrapper.vue';
-import wipHistogramWrapper from './wipHistogramWrapper.vue';
+import WipHistogramWrapper from './WipHistogramWrapper.vue';
 
 export default {
   name: 'pastDashboard',
   components: {
     CumulativeWrapper,
-    wipHistogramWrapper,
+    WipHistogramWrapper,
   },
   props: {
     tab: String,
