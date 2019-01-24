@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard__single-item-container">
-    <p class="dashboard__text dashboard__subsection-title">{{ $t('wipHistogram.title') }}</p>
+    <h3 class="dashboard__text dashboard__subsection-title">{{ $t('wipHistogram.title') }}</h3>
     <div class="dashboard__content-options">
       <b>{{ $t('chart.options') }}:</b>
       &ensp;
@@ -8,9 +8,19 @@
       <select v-model="selectedList" id="histListSelector">
         <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
       </select>
+      &ensp;
+      <input type="checkbox" id="genBinSize" v-model="genBinSize">
+      <label for="genBinSize">{{$t('wipHistogram.genBin') }}</label>
+      <div v-if="!genBinSize">
+        &ensp;
+        <label for="binWidth">{{$t('wipHistogram.binWidth') }}: </label>
+        <input type="number" id="binWidth" v-model="binWidth">
+      </div>
     </div>
     <WipHistogram
       v-bind:activities="listActivities(selectedList)"
+      :genBinSize="genBinSize"
+      :binWidth="binWidth"
     />
   </div>
 </template>
@@ -31,6 +41,8 @@ export default {
   data() {
     return {
       selectedList: null,
+      genBinSize: true,
+      binWidth: 1,
     };
   },
   watch: {
