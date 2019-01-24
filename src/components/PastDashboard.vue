@@ -22,6 +22,7 @@
           v-bind:activities="cardActivities"
           v-bind:cards="allListCards"
           v-bind:endListIds="endListIds"
+          v-bind:startDate="startDate"
         />
       </transition>
     </div>

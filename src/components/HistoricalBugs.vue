@@ -38,6 +38,12 @@ export default {
     activities() {
       this.renderData();
     },
+    dateTypeSelector() {
+      this.renderData();
+    },
+    dayOfWeek() {
+      this.renderData();
+    },
   },
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
