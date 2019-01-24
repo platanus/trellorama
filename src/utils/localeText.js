@@ -96,6 +96,10 @@ const messages = {
     wipHistogram: {
       title: 'Work in Progress List Histogram',
       selectList: 'Select a List',
+      genBin: 'Generate Bin Number',
+      binWidth: 'Bin Size',
+      xTitle: 'Days in the List',
+      yTitle: 'Number of Cards',
     },
   },
   es: {
@@ -195,6 +199,10 @@ const messages = {
     wipHistogram: {
       title: 'Histograma de Listas en Progreso',
       selectList: 'Elija una Lista',
+      genBin: 'Genera la Cantidad de Muestras',
+      binWidth: 'Tamaño de la Muestra',
+      xTitle: 'Días en la Lista',
+      yTitle: 'Numbero de Tarjetas',
     },
   },
 };

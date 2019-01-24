@@ -5,8 +5,18 @@
     <select v-model="selectedList" id="histListSelector">
       <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
     </select>
+    &ensp;
+    <input type="checkbox" id="genBinSize" v-model="genBinSize">
+    <label for="genBinSize">{{$t('wipHistogram.genBin') }}</label>
+    <div v-if="!genBinSize">
+      &ensp;
+      <label for="binWidth">{{$t('wipHistogram.binWidth') }}: </label>
+      <input type="number" id="binWidth" v-model="binWidth">
+    </div>
     <wipHistogram
-      v-bind:activities="listActivities(selectedList)"
+      :activities="listActivities(selectedList)"
+      :genBinSize="genBinSize"
+      :binWidth="binWidth"
     />
   </div>
 </template>
@@ -27,6 +37,8 @@ export default {
   data() {
     return {
       selectedList: null,
+      genBinSize: true,
+      binWidth: 1,
     };
   },
   watch: {
