@@ -17,7 +17,6 @@
     "chart.js": "^2.7.3",
     "dotenv": "^6.2.0",
     "eslint-plugin-import": "^2.14.0",
-    "i": "^0.3.6",
     "lodash": "^4.17.11",
     "mathjs": "^5.4.0",
     "moment": "^2.23.0",
