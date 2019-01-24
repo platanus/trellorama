@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-content_container">
     <div class="dashboard__section">
-      <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.future.title') }}</h2>
+      <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.past.title') }}</h2>
       <transition name="toggle" mode="out-in">
         <CumulativeWrapper
           v-if="tab === 'cumulative'"

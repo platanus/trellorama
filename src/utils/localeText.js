@@ -107,6 +107,9 @@ const messages = {
       future: {
         title: 'Board Projection',
       },
+      past: {
+        title: 'Historical Data',
+      },
       options: {
         menu: 'Menu',
         future: 'Projection',
@@ -227,6 +230,9 @@ const messages = {
       },
       future: {
         title: 'Proyección del Tablero',
+      },
+      past: {
+        title: 'Datos Historicos',
       },
       options: {
         menu: 'Menú',
