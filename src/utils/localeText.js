@@ -121,6 +121,7 @@ const messages = {
         cumulative: 'Cumulative Chart',
         histogram: 'List Histogram',
         bugs: 'Historical Bugs',
+        speed: 'Historical Speed',
       },
     },
     historicalBugs: {
@@ -249,6 +250,7 @@ const messages = {
         cumulative: 'Gráfico Acumulado',
         histogram: 'Histograma de Listas',
         bugs: 'Bugs Historicos',
+        speed: 'Velocidad Historica',
       },
     },
     historicalBugs: {

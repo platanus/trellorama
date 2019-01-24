@@ -28,6 +28,13 @@
       :buttonFunction="() => {setTab('bugs')}"
       :selected="tab === 'bugs'"
     />
+    <DashboardOption
+      :text="$t('dashboard.subOptions.speed')"
+      icon="running"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('speed')}"
+      :selected="tab === 'speed'"
+    />
   </div>
 </template>
 
