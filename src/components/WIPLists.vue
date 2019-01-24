@@ -1,14 +1,16 @@
 <template>
   <div>
-    <h2>{{ $t('wip.wipLists') }}</h2>
-    <WIPList
-      v-for="list in lists"
-      v-bind:key="list.id"
-      v-bind:list="list"
-      v-bind:cards="cards[list.id]"
-      v-bind:WIPLimit="getWip(list.id)"
-      v-bind:activities="listActivities(list.id)"
-    />
+    <div class="wip-lists">
+      <WIPList
+        class="wip-list"
+        v-for="list in lists"
+        v-bind:key="list.id"
+        v-bind:list="list"
+        v-bind:cards="cards[list.id]"
+        v-bind:WIPLimit="getWip(list.id)"
+        v-bind:activities="listActivities(list.id)"
+      />
+    </div>
   </div>
 </template>
 

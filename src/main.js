@@ -1,9 +1,16 @@
 import * as Sentry from '@sentry/browser';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import dotenv from 'dotenv';
 import App from './App.vue';
 import messages from './utils/localeText.js';
+
+library.add(fas);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueI18n);
 

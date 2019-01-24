@@ -1,110 +1,71 @@
 <template>
   <div>
-    <hr>
-    <h1>{{ board.name }}</h1>
-    <h2>{{ $t('board.labelFilter') }}</h2>
-    <div class="label-box-conatiner">
-      <div v-for="labelOption in labelOptions" class="label-box" v-bind:key="labelOption.value">
-        <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
-        <label :for="labelOption.value">{{labelOption.label}}</label>
-      </div>
-    </div>
-    <h2>{{ $t('board.dateFilter') }}</h2>
-    <div class="date-selector">
-      <div class="date-selector--input">
-        <label for="startDate">{{ $t('board.startDate') }}: </label>
-        <datepicker v-model="startDate" name="startDate" placeholder="Start Date" format="yyyy-MM-dd"/>
-      </div>
-      <div class="date-selector--input">
-        <label for="endDate">{{ $t('board.endDate') }}: </label>
-        <datepicker v-model="endDate" name="endDate" placeholder="End Date" format="yyyy-MM-dd"/>
-      </div>
-    </div>
-    <h2>{{ $t('board.boardStatus') }}</h2>
-    <BoardInfo
-        v-bind:lists="lists"
-        v-bind:cardsByList="cardsByList"
-        v-bind:cardActivities="cardActivities"
-        v-bind:endListIds="endListIds"
-        v-bind:productionListIds="productionListIds"
-    />
-    <CumulativeWrapper
-      v-bind:cardActivities="cardActivities"
-      v-bind:listIds="listIds"
-      v-bind:boardId="board.id"
-      v-bind:startDate="startDate"
-      v-bind:endDate="endDate"
-    />
-    <LeadTime
-      v-bind:cardActivities="leadMetricsActivities"
-      v-bind:endListIds="endListIds"
-      v-bind:progressListIds="progressListsIds"
-      v-bind:backlogListIds="backlogListIds"
-      v-bind:productionListIds="productionListIds"
-    />
-    <TeamSpeed
-      v-bind:cardActivities="cardActivities"
-      v-bind:endListIds="endListIds"
-      v-bind:startDate="startDate"
-      v-bind:endDate="endDate"
-    />
-    <ProjectionWrapper
-      v-bind:cardActivities="cardActivities"
-      v-bind:endListIds="endListIds"
-      v-bind:numberOfCards="getNumberOfCards()"
-      v-bind:startDate="startDate"
-      v-bind:endDate="endDate"
-      v-bind:boardId="board.id"
-    />
-    <WIPLists
-      v-bind:cards="cardsByList"
-      v-bind:lists="wipLists"
-      v-bind:wipLimits="wipLimits"
-      v-bind:activities="allCardsActivities"
-    />
-    <BugWrapper
-      v-bind:cards="endListsCards"
-      v-bind:boardId="board.id"
-    />
-    <wipHistogramWrapper
-      v-bind:wipLists="wipLists"
-      v-bind:cardActivities="cardActivities"
-    />
+    <h1 class="dashboard__board-title">{{ board.name }}</h1>
+    <transition name="toggle" mode="out-in" appear>
+      <PresentDashboard
+        v-if="dashboardState === 'present'"
+        :endListIds="endListIds"
+        :progressListsIds="progressListsIds"
+        :backlogListIds="backlogListIds"
+        :productionListIds="productionListIds"
+        :leadMetricsActivities="leadMetricsActivities"
+        :cardActivities="cardActivities"
+        :startDate="startDate"
+        :endDate="endDate"
+        :cardsByList="cardsByList"
+        :wipLists="wipLists"
+        :wipLimits="wipLimits"
+        :allCardsActivities="allCardsActivities"
+        :endListsCards="endListsCards"
+        :boardId="board.id"
+      />
+      <PastDashboard
+        v-if="dashboardState === 'past'"
+        :cardActivities="cardActivities"
+        :startDate="startDate"
+        :endDate="endDate"
+        :boardId="board.id"
+        :wipLists="wipLists"
+        :listIds="listIds"
+        :tab="tab"
+      />
+      <FutureDashboard
+        v-if="dashboardState === 'future'"
+        :endListIds="endListIds"
+        :cardActivities="cardActivities"
+        :startDate="startDate"
+        :endDate="endDate"
+        :boardId="board.id"
+        :numberOfCards="getNumberOfCards()"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import Datepicker from 'vuejs-datepicker';
-import BoardInfo from './BoardInfo.vue';
 import { request, onRequestError } from '../utils/trelloManager.js';
-import CumulativeWrapper from './CumulativeWrapper.vue';
-import TeamSpeed from './TeamSpeed';
-import LeadTime from './LeadTime.vue';
-import ProjectionWrapper from './ProjectionWrapper.vue';
 import { get, save } from '../utils/configurationPersistance.js';
-import { subtractToDate } from '../utils/dateManager.js';
-import WIPLists from './WIPLists.vue';
-import BugWrapper from './BugWrapper.vue';
-import wipHistogramWrapper from './wipHistogramWrapper.vue';
+import PresentDashboard from './PresentDashboard.vue';
+import PastDashboard from './PastDashboard.vue';
+import FutureDashboard from './FutureDashboard.vue';
 
 const activitiesRequestLimit = 1000;
 
 export default {
   name: 'Board',
   components: {
-    BoardInfo,
-    TeamSpeed,
-    CumulativeWrapper,
-    LeadTime,
-    ProjectionWrapper,
-    Datepicker,
-    WIPLists,
-    BugWrapper,
-    wipHistogramWrapper,
+    PresentDashboard,
+    PastDashboard,
+    FutureDashboard,
   },
   props: {
     board: Object,
+    selectedLabels: Array,
+    startDate: Date,
+    endDate: Date,
+    dashboardState: String,
+    tab: String,
   },
   data() {
     return {
@@ -116,13 +77,6 @@ export default {
       allCardsActivities: [],
       cardActivities: [],
       endListIds: get(`end_${this.$props.board.id}`, []),
-      labelOptions: [],
-      startDate: new Date(get(
-        `${this.board.id}_startDate`,
-        subtractToDate(new Date(), 1, 'month', { unit: 'day' })
-      )),
-      endDate: new Date(),
-      selectedLabels: [],
       wipListsIds: get(`wip_${this.$props.board.id}`, []),
       wipLimits: get(`wipLimit_${this.$props.board.id}`, []),
       backlogListIds: get(`backlog_${this.$props.board.id}`, []),
@@ -159,7 +113,6 @@ export default {
   },
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
-    this.getBoardLabels(this.$props.board.id);
     this.getAllCardsActivities(this.$props.board.id);
   },
   watch: {
@@ -171,7 +124,6 @@ export default {
       this.getSelectedActivities();
     },
     selectedLabels() {
-      save(`${this.board.id}_selectedLabels`, this.selectedLabels);
       this.getSelectedCards();
       this.getSelectedActivities();
     },
@@ -255,21 +207,6 @@ export default {
         }
       );
     },
-    getBoardLabels(boardId) {
-      const self = this;
-      request(
-        `boards/${boardId}/labels`,
-        (response) => {
-          self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
-          self.labelOptions.push({ label: 'No Label', value: null });
-          self.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
-          if (self.selectedLabels === null) self.selectedLabels = self.labelOptions.map((label) => label.value);
-        },
-        () => {
-          onRequestError(self.getBoardLabels, [boardId]);
-        }
-      );
-    },
   },
 };
 </script>
@@ -278,17 +215,5 @@ export default {
 .date-selector {
   display: flex;
   justify-content: center;
-}
-.date-selector--input {
-  margin: 10px;
-  display: flex;
-}
-.label-box-conatiner {
-  display: flex;
-  flex-wrap: wrap;
-}
-.label-box {
-  display: flex;
-  margin: 10px;
 }
 </style>

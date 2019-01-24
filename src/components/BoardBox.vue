@@ -1,6 +1,6 @@
 <template>
-  <div class="wizard--board">
-    <p class="wizard--text-board">{{ board.name }}</p>
+  <div class="wizard__board">
+    <p class="wizard__text--board">{{ board.name }}</p>
   </div>
 </template>
 

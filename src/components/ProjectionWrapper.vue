@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h2>Projection Chart</h2>
-    <div>
+  <div class="dashboard__single-item-container">
+    <h3 class="dashboard__text dashboard__subsection-title">Projection Chart</h3>
+    <div class="dashboard__content-options">
       <b>Options:</b>
       &ensp;
       <label for="dateTypeSelector">Date Format: </label>
@@ -133,6 +133,7 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .date-selector--input {
   margin: 10px;
   display: flex;
