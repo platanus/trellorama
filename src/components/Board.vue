@@ -29,6 +29,7 @@
         :listIds="listIds"
         :tab="tab"
         :allListCards="allListCards"
+        :endListIds="endListIds"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"

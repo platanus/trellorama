@@ -21,6 +21,7 @@
           v-bind:boardId="boardId"
           v-bind:activities="cardActivities"
           v-bind:cards="allListCards"
+          v-bind:endListIds="endListIds"
         />
       </transition>
     </div>
@@ -48,6 +49,7 @@ export default {
     listIds: Array,
     wipLists: Array,
     allListCards: Array,
+    endListIds: Array,
   },
 };
 </script>
