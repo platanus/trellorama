@@ -21,6 +21,13 @@
       :buttonFunction="() => {setTab('histogram')}"
       :selected="tab === 'histogram'"
     />
+    <DashboardOption
+      :text="$t('dashboard.subOptions.bugs')"
+      icon="bug"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('bugs')}"
+      :selected="tab === 'bugs'"
+    />
   </div>
 </template>
 

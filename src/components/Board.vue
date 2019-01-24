@@ -28,6 +28,7 @@
         :wipLists="wipLists"
         :listIds="listIds"
         :tab="tab"
+        :allListCards="allListCards"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"
@@ -109,6 +110,9 @@ export default {
         .map((card) => card.id);
 
       return this.allCardsActivities.filter((activity) => sprintCards.includes(activity.data.card.id));
+    },
+    allListCards() {
+      return Object.values(this.cardsByList).flat();
     },
   },
   mounted() {
