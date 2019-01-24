@@ -12,6 +12,8 @@ export default {
   mixins: [Bar],
   props: {
     activities: Array,
+    genBinSize: Boolean,
+    binWidth: Number,
   },
   data() {
     return {
@@ -46,13 +48,18 @@ export default {
         .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter)
         .sort((a, b) => a - b);
     },
-    binSize() {
-      return Math.ceil(Math.sqrt(this.listTimes.length));
-    },
     labels() {
-      const width = (this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / this.binSize;
+      let width;
+      let binSize;
+      if (this.genBinSize) {
+        binSize = Math.ceil(Math.sqrt(this.listTimes.length));
+        width = (this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / binSize;
+      } else {
+        width = this.binWidth;
+        binSize = Math.ceil((this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / width);
+      }
 
-      return [...Array(this.binSize).keys()].map((label) => label * width);
+      return [...Array(binSize).keys()].map((label) => label * width);
     },
     data() {
       const data = [...Array(this.labels.length).keys()];
@@ -80,7 +87,6 @@ export default {
         labels: this.genLabels(),
         data: this.data,
         backgroundColor: getColor('blue')[0],
-        borderColor: getColor('red')[0],
       };
       this.renderChart(this.chartdata, this.chartoptions);
     },
