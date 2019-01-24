@@ -101,7 +101,7 @@ const messages = {
     dashboard: {
       present: {
         stats: 'Board Stats',
-        speedVsBugs: 'Speed Vs Bugs',
+        speedVsBugs: 'Speed and Bugs',
         boardNow: 'Your Board right Now',
       },
       future: {
@@ -225,7 +225,7 @@ const messages = {
     dashboard: {
       present: {
         stats: 'Estadísticas del Tablero',
-        speedVsBugs: 'Velocidad Vs Bugs',
+        speedVsBugs: 'Velocidad y Bugs',
         boardNow: 'Tu Tablero en este momento',
       },
       future: {
