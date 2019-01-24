@@ -98,6 +98,8 @@ const messages = {
       selectList: 'Select a List',
       genBin: 'Generate Bin Number',
       binWidth: 'Bin Size',
+      xTitle: 'Days in the List',
+      yTitle: 'Number of Cards',
     },
   },
   es: {
@@ -199,6 +201,8 @@ const messages = {
       selectList: 'Elija una Lista',
       genBin: 'Genera la Cantidad de Muestras',
       binWidth: 'Tamaño de la Muestra',
+      xTitle: 'Días en la Lista',
+      yTitle: 'Numbero de Tarjetas',
     },
   },
 };

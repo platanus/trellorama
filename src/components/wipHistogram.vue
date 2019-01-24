@@ -23,12 +23,20 @@ export default {
         scales: {
           xAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: this.$t('wipHistogram.xTitle'),
+              },
               barPercentage: 1.0,
               categoryPercentage: 1.0,
             },
           ],
           yAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: this.$t('wipHistogram.yTitle'),
+              },
               ticks: {
                 beginAtZero: true,
               },
