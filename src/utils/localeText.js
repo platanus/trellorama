@@ -125,7 +125,8 @@ const messages = {
       },
     },
     historicalBugs: {
-      title: 'Historical Bugs Quantity',
+      title: 'Historical Bugs Quantity in Backlog',
+      legend: 'Bugs vs Time',
     },
     historicalSpeed: {
       title: 'Historical Team Speed',
@@ -261,7 +262,8 @@ const messages = {
       },
     },
     historicalBugs: {
-      title: 'Cantidad de Bugs Historicos',
+      title: 'Cantidad de Bugs Historicos en Backlog',
+      legend: 'Bugs vs Tiempo',
     },
     historicalSpeed: {
       title: 'Velocidad del Equipo en el Tiempo',

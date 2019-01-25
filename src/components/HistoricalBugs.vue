@@ -15,6 +15,7 @@ export default {
     dateTypeSelector: String,
     dayOfWeek: String,
     startDate: Date,
+    backlogListIds: Array,
   },
   data() {
     return {
@@ -53,19 +54,34 @@ export default {
       this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
     },
-    getSecondToLastItem(array) {
-      const numberTwo = 2;
+    filterDuplicates(activities) {
+      return activities
+        .filter((activity) =>
+          activities.filter((filteredActivity) => filteredActivity.data.card.id === activity.data.card.id).length === 1
+        ).concat(Object.values(
+          activities.filter((activity) =>
+            activities.filter((filteredActivity) => filteredActivity.data.card.id === activity.data.card.id).length > 1
+          ).reduce((acc, cur) => Object.assign(acc, { [cur.data.card.id]: cur }), {}))
+        );
+    },
+    getBugs(endDate) {
+      const incoming = this.filterDuplicates(this.activities.filter((activity) =>
+        (activity.type === 'createCard') ||
+        (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listAfter.id))
+      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, 'day'))).length;
 
-      return array[array.length - numberTwo];
+      const outgoing = this.filterDuplicates(this.activities.filter((activity) =>
+        (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listBefore.id))
+      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, 'day'))).length;
+
+      return incoming - outgoing;
     },
     buildChartData() {
       const dateLabels = [...new Set(this.getLabels(this.activities))]
         .sort((date1, date2) => moment(date1) - moment(date2));
       const currentDataset = {
-        label: '',
-        data: dateLabels.map((label) => this.activities.filter((activity) =>
-          moment(activity.date).isSameOrBefore(label, 'day')).length
-        ),
+        label: this.$t('historicalBugs.legend'),
+        data: dateLabels.map((label) => this.getBugs(label)),
         backgroundColor: getColor('bugRed')[1],
         borderColor: getColor('bugRed')[0],
       };

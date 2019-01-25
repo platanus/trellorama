@@ -32,6 +32,7 @@
         :tab="tab"
         :allListCards="allListCards"
         :endListIds="endListIds"
+        :backlogListIds="backlogListIds"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"
