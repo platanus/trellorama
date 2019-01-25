@@ -121,10 +121,15 @@ const messages = {
         cumulative: 'Cumulative Chart',
         histogram: 'List Histogram',
         bugs: 'Historical Bugs',
+        speed: 'Historical Speed',
       },
     },
     historicalBugs: {
       title: 'Historical Bugs Quantity',
+    },
+    historicalSpeed: {
+      title: 'Historical Team Speed',
+      legend: 'Cards vs Time',
     },
   },
   es: {
@@ -249,10 +254,15 @@ const messages = {
         cumulative: 'Gráfico Acumulado',
         histogram: 'Histograma de Listas',
         bugs: 'Bugs Historicos',
+        speed: 'Velocidad Historica',
       },
     },
     historicalBugs: {
       title: 'Cantidad de Bugs Historicos',
+    },
+    historicalSpeed: {
+      title: 'Velocidad del Equipo en el Tiempo',
+      legend: 'Tarjetas vs Tiempo',
     },
   },
 };

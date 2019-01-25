@@ -24,6 +24,14 @@
           v-bind:endListIds="endListIds"
           v-bind:startDate="startDate"
         />
+        <HistoricalSpeedWrapper
+          v-if="tab === 'speed'"
+          v-bind:boardId="boardId"
+          v-bind:activities="cardActivities"
+          v-bind:endListIds="endListIds"
+          v-bind:startDate="startDate"
+          v-bind:endDate="endDate"
+        />
       </transition>
     </div>
   </div>
@@ -33,6 +41,7 @@
 import CumulativeWrapper from './CumulativeWrapper.vue';
 import WipHistogramWrapper from './WipHistogramWrapper.vue';
 import HistoricalBugsWrapper from './HistoricalBugsWrapper.vue';
+import HistoricalSpeedWrapper from './HistoricalSpeedWrapper.vue';
 
 export default {
   name: 'pastDashboard',
@@ -40,6 +49,7 @@ export default {
     CumulativeWrapper,
     WipHistogramWrapper,
     HistoricalBugsWrapper,
+    HistoricalSpeedWrapper,
   },
   props: {
     tab: String,
