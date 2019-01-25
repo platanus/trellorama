@@ -59,7 +59,7 @@ export default {
     buildChartData() {
       const dateLabels = this.getLabels();
       const currentDataset = {
-        label: '',
+        label: this.$t('historicalSpeed.legend'),
         data: dateLabels.map((label) =>
           this.getSpeed(label)
         ),

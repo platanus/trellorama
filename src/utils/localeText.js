@@ -129,6 +129,7 @@ const messages = {
     },
     historicalSpeed: {
       title: 'Historical Team Speed',
+      legend: 'Cards vs Time',
     },
   },
   es: {
@@ -261,6 +262,7 @@ const messages = {
     },
     historicalSpeed: {
       title: 'Velocidad del Equipo en el Tiempo',
+      legend: 'Tarjetas vs Tiempo',
     },
   },
 };
