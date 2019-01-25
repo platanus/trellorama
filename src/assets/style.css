@@ -385,8 +385,8 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard-options {
-  position: absolute;
-  width: 80px;
+  position: fixed;
+  width: 70px;
   background-color: #1e1c4f;
   display: flex;
   flex-direction: column;
@@ -400,7 +400,7 @@ input[type=radio]:checked + .checkbox {
 
 .dashboard-options__suboptions {
   z-index: 1;
-  margin-left: 100px;
+  margin-left: 90px;
   background-color: #2e3e4e;
 }
 
@@ -413,6 +413,7 @@ input[type=radio]:checked + .checkbox {
   line-height: 24px;
   white-space: nowrap;
   overflow: hidden;
+  padding-left: 10px;
 }
 
 .dashboard-options__text-small {
@@ -426,6 +427,10 @@ input[type=radio]:checked + .checkbox {
   width: 56px;
   flex-grow: 0;
   flex-shrink: 0;
+}
+
+.dashboard-options__button:focus {
+  outline: 0;
 }
 
 .dashboard-options__button-active {
@@ -581,6 +586,7 @@ input[type=radio]:checked + .checkbox {
   border-color: #c0c0c0;
   border-radius: 5px;
   cursor: pointer;
+  padding: 0 15px;
 }
 
 .wip-list--warning {
