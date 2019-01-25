@@ -1,6 +1,6 @@
 <template>
-<div :class="containerClass">
-  <button :class="buttonClass" v-on:click="buttonFunction">
+<div :class="containerClass"  v-on:click="buttonFunction">
+  <button :class="buttonClass">
     <font-awesome-icon :icon="icon" />
   </button>
   <transition name="hide">

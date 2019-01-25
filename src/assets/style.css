@@ -396,6 +396,7 @@ input[type=radio]:checked + .checkbox {
   z-index: 2;
   transition: width .5s;
   padding: 10px;
+  cursor: pointer;
 }
 
 .dashboard-options__suboptions {
