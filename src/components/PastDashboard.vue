@@ -21,7 +21,7 @@
           v-bind:boardId="boardId"
           v-bind:activities="cardActivities"
           v-bind:cards="allListCards"
-          v-bind:endListIds="endListIds"
+          v-bind:backlogListIds="backlogListIds"
           v-bind:startDate="startDate"
         />
         <HistoricalSpeedWrapper
@@ -61,6 +61,7 @@ export default {
     wipLists: Array,
     allListCards: Array,
     endListIds: Array,
+    backlogListIds: Array,
   },
 };
 </script>

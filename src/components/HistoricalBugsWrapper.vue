@@ -26,6 +26,7 @@
       :dateTypeSelector="dateTypeSelector"
       :dayOfWeek="dayOfWeek"
       :startDate="startDate"
+      :backlogListIds="backlogListIds"
     />
   </div>
 
@@ -45,7 +46,7 @@ export default {
     boardId: String,
     activities: Array,
     cards: Array,
-    endListIds: Array,
+    backlogListIds: Array,
     startDate: Date,
   },
   data() {
@@ -62,11 +63,8 @@ export default {
       );
     },
     filteredActivities() {
-      return this.filterDuplicates(this.activities
-        .filter((activity) => this.bugCards.map((card) => card.id).includes(activity.data.card.id))
-        .filter((activity) => activity.type === 'updateCard')
-        .filter((activity) => this.endListIds.includes(activity.data.listAfter.id)))
-        .sort((act1, act2) => moment(act1) - moment(act2));
+      return this.activities
+        .filter((activity) => this.bugCards.map((card) => card.id).includes(activity.data.card.id));
     },
   },
   watch: {
@@ -79,18 +77,6 @@ export default {
   },
   mounted() {
     this.bugLabels = get(`bugLabels_${this.boardId}`, []);
-  },
-  methods: {
-    filterDuplicates(activities) {
-      return activities
-        .filter((activity) =>
-          activities.filter((filteredActivity) => filteredActivity.data.card.id === activity.data.card.id).length === 1
-        ).concat(Object.values(
-          activities.filter((activity) =>
-            activities.filter((filteredActivity) => filteredActivity.data.card.id === activity.data.card.id).length > 1
-          ).reduce((acc, cur) => Object.assign(acc, { [cur.data.card.id]: cur }), {}))
-        );
-    },
   },
 };
 </script>
