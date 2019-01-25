@@ -124,7 +124,7 @@ const messages = {
       },
     },
     historicalBugs: {
-      title: 'Historical Bugs Percentage',
+      title: 'Historical Bugs Quantity',
     },
   },
   es: {
@@ -252,7 +252,7 @@ const messages = {
       },
     },
     historicalBugs: {
-      title: 'Porcentaje de Bugs Historico',
+      title: 'Cantidad de Bugs Historicos',
     },
   },
 };
