@@ -19,6 +19,7 @@
         :endListsCards="endListsCards"
         :boardId="board.id"
         :tab="tab"
+        :backlogListCards="backlogListCards"
       />
       <PastDashboard
         v-if="dashboardState === 'past'"
@@ -94,6 +95,15 @@ export default {
     endListsCards() {
       let cards = [];
       this.endListIds.forEach((listId) => {
+        cards = cards.concat(this.cardsByList[listId]);
+      });
+      cards = cards.filter((card) => card !== undefined);
+
+      return cards;
+    },
+    backlogListCards() {
+      let cards = [];
+      this.backlogListIds.forEach((listId) => {
         cards = cards.concat(this.cardsByList[listId]);
       });
       cards = cards.filter((card) => card !== undefined);

@@ -131,6 +131,9 @@ const messages = {
       title: 'Historical Team Speed',
       legend: 'Cards vs Time',
     },
+    backlogBug: {
+      legend: 'Bug Cards in Backlog',
+    },
   },
   es: {
     board: {
@@ -263,6 +266,9 @@ const messages = {
     historicalSpeed: {
       title: 'Velocidad del Equipo en el Tiempo',
       legend: 'Tarjetas vs Tiempo',
+    },
+    backlogBug: {
+      legend: 'Tarjetas de Bug en Backlog',
     },
   },
 };
