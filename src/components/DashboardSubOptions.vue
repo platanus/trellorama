@@ -83,6 +83,16 @@ export default {
       this.setTab('boardNow');
     }
   },
+  watch: {
+    dashboardState() {
+      if (this.dashboardState === 'past') {
+        this.setTab('cumulative');
+      }
+      if (this.dashboardState === 'present') {
+        this.setTab('boardNow');
+      }
+    },
+  },
   computed: {
     containerClass() {
       return {
