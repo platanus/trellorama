@@ -6,9 +6,18 @@
       </p>
       <div class="category-line category-line-top"></div>
     </div>
-    <div v-if="responseTime !== '0'" class="bar-1" :style="responseWidth">{{ responseTime }}d</div>
-    <div v-if="cycleTime !== '0'" class="bar-2" :style="cycleWidth">{{ cycleTime }}d</div>
-    <div v-if="deployTime !== '0'" class="bar-3" :style="deployWidth">{{ deployTime }}d</div>
+    <div v-if="responseTime !== '0'" class="bar bar-1" :style="responseWidth">
+      <span class="tooltiptext">{{ $t('leadTime.responseTimeDesc') }}</span>
+      {{ responseTime }}d
+    </div>
+    <div v-if="cycleTime !== '0'" class="bar bar-2" :style="cycleWidth">
+      <span class="tooltiptext">{{ $t('leadTime.cycleTimeDesc') }}</span>
+      {{ cycleTime }}d
+    </div>
+    <div v-if="deployTime !== '0'" class="bar bar-3" :style="deployWidth">
+      <span class="tooltiptext">{{ $t('leadTime.deployTimeDesc') }}</span>
+      {{ deployTime }}d
+    </div>
     <div v-if="responseTime !== '0'" class="category-container" :style="responseWidth">
       <div class="category-line category-line-bottom"></div>
       <p class="category-text">{{ $t('leadTime.responseTime') }}</p>
@@ -115,20 +124,38 @@ export default {
   flex-wrap: wrap;
 }
 
+.bar {
+  font-size: 5em;
+}
+
 .bar-1 {
   background-color: #42e2f4;
-  font-size: 5em;
-  width: 20%;
 }
 
 .bar-2 {
   background: #f4e541;
-  font-size: 5em;
 }
 
 .bar-3 {
   background: #ffa500;
-  font-size: 5em;
+}
+
+.bar .tooltiptext {
+  font-size: 16px;
+  visibility: hidden;
+  width: 200px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.bar:hover .tooltiptext {
+  visibility: visible;
 }
 
 .category-container {
