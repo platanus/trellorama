@@ -39,6 +39,9 @@ function getColor(color) {
   case 'fullOrange':
     colorArray = ['rgba(242, 132, 14, 1)', 'rgba(242, 132, 14, 1)'];
     break;
+  case 'bugRed':
+    colorArray = ['rgba(255, 0, 0, 1)', 'rgba(255, 0, 0, 0.5)'];
+    break;
   default:
     colorArray = globalColors[globalColorIndex];
     globalColorIndex = (globalColorIndex + 1) % globalColors.length;

@@ -16,6 +16,14 @@
           v-bind:wipLists="wipLists"
           v-bind:cardActivities="cardActivities"
         />
+        <HistoricalBugsWrapper
+          v-if="tab === 'bugs'"
+          v-bind:boardId="boardId"
+          v-bind:activities="cardActivities"
+          v-bind:cards="allListCards"
+          v-bind:endListIds="endListIds"
+          v-bind:startDate="startDate"
+        />
       </transition>
     </div>
   </div>
@@ -24,12 +32,14 @@
 <script>
 import CumulativeWrapper from './CumulativeWrapper.vue';
 import WipHistogramWrapper from './WipHistogramWrapper.vue';
+import HistoricalBugsWrapper from './HistoricalBugsWrapper.vue';
 
 export default {
   name: 'pastDashboard',
   components: {
     CumulativeWrapper,
     WipHistogramWrapper,
+    HistoricalBugsWrapper,
   },
   props: {
     tab: String,
@@ -39,6 +49,8 @@ export default {
     boardId: String,
     listIds: Array,
     wipLists: Array,
+    allListCards: Array,
+    endListIds: Array,
   },
 };
 </script>

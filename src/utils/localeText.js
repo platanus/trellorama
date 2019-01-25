@@ -120,7 +120,11 @@ const messages = {
         menu: 'Sub Menu',
         cumulative: 'Cumulative Chart',
         histogram: 'List Histogram',
+        bugs: 'Historical Bugs',
       },
+    },
+    historicalBugs: {
+      title: 'Historical Bugs Quantity',
     },
   },
   es: {
@@ -244,7 +248,11 @@ const messages = {
         menu: 'Sub Menú',
         cumulative: 'Gráfico Acumulado',
         histogram: 'Histograma de Listas',
+        bugs: 'Bugs Historicos',
       },
+    },
+    historicalBugs: {
+      title: 'Cantidad de Bugs Historicos',
     },
   },
 };
