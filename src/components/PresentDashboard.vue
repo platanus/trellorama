@@ -14,9 +14,9 @@
             v-bind:startDate="startDate"
             v-bind:endDate="endDate"
           />
-          <BugsPercentage
+          <BacklogBugs
             class="stats"
-            v-bind:cards="endListsCards"
+            v-bind:cards="backlogListCards"
             v-bind:boardId="boardId"
           />
         </div>
@@ -46,7 +46,7 @@
 import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
 import WIPLists from './WIPLists.vue';
-import BugsPercentage from './BugsPercentage.vue';
+import BacklogBugs from './BacklogBugs.vue';
 
 export default {
   name: 'presentDashboard',
@@ -54,7 +54,7 @@ export default {
     TeamSpeed,
     LeadTime,
     WIPLists,
-    BugsPercentage,
+    BacklogBugs,
   },
   props: {
     endListIds: Array,
@@ -72,6 +72,7 @@ export default {
     endListsCards: Array,
     boardId: String,
     tab: String,
+    backlogListCards: Array,
   },
 };
 </script>
