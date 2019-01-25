@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-content__container">
     <transition name="toggle" mode="out-in">
-      <div class="dashboard__section" v-if="tab === 'stats'">
+      <div class="dashboard__section" v-if="tab === 'stats'" key="stats">
         <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.stats') }}</h2>
         <LeadTime
           class="dashboard__single-item-container"
@@ -29,7 +29,7 @@
           />
         </div>
       </div>
-      <div class="dashboard__section" v-if="tab === 'boardNow'">
+      <div class="dashboard__section" v-if="tab === 'boardNow'" key="boardNow">
         <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.boardNow') }}</h2>
         <WIPLists
           v-bind:cards="cardsByList"
