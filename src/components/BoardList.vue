@@ -11,7 +11,7 @@
       />
       <transition name="hide-sub-options">
         <DashboardSubOptions
-          v-if="dashboardState === 'past'"
+          v-if="dashboardState === 'past' || dashboardState === 'present'"
           v-bind:dashboardState="dashboardState"
           @tab="setTab"
         />
