@@ -1,9 +1,7 @@
 <script>
 import { Bar } from 'vue-chartjs';
-import { getTimes } from '../utils/timeBetweenLists.js';
 import { getColor } from '../utils/chartUtils.js';
 
-const decimalRoundParameter = 100;
 const numberOfDecimals = 2;
 const decimalBase = 10;
 
@@ -12,8 +10,8 @@ export default {
   mixins: [Bar],
   props: {
     activities: Array,
-    genBinSize: Boolean,
     binWidth: Number,
+    listTimes: Array,
   },
   data() {
     return {
@@ -51,23 +49,10 @@ export default {
     };
   },
   computed: {
-    listTimes() {
-      return getTimes(...this.activities)
-        .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter)
-        .sort((a, b) => a - b);
-    },
     labels() {
-      let width;
-      let binSize;
-      if (this.genBinSize) {
-        binSize = Math.ceil(Math.sqrt(this.listTimes.length));
-        width = (this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / binSize;
-      } else {
-        width = this.binWidth;
-        binSize = Math.ceil((this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / width);
-      }
+      const binSize = Math.ceil((this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / this.binWidth);
 
-      return [...Array(binSize).keys()].map((label) => label * width);
+      return [...Array(binSize).keys()].map((label) => label * this.binWidth);
     },
     data() {
       const data = [...Array(this.labels.length).keys()];
