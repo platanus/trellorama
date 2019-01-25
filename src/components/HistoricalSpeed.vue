@@ -59,7 +59,7 @@ export default {
     buildChartData() {
       const dateLabels = this.getLabels();
       const currentDataset = {
-        labels: '',
+        label: '',
         data: dateLabels.map((label) =>
           this.getSpeed(label)
         ),
