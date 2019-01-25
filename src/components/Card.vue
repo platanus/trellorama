@@ -1,5 +1,5 @@
 <template>
-  <div :class="classObject" :style="style">
+  <div :class="classObject" :style="style" v-on:click="goToTrello()">
     <h4>{{ card.name }}</h4>
     <p><b>{{ $t('wip.days') }}: </b>{{ days }}</p>
   </div>
@@ -32,6 +32,9 @@ export default {
       if (days < this.average) return '#eaeaea';
 
       return `rgba(255, 0, 0, ${(days - this.average) / this.average})`;
+    },
+    goToTrello() {
+      window.open(this.card.shortUrl, '_blank');
     },
   },
 };
