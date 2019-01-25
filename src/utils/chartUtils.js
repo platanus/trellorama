@@ -41,6 +41,8 @@ function getColor(color) {
     break;
   case 'bugRed':
     colorArray = ['rgba(255, 0, 0, 1)', 'rgba(255, 0, 0, 0.5)'];
+  case 'speedBlue':
+    colorArray = ['rgba(0, 0, 255, 0.5)', 'rgba(0, 0, 255, 1)'];
     break;
   default:
     colorArray = globalColors[globalColorIndex];
