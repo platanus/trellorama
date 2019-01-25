@@ -127,6 +127,9 @@ const messages = {
     historicalBugs: {
       title: 'Historical Bugs Quantity',
     },
+    historicalSpeed: {
+      title: 'Historical Team Speed',
+    },
   },
   es: {
     board: {
@@ -255,6 +258,9 @@ const messages = {
     },
     historicalBugs: {
       title: 'Cantidad de Bugs Historicos',
+    },
+    historicalSpeed: {
+      title: 'Velocidad del Equipo en el Tiempo',
     },
   },
 };
