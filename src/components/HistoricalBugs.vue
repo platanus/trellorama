@@ -80,7 +80,7 @@ export default {
       const dateLabels = [...new Set(this.getLabels(this.activities))]
         .sort((date1, date2) => moment(date1) - moment(date2));
       const currentDataset = {
-        label: '',
+        label: this.$t('historicalBugs.legend'),
         data: dateLabels.map((label) => this.getBugs(label)),
         backgroundColor: getColor('bugRed')[1],
         borderColor: getColor('bugRed')[0],
