@@ -435,7 +435,11 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard-options__button-active {
-  background-color: #42e2f4;
+  filter: brightness(1.5);
+  background-color: rgba(120,120,120,0.8);
+  transition: background .2s;
+  transition-timing-function: ease;
+
 }
 
 .dashboard-options__option {
