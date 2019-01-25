@@ -8,6 +8,7 @@
       :buttonFunction="toggleSubOptions"
     />
     <DashboardOption
+      v-if="dashboardState === 'past'"
       :text="$t('dashboard.subOptions.cumulative')"
       icon="chart-area"
       :minimized="minimized"
@@ -15,6 +16,7 @@
       :selected="tab === 'cumulative'"
     />
     <DashboardOption
+      v-if="dashboardState === 'past'"
       :text="$t('dashboard.subOptions.histogram')"
       icon="chart-bar"
       :minimized="minimized"
@@ -22,6 +24,7 @@
       :selected="tab === 'histogram'"
     />
     <DashboardOption
+      v-if="dashboardState === 'past'"
       :text="$t('dashboard.subOptions.bugs')"
       icon="bug"
       :minimized="minimized"
@@ -29,11 +32,28 @@
       :selected="tab === 'bugs'"
     />
     <DashboardOption
+      v-if="dashboardState === 'past'"
       :text="$t('dashboard.subOptions.speed')"
       icon="running"
       :minimized="minimized"
       :buttonFunction="() => {setTab('speed')}"
       :selected="tab === 'speed'"
+    />
+    <DashboardOption
+      v-if="dashboardState === 'present'"
+      :text="$t('dashboard.present.boardNow')"
+      icon="table"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('boardNow')}"
+      :selected="tab === 'boardNow'"
+    />
+    <DashboardOption
+      v-if="dashboardState === 'present'"
+      :text="$t('dashboard.present.stats')"
+      icon="book"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('stats')}"
+      :selected="tab === 'stats'"
     />
   </div>
 </template>
@@ -58,6 +78,9 @@ export default {
   mounted() {
     if (this.dashboardState === 'past') {
       this.setTab('cumulative');
+    }
+    if (this.dashboardState === 'present') {
+      this.setTab('boardNow');
     }
   },
   computed: {

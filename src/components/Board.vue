@@ -18,6 +18,7 @@
         :allCardsActivities="allCardsActivities"
         :endListsCards="endListsCards"
         :boardId="board.id"
+        :tab="tab"
       />
       <PastDashboard
         v-if="dashboardState === 'past'"
