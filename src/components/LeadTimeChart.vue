@@ -149,13 +149,24 @@ export default {
   text-align: center;
   padding: 5px;
   border-radius: 6px;
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
+  margin: -4em;
 }
 
 .bar:hover .tooltiptext {
   visibility: visible;
+}
+
+.bar .tooltiptext::after {
+  content: ' ';
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #000 transparent transparent;
 }
 
 .category-container {
