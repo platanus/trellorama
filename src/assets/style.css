@@ -52,7 +52,6 @@ body {
   position: absolute;
   left: 5%;
   top: 30%;
-  z-index: 2;
 }
 
 .trello {
@@ -385,22 +384,26 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard-options {
-  position: absolute;
-  width: 80px;
+  width: 70px;
   background-color: #1e1c4f;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 0;
   min-height: 100%;
   z-index: 2;
   transition: width .5s;
   padding: 10px;
+  cursor: pointer;
+  overflow-y: scroll;
+}
+
+.dashboard-options__container {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  height: 100%;
+  z-index: 1;
 }
 
 .dashboard-options__suboptions {
-  z-index: 1;
-  margin-left: 100px;
   background-color: #2e3e4e;
 }
 
@@ -413,6 +416,7 @@ input[type=radio]:checked + .checkbox {
   line-height: 24px;
   white-space: nowrap;
   overflow: hidden;
+  padding-left: 10px;
 }
 
 .dashboard-options__text-small {
@@ -428,8 +432,16 @@ input[type=radio]:checked + .checkbox {
   flex-shrink: 0;
 }
 
+.dashboard-options__button:focus {
+  outline: 0;
+}
+
 .dashboard-options__button-active {
-  background-color: #42e2f4;
+  filter: brightness(1.5);
+  background-color: rgba(120, 120, 120, .8);
+  transition: background .2s;
+  transition-timing-function: ease;
+
 }
 
 .dashboard-options__option {
@@ -479,6 +491,7 @@ input[type=radio]:checked + .checkbox {
 .dashboard-options-open {
   width: 350px;
   transition: width .5s;
+  transition-timing-function: ease;
 }
 
 .date-selector--input {
@@ -581,6 +594,7 @@ input[type=radio]:checked + .checkbox {
   border-color: #c0c0c0;
   border-radius: 5px;
   cursor: pointer;
+  padding: 0 15px;
 }
 
 .wip-list--warning {
@@ -608,7 +622,6 @@ input[type=radio]:checked + .checkbox {
   text-align: center;
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #1e1c4f;
 }
 
 .dashboard__subsection-title {

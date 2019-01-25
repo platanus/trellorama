@@ -1,30 +1,34 @@
 <template>
   <div>
-    <div v-for="board in boards" v-bind:key="board.id" class="dashboard-container">
-      <DashboardOptions
-        v-bind:board="board"
-        @selectLabels="selectLabels"
-        @setSettings="setSettings"
-        @selectStartDate="selectStartDate"
-        @selectEndDate="selectEndDate"
-        @dashboardState="setDashboardState"
-      />
-      <transition name="hide-sub-options">
-        <DashboardSubOptions
-          v-if="dashboardState === 'past' || dashboardState === 'present'"
-          v-bind:dashboardState="dashboardState"
-          @tab="setTab"
+    <div v-for="board in boards" v-bind:key="board.id">
+      <div class="dashboard-options__container">
+        <DashboardOptions
+          v-bind:board="board"
+          @selectLabels="selectLabels"
+          @setSettings="setSettings"
+          @selectStartDate="selectStartDate"
+          @selectEndDate="selectEndDate"
+          @dashboardState="setDashboardState"
         />
-      </transition>
-      <Board
-        class="dashboard-content"
-        v-bind:board="board"
-        v-bind:selectedLabels="selectedLabels"
-        v-bind:startDate="startDate"
-        v-bind:endDate="endDate"
-        v-bind:dashboardState="dashboardState"
-        v-bind:tab="tab"
-      />
+        <transition name="hide-sub-options">
+          <DashboardSubOptions
+            v-if="dashboardState === 'past' || dashboardState === 'present'"
+            v-bind:dashboardState="dashboardState"
+            @tab="setTab"
+          />
+        </transition>
+      </div>
+      <div class="dashboard-container">
+        <Board
+          class="dashboard-content"
+          v-bind:board="board"
+          v-bind:selectedLabels="selectedLabels"
+          v-bind:startDate="startDate"
+          v-bind:endDate="endDate"
+          v-bind:dashboardState="dashboardState"
+          v-bind:tab="tab"
+        />
+      </div>
     </div>
   </div>
 </template>
