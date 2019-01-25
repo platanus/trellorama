@@ -3,14 +3,6 @@
     <transition name="toggle" mode="out-in">
       <div class="dashboard__section" v-if="tab === 'stats'" key="stats">
         <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.stats') }}</h2>
-        <LeadTime
-          class="dashboard__single-item-container"
-          v-bind:cardActivities="leadMetricsActivities"
-          v-bind:endListIds="endListIds"
-          v-bind:progressListIds="progressListsIds"
-          v-bind:backlogListIds="backlogListIds"
-          v-bind:productionListIds="productionListIds"
-        />
         <h3 class="dashboard__text dashboard__subsection-title">
           {{ $t('dashboard.present.speedVsBugs') }}
         </h3>
@@ -28,6 +20,14 @@
             v-bind:boardId="boardId"
           />
         </div>
+        <LeadTime
+          class="dashboard__single-item-container"
+          v-bind:cardActivities="leadMetricsActivities"
+          v-bind:endListIds="endListIds"
+          v-bind:progressListIds="progressListsIds"
+          v-bind:backlogListIds="backlogListIds"
+          v-bind:productionListIds="productionListIds"
+        />
       </div>
       <div class="dashboard__section" v-if="tab === 'boardNow'" key="boardNow">
         <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.boardNow') }}</h2>
