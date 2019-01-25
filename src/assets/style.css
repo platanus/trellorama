@@ -385,23 +385,26 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard-options {
-  position: fixed;
   width: 70px;
   background-color: #1e1c4f;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 0;
   min-height: 100%;
   z-index: 2;
   transition: width .5s;
   padding: 10px;
   cursor: pointer;
+  overflow-y: scroll;
+}
+
+.dashboard-options__container {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  height: 100%;
+  z-index: 1;
 }
 
 .dashboard-options__suboptions {
-  z-index: 1;
-  margin-left: 90px;
   background-color: #2e3e4e;
 }
 
@@ -487,8 +490,9 @@ input[type=radio]:checked + .checkbox {
 }
 
 .dashboard-options-open {
-  width: 350px;
+  width: 300px;
   transition: width .5s;
+  transition-timing-function: ease;
 }
 
 .date-selector--input {
