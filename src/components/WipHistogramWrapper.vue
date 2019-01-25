@@ -8,10 +8,7 @@
       <select v-model="selectedList" id="histListSelector">
         <option v-for="list in wipLists" :key="list.id" :value="list.id">{{ list.name }}</option>
       </select>
-      &ensp;
-      <input type="checkbox" id="genBinSize" v-model="genBinSize">
-      <label for="genBinSize">{{$t('wipHistogram.genBin') }}</label>
-      <div v-if="!genBinSize">
+      <div>
         &ensp;
         <label for="binWidth">{{$t('wipHistogram.binWidth') }}: </label>
         <input type="number" id="binWidth" v-model="binWidth">
@@ -19,15 +16,17 @@
     </div>
     <WipHistogram
       v-bind:activities="listActivities(selectedList)"
-      :genBinSize="genBinSize"
       :binWidth="binWidth"
+      :listTimes="listTimes()"
     />
   </div>
 </template>
 
 <script>
 import WipHistogram from './WipHistogram.vue';
-import { getListCards } from '../utils/timeBetweenLists.js';
+import { getListCards, getTimes } from '../utils/timeBetweenLists.js';
+
+const decimalRoundParameter = 100;
 
 export default {
   name: 'wipHistogramWrapper',
@@ -41,7 +40,6 @@ export default {
   data() {
     return {
       selectedList: null,
-      genBinSize: true,
       binWidth: 1,
     };
   },
@@ -54,10 +52,23 @@ export default {
   mounted() {
     if (this.wipLists.length === 0) this.selectedList = null;
     this.selectedList = this.wipLists[0].id;
+    this.binWidth = this.genWidth();
   },
   methods: {
     listActivities(listId) {
       return getListCards(this.cardActivities, listId);
+    },
+    genWidth() {
+      const times = this.listTimes();
+      if (times === undefined) return 1;
+      const binSize = Math.ceil(Math.sqrt(times.length));
+
+      return (times[times.length - 1] - times[0]) / binSize;
+    },
+    listTimes() {
+      return getTimes(...this.listActivities(this.selectedList))
+        .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter)
+        .sort((a, b) => a - b);
     },
   },
 };
