@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import moment from 'moment';
 import { get, save } from '../utils/configurationPersistance.js';
 import HistoricalBugs from './HistoricalBugs.vue';
 

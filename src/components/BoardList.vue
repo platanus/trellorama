@@ -9,6 +9,7 @@
           @selectStartDate="selectStartDate"
           @selectEndDate="selectEndDate"
           @dashboardState="setDashboardState"
+          @selectMembers="selectMembers"
         />
         <transition name="hide-sub-options">
           <DashboardSubOptions
@@ -27,6 +28,7 @@
           v-bind:endDate="endDate"
           v-bind:dashboardState="dashboardState"
           v-bind:tab="tab"
+          v-bind:selectedMembers="selectedMembers"
         />
       </div>
     </div>
@@ -55,6 +57,7 @@ export default {
       endDate: new Date(),
       dashboardState: 'present',
       tab: null,
+      selectedMembers: [],
     };
   },
   methods: {
@@ -75,6 +78,9 @@ export default {
     },
     setTab(value) {
       this.tab = value;
+    },
+    selectMembers(value) {
+      this.selectedMembers = value;
     },
   },
 };

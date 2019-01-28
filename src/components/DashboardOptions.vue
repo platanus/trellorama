@@ -219,6 +219,7 @@ export default {
         `boards/${boardId}/members`,
         (response) => {
           self.allMembers = response.data;
+          self.allMembers.push({ username: 'No Member', id: null, avatarHash: null });
           self.selectedMembers = get(`${this.board.id}_selectedMembers`, null);
           if (self.selectedMembers === null) self.selectedMembers = self.allMembers.map((member) => member.id);
         },
@@ -226,7 +227,7 @@ export default {
           onRequestError(self.getBoardMembers, [boardId]);
         },
         {
-          fields: 'id,fullName,username,avatarHash',
+          fields: 'id,username,avatarHash',
         }
       );
     },
