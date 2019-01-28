@@ -63,7 +63,7 @@ export default {
       if (times === undefined) return 1;
       const binSize = Math.ceil(Math.sqrt(times.length));
 
-      return (times[times.length - 1] - times[0]) / binSize;
+      return Math.round((times[times.length - 1] - times[0]) / binSize);
     },
     listTimes() {
       return getTimes(...this.listActivities(this.selectedList))
