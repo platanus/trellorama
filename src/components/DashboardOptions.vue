@@ -44,6 +44,7 @@
       <div class="dashboard-options__labels" v-if="showLabels">
         <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
           <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
+          <label :style="{ backgroundColor: labelOption.color, color: 'transparent' }">aa</label>
           <label :for="labelOption.value" class="dashboard-options__text dashboard-options__text-small">
             {{labelOption.label}}
           </label>
@@ -169,14 +170,6 @@ export default {
     endDate() {
       this.selectEndDate();
     },
-    labelOptions() {
-      this.labelOptions = this.labelOptions.sort((a, b) => {
-        if (a.label.toLowerCase() < b.label.toLowerCase()) return -sortValue;
-        if (a.label.toLowerCase() > b.label.toLowerCase()) return sortValue;
-
-        return 0;
-      });
-    },
   },
   methods: {
     toggleOptions() {
@@ -192,10 +185,21 @@ export default {
       request(
         `boards/${boardId}/labels`,
         (response) => {
-          self.labelOptions = response.data.map((label) => ({ label: label.name, value: label.id }));
+          console.log(response.data);
+          self.labelOptions = response.data.map((label) => ({
+            label: label.name,
+            value: label.id,
+            color: label.color,
+          }));
           self.labelOptions.push({ label: 'No Label', value: null });
           self.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
           if (self.selectedLabels === null) self.selectedLabels = self.labelOptions.map((label) => label.value);
+          this.labelOptions = this.labelOptions.sort((a, b) => {
+            if (a.label.toLowerCase() < b.label.toLowerCase()) return -sortValue;
+            if (a.label.toLowerCase() > b.label.toLowerCase()) return sortValue;
+
+            return 0;
+          });
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
