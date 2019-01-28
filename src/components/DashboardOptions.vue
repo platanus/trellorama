@@ -111,6 +111,8 @@ import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
 import DashboardOption from './DashboardOption.vue';
 
+const sortValue = 1;
+
 export default {
   name: 'dashboardOptions',
   components: {
@@ -166,6 +168,14 @@ export default {
     },
     endDate() {
       this.selectEndDate();
+    },
+    labelOptions() {
+      this.labelOptions = this.labelOptions.sort((a, b) => {
+        if (a.label.toLowerCase() < b.label.toLowerCase()) return -sortValue;
+        if (a.label.toLowerCase() > b.label.toLowerCase()) return sortValue;
+
+        return 0;
+      });
     },
   },
   methods: {
