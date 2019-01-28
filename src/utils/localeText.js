@@ -6,6 +6,7 @@ const messages = {
       startDate: 'Start Date',
       endDate: 'End Date',
       boardStatus: 'Board Status',
+      memberFilter: 'Member Filter',
     },
     boardInfo: {
       numberOfCards: 'Number Of Cards',
@@ -147,6 +148,7 @@ const messages = {
       startDate: 'Fecha de Inicio',
       endDate: 'Fecha de Fin',
       boardStatus: 'Estado del Tablero',
+      memberFilter: 'Filtro de Miembros',
     },
     boardInfo: {
       numberOfCards: 'Número de Tarjetas',

@@ -51,7 +51,7 @@
       </div>
     </transition>
     <DashboardOption
-      :text="$t('board.labelFilter')"
+      :text="$t('board.memberFilter')"
       icon="users"
       :minimized="minimized"
       :buttonFunction="toggleMembers"
@@ -151,6 +151,10 @@ export default {
       save(`${this.board.id}_selectedLabels`, this.selectedLabels);
       this.$emit('selectLabels', this.selectedLabels);
     },
+    selectedMembers() {
+      save(`${this.board.id}_selectedMembers`, this.selectedMembers);
+      this.$emit('selectMembers', this.selectedMembers);
+    },
     startDate() {
       this.selectStartDate();
     },
@@ -208,8 +212,9 @@ export default {
       request(
         `boards/${boardId}/members`,
         (response) => {
-          console.log(response);
           self.allMembers = response.data;
+          self.selectedMembers = get(`${this.board.id}_selectedMembers`, null);
+          if (self.selectedMembers === null) self.selectedMembers = self.allMembers.map((member) => member.id);
         },
         () => {
           onRequestError(self.getBoardMembers, [boardId]);
