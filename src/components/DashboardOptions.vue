@@ -58,6 +58,12 @@
     />
     <transition name="hide">
       <div class="dashboard-options__labels" v-if="showMembers">
+        <button class="button button--small" v-on:click="selectAllMembers">
+            {{ $t('board.selectAll') }}
+        </button>
+        <button class="button button--small" v-on:click="unselectAllMembers">
+            {{ $t('board.unselectAll') }}
+        </button>
         <div v-for="member in allMembers" v-bind:key="member.id">
           <input type="checkbox" :id="member.id" :value="member.id" v-model="selectedMembers">
           <label :for="member.id" class="dashboard-options__text dashboard-options__text-small">
@@ -232,6 +238,12 @@ export default {
       if (member.avatarHash !== null) return `https://trello-avatars.s3.amazonaws.com/${member.avatarHash}/30.png`;
 
       return null;
+    },
+    selectAllMembers() {
+      this.selectedMembers = this.allMembers.map((member) => member.id);
+    },
+    unselectAllMembers() {
+      this.selectedMembers = [];
     },
   },
 };
