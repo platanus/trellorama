@@ -17,6 +17,7 @@ export default {
       chartoptions: {
         responsive: true,
         maintainAspectRatio: false,
+        onClick: (_, item) => this.barClicked(item),
         scales: {
           xAxes: [
             {
@@ -89,6 +90,10 @@ export default {
           this.listTimes[this.listTimes.length - 1].time.toFixed(numberOfDecimals, decimalBase) :
           arr[index + 1].toFixed(numberOfDecimals, decimalBase)}[`
       );
+    },
+    barClicked(item) {
+      if (item[0] === undefined) return;
+      this.$emit('selectedBin', this.data[item[0]._index]); // eslint-disable-line
     },
   },
 };

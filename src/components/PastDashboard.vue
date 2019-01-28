@@ -15,6 +15,7 @@
           v-if="tab === 'histogram'"
           v-bind:wipLists="wipLists"
           v-bind:cardActivities="cardActivities"
+          v-bind:cards="allListCards"
         />
         <HistoricalBugsWrapper
           v-if="tab === 'bugs'"
