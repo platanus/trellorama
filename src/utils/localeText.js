@@ -100,6 +100,7 @@ const messages = {
       binWidth: 'Bin Size',
       xTitle: 'Days in the List',
       yTitle: 'Number of Cards',
+      legend: 'Number of cards in bin',
     },
     dashboard: {
       present: {
@@ -239,7 +240,8 @@ const messages = {
       genBin: 'Genera la Cantidad de Muestras',
       binWidth: 'Tamaño de la Muestra',
       xTitle: 'Días en la Lista',
-      yTitle: 'Numbero de Tarjetas',
+      yTitle: 'Número de Tarjetas',
+      legend: 'Número de tarjetas en el bin',
     },
     dashboard: {
       present: {

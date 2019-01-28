@@ -76,7 +76,7 @@ export default {
     renderData() {
       this.chartdata.labels = this.genLabels();
       this.chartdata.datasets[0] = {
-        label: '',
+        label: this.$t('wipHistogram.legend'),
         labels: this.genLabels(),
         data: this.data,
         backgroundColor: getColor('blue')[0],
