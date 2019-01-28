@@ -68,13 +68,13 @@ export default {
       const incoming = this.filterDuplicates(this.activities.filter((activity) =>
         (activity.type === 'createCard') ||
         (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listAfter.id))
-      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, 'day'))).length;
+      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, this.dateTypeSelector)));
 
       const outgoing = this.filterDuplicates(this.activities.filter((activity) =>
-        (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listBefore.id))
-      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, 'day'))).length;
+        (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id))
+      ).filter((activity) => moment(activity.date).isBefore(endDate, this.dateTypeSelector)));
 
-      return incoming - outgoing;
+      return incoming.length - outgoing.length;
     },
     buildChartData() {
       const dateLabels = [...new Set(this.getLabels(this.activities))]
