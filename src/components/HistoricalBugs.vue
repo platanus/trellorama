@@ -73,14 +73,12 @@ export default {
       const outgoing = this.filterDuplicates(this.activities.filter((activity) =>
         (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id))
       ).filter((activity) => moment(activity.date).isBefore(endDate, this.dateTypeSelector)));
-      console.log(incoming, outgoing);
 
       return incoming.length - outgoing.length;
     },
     buildChartData() {
       const dateLabels = [...new Set(this.getLabels(this.activities))]
         .sort((date1, date2) => moment(date1) - moment(date2));
-      console.log(dateLabels);
       const currentDataset = {
         label: this.$t('historicalBugs.legend'),
         data: dateLabels.map((label) => this.getBugs(label)),
