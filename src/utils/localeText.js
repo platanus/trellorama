@@ -53,8 +53,8 @@ const messages = {
       cycleTime: 'Cycle Time',
       deployTime: 'Deploy Time',
       title: 'Average Time per Stage',
-      cycleTimeDesc: 'The average time it takes a card from the start of the sprint untill it\'s done.',
-      responseTimeDesc: 'The average time it takes a card from backlog to enter the sprint.',
+      cycleTimeDesc: 'The average time it takes a card in development.',
+      responseTimeDesc: 'The average time it takes a card from backlog to start being developed.',
       deployTimeDesc: 'The average time it takes a card to go to production once it\'s done.',
     },
     general: {
@@ -193,8 +193,8 @@ const messages = {
       cycleTime: 'Tiempo de Iteración',
       deployTime: 'Tiempo de Despliegue',
       title: 'Tiempo Promedio en cada Estado',
-      cycleTimeDesc: 'El tiempo promedio que le toma a una tarjeta desde que entra al sprint hasta que esta lista.',
-      responseTimeDesc: 'El tiempo promedio que le toma a una tarjeta desde el backlog al sprint.',
+      cycleTimeDesc: 'El tiempo promedio que le toma a una tarjeta en desarrollo.',
+      responseTimeDesc: 'El tiempo promedio que le toma a una tarjeta desde el backlog a empezar a ser desarrollada.',
       deployTimeDesc: 'El tiempo promedio que le toma a una tarjeta para entrar a producción desde que esta lista.',
     },
     general: {
