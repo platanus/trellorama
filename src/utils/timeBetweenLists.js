@@ -31,14 +31,30 @@ function filterDuplicates(cards, reversed) {
     );
 }
 
-function getTimes(createdCards, finishedCards) {
+function getTimes(createdCards, finishedCards, returnCards = false) {
   return (
     finishedCards.map((finishedCard) => {
+      if (returnCards) {
+        if (createdCards.find((card) => card.id === finishedCard.id) === undefined) return { card: undefined, time: 0 };
+
+        return {
+          time: finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true),
+          card: finishedCard,
+        };
+      }
       if (createdCards.find((card) => card.id === finishedCard.id) === undefined) return 0;
 
       return finishedCard.date.diff(createdCards.find((card) => card.id === finishedCard.id).date, 'days', true);
     })
-      .map((timeDiff) => (timeDiff >= 0 ? timeDiff : 0)));
+      .map((timeDiff) => {
+        if (returnCards) {
+          return timeDiff.time >= 0 ?
+            { card: timeDiff.card, time: timeDiff.time } :
+            { card: timeDiff.card, time: 0 };
+        }
+
+        return timeDiff >= 0 ? timeDiff : 0;
+      }));
 }
 
 function getAverageTime(createdCards, finishedCards, padding) {

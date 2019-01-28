@@ -9,7 +9,6 @@ export default {
   name: 'wipHistogram',
   mixins: [Bar],
   props: {
-    activities: Array,
     binWidth: Number,
     listTimes: Array,
   },
@@ -50,7 +49,9 @@ export default {
   },
   computed: {
     labels() {
-      const binSize = Math.ceil((this.listTimes[this.listTimes.length - 1] - this.listTimes[0]) / this.binWidth);
+      const binSize = Math.ceil(
+        (this.listTimes[this.listTimes.length - 1].time - this.listTimes[0].time) / this.binWidth
+      );
 
       return [...Array(binSize).keys()].map((label) => label * this.binWidth);
     },
@@ -58,14 +59,13 @@ export default {
       const data = [...Array(this.labels.length).keys()];
 
       return data.map((_, index) =>
-        this.listTimes.filter((time) => time >= this.labels[index])
-          .filter((time) => (index === this.labels.length - 1 ? true : time < this.labels[index + 1]))
-          .length
+        this.listTimes.filter((card) => card.time >= this.labels[index])
+          .filter((card) => (index === this.labels.length - 1 ? true : card.time < this.labels[index + 1]))
       );
     },
   },
   watch: {
-    activities() {
+    listTimes() {
       this.renderData();
     },
   },
@@ -78,7 +78,7 @@ export default {
       this.chartdata.datasets[0] = {
         label: this.$t('wipHistogram.legend'),
         labels: this.genLabels(),
-        data: this.data,
+        data: this.data.map((bin) => bin.length),
         backgroundColor: getColor('blue')[0],
       };
       this.renderChart(this.chartdata, this.chartoptions);
@@ -86,7 +86,7 @@ export default {
     genLabels() {
       return this.labels.map((label, index, arr) =>
         `[${label.toFixed(numberOfDecimals, decimalBase)} - ${arr[index + 1] === undefined ?
-          this.listTimes[this.listTimes.length - 1].toFixed(numberOfDecimals, decimalBase) :
+          this.listTimes[this.listTimes.length - 1].time.toFixed(numberOfDecimals, decimalBase) :
           arr[index + 1].toFixed(numberOfDecimals, decimalBase)}[`
       );
     },

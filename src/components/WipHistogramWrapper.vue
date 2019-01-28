@@ -15,7 +15,6 @@
       </div>
     </div>
     <WipHistogram
-      v-bind:activities="listActivities(selectedList)"
       :binWidth="binWidth"
       :listTimes="listTimes()"
     />
@@ -63,12 +62,14 @@ export default {
       if (times === undefined) return 1;
       const binSize = Math.ceil(Math.sqrt(times.length));
 
-      return Math.round((times[times.length - 1] - times[0]) / binSize);
+      return Math.round((times[times.length - 1].time - times[0].time) / binSize);
     },
     listTimes() {
-      return getTimes(...this.listActivities(this.selectedList))
-        .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter)
-        .sort((a, b) => a - b);
+      return getTimes(...this.listActivities(this.selectedList), true)
+        .map((card) => ({
+          time: Math.round(card.time * decimalRoundParameter) / decimalRoundParameter,
+          card: card.card,
+        })).sort((a, b) => a.time - b.time);
     },
   },
 };
