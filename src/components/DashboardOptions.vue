@@ -51,6 +51,23 @@
       </div>
     </transition>
     <DashboardOption
+      :text="$t('board.labelFilter')"
+      icon="users"
+      :minimized="minimized"
+      :buttonFunction="toggleMembers"
+    />
+    <transition name="hide">
+      <div class="dashboard-options__labels" v-if="showMembers">
+        <div v-for="member in allMembers" v-bind:key="member.id">
+          <input type="checkbox" :id="member.id" :value="member.id" v-model="selectedMembers">
+          <label :for="member.id" class="dashboard-options__text dashboard-options__text-small">
+            <img :src="getImage(member)" class="member-avatar">
+            {{member.username}}
+          </label>
+        </div>
+      </div>
+    </transition>
+    <DashboardOption
       :text="$t('board.dateFilter')"
       icon="calendar-day"
       :minimized="minimized"
@@ -110,12 +127,16 @@ export default {
       )),
       endDate: new Date(),
       dashboardState: 'present',
+      allMembers: [],
+      selectedMembers: [],
+      showMembers: false,
     };
   },
   mounted() {
     this.getBoardLabels(this.board.id);
     this.selectStartDate();
     this.selectEndDate();
+    this.getBoardMembers(this.board.id);
   },
   computed: {
     containerClass() {
@@ -143,6 +164,7 @@ export default {
       if (this.minimized) {
         if (this.showLabels) this.showLabels = false;
         if (this.showDates) this.showDates = false;
+        if (this.showMembers) this.showMembers = false;
       }
     },
     getBoardLabels(boardId) {
@@ -180,6 +202,31 @@ export default {
     setState(value) {
       this.dashboardState = value;
       this.$emit('dashboardState', this.dashboardState);
+    },
+    getBoardMembers(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/members`,
+        (response) => {
+          console.log(response);
+          self.allMembers = response.data;
+        },
+        () => {
+          onRequestError(self.getBoardMembers, [boardId]);
+        },
+        {
+          fields: 'id,fullName,username,avatarHash',
+        }
+      );
+    },
+    toggleMembers() {
+      if (this.minimized) this.toggleOptions();
+      this.showMembers = !this.showMembers;
+    },
+    getImage(member) {
+      if (member.avatarHash !== null) return `https://trello-avatars.s3.amazonaws.com/${member.avatarHash}/30.png`;
+
+      return null;
     },
   },
 };
