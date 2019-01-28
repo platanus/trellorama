@@ -19,12 +19,22 @@
       :listTimes="listTimes()"
       @selectedBin="selectedBin"
     />
+    <div class="dashboard__wip-histogram-cards">
+      <Card
+        v-for="selectedCard in selectedCards"
+        v-bind:key="selectedCard.card.id"
+        v-bind:card="selectedCard.card"
+        v-bind:days="selectedCard.time"
+        v-bind:average="average"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import WipHistogram from './WipHistogram.vue';
 import { getListCards, getTimes } from '../utils/timeBetweenLists.js';
+import Card from './Card.vue';
 
 const decimalRoundParameter = 100;
 
@@ -37,6 +47,7 @@ export default {
   },
   components: {
     WipHistogram,
+    Card,
   },
   data() {
     return {
