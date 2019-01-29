@@ -95,7 +95,7 @@ export default {
       const labels = [start];
       while (!moment(start).isSame(end, 'day')) {
         start = getDate(moment(start).subtract(1, `${this.dateTypeSelector}s`), this.dateTypeSelector, this.dayOfWeek);
-        labels.push(start);
+        labels.unshift(start);
       }
 
       return labels;
