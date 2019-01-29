@@ -129,6 +129,7 @@ const messages = {
         histogram: 'List Histogram',
         bugs: 'Historical Bugs',
         speed: 'Historical Speed',
+        leadTime: 'Historical Board Times',
       },
     },
     historicalBugs: {
@@ -273,6 +274,7 @@ const messages = {
         histogram: 'Histograma de Listas',
         bugs: 'Bugs Historicos',
         speed: 'Velocidad Historica',
+        leadTime: 'Tiempos del Tablero Historicos',
       },
     },
     historicalBugs: {
