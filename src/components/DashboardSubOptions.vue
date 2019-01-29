@@ -40,6 +40,14 @@
       :selected="tab === 'speed'"
     />
     <DashboardOption
+      v-if="dashboardState === 'past'"
+      :text="$t('dashboard.subOptions.leadTime')"
+      icon="calendar-day"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('historicalLeadTime')}"
+      :selected="tab === 'historicalLeadTime'"
+    />
+    <DashboardOption
       v-if="dashboardState === 'present'"
       :text="$t('dashboard.present.boardNow')"
       icon="table"
