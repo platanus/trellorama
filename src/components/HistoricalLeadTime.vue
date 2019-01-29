@@ -1,12 +1,12 @@
 <script>
-import { HorizontalBar } from 'vue-chartjs';
+import { Bar } from 'vue-chartjs';
 import moment from 'moment';
 import { getDate } from '../utils/dateManager.js';
 import { getAverageTime, getCardsBetweenTwoLists } from '../utils/timeBetweenLists.js';
 
 export default {
   name: 'historicalLeadTime',
-  mixins: [HorizontalBar],
+  mixins: [Bar],
   props: {
     activities: {
       type: Array,
