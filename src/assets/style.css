@@ -667,6 +667,7 @@ input[type=radio]:checked + .checkbox {
   padding: 5px;
 }
 
+<<<<<<< HEAD
 .member-avatar {
   width: 30px;
   height: 30px;
@@ -707,4 +708,8 @@ input[type=radio]:checked + .checkbox {
   padding: 2px;
   color: #fff;
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, .7));
+}
+
+.historical-lead-time {
+  height: 70vh;
 }
