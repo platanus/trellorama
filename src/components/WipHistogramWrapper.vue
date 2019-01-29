@@ -15,16 +15,26 @@
       </div>
     </div>
     <WipHistogram
-      v-bind:activities="listActivities(selectedList)"
       :binWidth="binWidth"
       :listTimes="listTimes()"
+      @selectedBin="selectedBin"
     />
+    <div class="dashboard__wip-histogram-cards">
+      <Card
+        v-for="selectedCard in selectedCards"
+        v-bind:key="selectedCard.card.id"
+        v-bind:card="selectedCard.card"
+        v-bind:days="selectedCard.time"
+        v-bind:average="average"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import WipHistogram from './WipHistogram.vue';
 import { getListCards, getTimes } from '../utils/timeBetweenLists.js';
+import Card from './Card.vue';
 
 const decimalRoundParameter = 100;
 
@@ -33,20 +43,27 @@ export default {
   props: {
     cardActivities: Array,
     wipLists: Array,
+    cards: Array,
   },
   components: {
     WipHistogram,
+    Card,
   },
   data() {
     return {
       selectedList: null,
       binWidth: 1,
+      selectedCards: [],
+      average: 0,
     };
   },
   watch: {
     wipLists() {
       if (this.wipLists.length === 0) this.selectedList = null;
       this.selectedList = this.wipLists[0].id;
+    },
+    selectedCards() {
+      this.average = this.selectedCards.map((card) => card.time).reduce((a, b) => a + b) / this.selectedCards.length;
     },
   },
   mounted() {
@@ -63,12 +80,22 @@ export default {
       if (times === undefined) return 1;
       const binSize = Math.ceil(Math.sqrt(times.length));
 
-      return Math.round((times[times.length - 1] - times[0]) / binSize);
+      return Math.round((times[times.length - 1].time - times[0].time) / binSize);
     },
     listTimes() {
-      return getTimes(...this.listActivities(this.selectedList))
-        .map((time) => Math.round(time * decimalRoundParameter) / decimalRoundParameter)
-        .sort((a, b) => a - b);
+      return getTimes(...this.listActivities(this.selectedList), true)
+        .map((card) => ({
+          time: Math.round(card.time * decimalRoundParameter) / decimalRoundParameter,
+          card: card.card,
+        })).sort((a, b) => a.time - b.time);
+    },
+    selectedBin(values) {
+      this.selectedCards = values.slice();
+      this.selectedCards = this.selectedCards.map((card) => ({
+        card: this.cards.filter((cardData) => cardData.id === card.card.id)[0],
+        time: card.time,
+      }));
+      this.selectedCards.sort((a, b) => b.time - a.time);
     },
   },
 };
