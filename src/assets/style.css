@@ -397,7 +397,6 @@ input[type=radio]:checked + .checkbox {
   z-index: 2;
   transition: width .5s;
   padding: 10px;
-  cursor: pointer;
   overflow-y: scroll;
 }
 
@@ -458,6 +457,7 @@ input[type=radio]:checked + .checkbox {
   overflow: hidden;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
 }
 
 .dashboard-options__option--centered {
@@ -663,6 +663,34 @@ input[type=radio]:checked + .checkbox {
   width: 30px;
   height: 30px;
   border-radius: 15px;
-  border-style: hidden;
-  border-width: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #fff;
+  margin: 5px;
+}
+
+.dashboard-checkbox__label {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+}
+
+.dashboard-checkbox__label label:hover {
+  cursor: pointer;
+}
+
+.trello-label {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  z-index: 1;
+  border-radius: 8px;
+  margin: 5px;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 2px;
 }

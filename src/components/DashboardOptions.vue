@@ -42,10 +42,23 @@
     />
     <transition name="hide">
       <div class="dashboard-options__labels" v-if="showLabels">
-        <div v-for="labelOption in labelOptions" v-bind:key="labelOption.value">
-          <input type="checkbox" :id="labelOption.value" :value="labelOption.value" v-model="selectedLabels">
-          <label :style="{ backgroundColor: labelOption.color, color: 'transparent' }">aa</label>
-          <label :for="labelOption.value" class="dashboard-options__text dashboard-options__text-small">
+        <button class="button button--small" v-on:click="selectAllLabels">
+            {{ $t('board.selectAll') }}
+        </button>
+        <button class="button button--small" v-on:click="unselectAllLabels">
+            {{ $t('board.unselectAll') }}
+        </button>
+        <div v-for="labelOption in labelOptions"
+          v-bind:key="labelOption.value === null ? 'noLabel' : labelOption.value" class="dashboard-checkbox__label">
+          <input type="checkbox"
+            :id="labelOption.value === null ? 'noLabel' : labelOption.value"
+            :value="labelOption.value" v-model="selectedLabels" style="display: none;">
+          <label :for="labelOption.value === null ? 'noLabel' : labelOption.value"
+            class="checkbox"></label>
+          <label :for="labelOption.value === null ? 'noLabel' : labelOption.value"
+            :style="{ backgroundColor: getTrelloLabelColor(labelOption.color) }" class="trello-label"></label>
+          <label :for="labelOption.value === null ? 'noLabel' : labelOption.value"
+            class="dashboard-options__text dashboard-options__text-small">
             {{labelOption.label}}
           </label>
         </div>
@@ -65,10 +78,17 @@
         <button class="button button--small" v-on:click="unselectAllMembers">
             {{ $t('board.unselectAll') }}
         </button>
-        <div v-for="member in allMembers" v-bind:key="member.id">
-          <input type="checkbox" :id="member.id" :value="member.id" v-model="selectedMembers">
-          <label :for="member.id" class="dashboard-options__text dashboard-options__text-small">
+        <div v-for="member in allMembers" v-bind:key="member.id  === null ? 'noMember' : member.id"
+          class="dashboard-checkbox__label">
+          <input type="checkbox" :id="member.id  === null ? 'noMember' : member.id"
+            :value="member.id" v-model="selectedMembers" style="display: none;">
+          <label :for="member.id  === null ? 'noMember' : member.id"
+            class="checkbox"></label>
+          <label :for="member.id  === null ? 'noMember' : member.id">
             <img :src="getImage(member)" class="member-avatar">
+          </label>
+          <label :for="member.id  === null ? 'noMember' : member.id"
+            class="dashboard-options__text dashboard-options__text-small">
             {{member.username}}
           </label>
         </div>
@@ -111,6 +131,8 @@ import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
 import DashboardOption from './DashboardOption.vue';
+
+/* global require */
 
 const sortValue = 1;
 
@@ -252,13 +274,37 @@ export default {
     getImage(member) {
       if (member.avatarHash !== null) return `https://trello-avatars.s3.amazonaws.com/${member.avatarHash}/30.png`;
 
-      return null;
+      return require('../assets/user.png');
     },
     selectAllMembers() {
       this.selectedMembers = this.allMembers.map((member) => member.id);
     },
     unselectAllMembers() {
       this.selectedMembers = [];
+    },
+    selectAllLabels() {
+      this.selectedLabels = this.labelOptions.map((label) => label.value);
+    },
+    unselectAllLabels() {
+      this.selectedLabels = [];
+    },
+    getTrelloLabelColor(colorName) {
+      const colors = {
+        blue: '#0079BF',
+        green: '#61BD4F',
+        orange: '#FFAB4A',
+        red: '#EB5A46',
+        yellow: '#F2D600',
+        purple: '#C377E0',
+        pink: '#FF80CE',
+        sky: '#E4F7FA',
+        lime: '#51E898',
+        shades: '#838C91',
+        black: '#000000',
+        null: 'transparent',
+      };
+
+      return colors[colorName];
     },
   },
 };
