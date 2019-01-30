@@ -71,6 +71,7 @@ export default {
     endDate: Date,
     dashboardState: String,
     tab: String,
+    selectedMembers: Array,
   },
   data() {
     return {
@@ -154,6 +155,10 @@ export default {
     allCardsActivities() {
       this.getSelectedActivities();
     },
+    selectedMembers() {
+      this.getSelectedCards();
+      this.getSelectedActivities();
+    },
   },
   methods: {
     getNumberOfCards() {
@@ -165,6 +170,9 @@ export default {
           (card) =>
             card.labels.map((label) => label.id).some((cardLabel) => this.selectedLabels.includes(cardLabel)) ||
             (this.selectedLabels.includes(null) ? card.labels.length === 0 : false)
+        ).filter((card) =>
+          card.idMembers.some((memberId) => this.selectedMembers.includes(memberId)) ||
+          (this.selectedMembers.includes(null) ? card.idMembers.length === 0 : false)
         );
       });
     },
