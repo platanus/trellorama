@@ -7,7 +7,7 @@
           <p>{{ label.name }}</p>
       </div>
     </div>
-    <h4>{{ card.name }}</h4>
+    <h4 class="card-name">{{ card.name }}</h4>
     <p><b>{{ $t('wip.days') }}: </b>{{ days }}</p>
   </div>
 </template>
