@@ -207,7 +207,6 @@ export default {
       request(
         `boards/${boardId}/labels`,
         (response) => {
-          console.log(response.data);
           self.labelOptions = response.data.map((label) => ({
             label: label.name,
             value: label.id,
