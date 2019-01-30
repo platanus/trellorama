@@ -709,6 +709,7 @@ input[type=radio]:checked + .checkbox {
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, .7));
 }
 
+
 .historical-lead-time {
   height: 70vh;
 }

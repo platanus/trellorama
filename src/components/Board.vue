@@ -238,10 +238,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.date-selector {
-  display: flex;
-  justify-content: center;
-}
-</style>

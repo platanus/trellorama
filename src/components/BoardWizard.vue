@@ -455,5 +455,3 @@ export default {
   },
 };
 </script>
-
-<style type="text/css" src="../assets/style.css"></style>
