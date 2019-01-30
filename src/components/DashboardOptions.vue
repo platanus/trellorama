@@ -54,9 +54,9 @@
             :id="labelOption.value === null ? 'noLabel' : labelOption.value"
             :value="labelOption.value" v-model="selectedLabels" style="display: none;">
           <label :for="labelOption.value === null ? 'noLabel' : labelOption.value"
-            class="checkbox"></label>
-          <label :for="labelOption.value === null ? 'noLabel' : labelOption.value"
-            :style="{ backgroundColor: getTrelloLabelColor(labelOption.color) }" class="trello-label"></label>
+            :style="{ backgroundColor: getTrelloLabelColor(labelOption.color) }" class="trello-label">
+            <font-awesome-icon icon="check" v-if="selectedLabels.includes(labelOption.value)" class="check-icon"/>
+          </label>
           <label :for="labelOption.value === null ? 'noLabel' : labelOption.value"
             class="dashboard-options__text dashboard-options__text-small">
             {{labelOption.label}}
