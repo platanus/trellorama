@@ -9,6 +9,10 @@
     </div>
     <h4 class="card-name">{{ card.name }}</h4>
     <p><b>{{ $t('wip.days') }}: </b>{{ days }}</p>
+    <div class="card-member__container">
+      <img v-for="member in cardMembers" :key="member.id"
+        class="member-avatar" :src="getImage(member)">
+    </div>
   </div>
 </template>
 
@@ -21,6 +25,10 @@ export default {
     average: Number,
     days: String,
     allLabels: {
+      type: Array,
+      default: () => [],
+    },
+    allMembers: {
       type: Array,
       default: () => [],
     },
@@ -38,6 +46,9 @@ export default {
     },
     cardLabels() {
       return this.allLabels.filter((label) => this.card.idLabels.includes(label.id));
+    },
+    cardMembers() {
+      return this.allMembers.filter((member) => this.card.idMembers.includes(member.id));
     },
   },
   methods: {
@@ -67,6 +78,11 @@ export default {
       };
 
       return colors[colorName];
+    },
+    getImage(member) {
+      if (member.avatarHash !== null) return `https://trello-avatars.s3.amazonaws.com/${member.avatarHash}/30.png`;
+
+      return require('../assets/user.png');
     },
   },
 };

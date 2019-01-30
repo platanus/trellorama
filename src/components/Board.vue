@@ -21,6 +21,7 @@
         :tab="tab"
         :backlogListCards="backlogListCards"
         :allLabels="allLabels"
+        :allMembers="allMembers"
       />
       <PastDashboard
         v-if="dashboardState === 'past'"
@@ -39,6 +40,7 @@
         :productionListIds="productionListIds"
         :allCardsActivities="allCardsActivities"
         :allLabels="allLabels"
+        :allMembers="allMembers"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"
@@ -95,6 +97,7 @@ export default {
       productionListIds: get(`production_${this.$props.board.id}`, []),
       progressListsIds: get(`wip_${this.$props.board.id}`, [null]),
       allLabels: [],
+      allMembers: [],
     };
   },
   computed: {
@@ -140,6 +143,7 @@ export default {
     this.getLists(this.$props.board.id, this.listIds);
     this.getAllCardsActivities(this.$props.board.id);
     this.getBoardLabels(this.$props.board.id);
+    this.getBoardMembers(this.$props.board.id);
   },
   watch: {
     startDate() {
@@ -249,6 +253,21 @@ export default {
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);
+        }
+      );
+    },
+    getBoardMembers(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/members`,
+        (response) => {
+          self.allMembers = response.data;
+        },
+        () => {
+          onRequestError(self.getBoardMembers, [boardId]);
+        },
+        {
+          fields: 'id,username,avatarHash',
         }
       );
     },
