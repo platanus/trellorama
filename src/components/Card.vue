@@ -17,6 +17,7 @@
 </template>
 
 <script>
+/* global require */
 
 export default {
   name: 'Card',
