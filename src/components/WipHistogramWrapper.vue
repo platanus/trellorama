@@ -26,6 +26,7 @@
         v-bind:card="selectedCard.card"
         v-bind:days="selectedCard.time"
         v-bind:average="average"
+        v-bind:allLabels="allLabels"
       />
     </div>
   </div>
@@ -44,6 +45,7 @@ export default {
     cardActivities: Array,
     wipLists: Array,
     cards: Array,
+    allLabels: Array,
   },
   components: {
     WipHistogram,

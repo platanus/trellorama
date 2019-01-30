@@ -38,6 +38,7 @@
         :progressListsIds="progressListsIds"
         :productionListIds="productionListIds"
         :allCardsActivities="allCardsActivities"
+        :allLabels="allLabels"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"

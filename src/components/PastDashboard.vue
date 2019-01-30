@@ -16,6 +16,7 @@
           v-bind:wipLists="wipLists"
           v-bind:cardActivities="cardActivities"
           v-bind:cards="allListCards"
+          v-bind:allLabels="allLabels"
         />
         <HistoricalBugsWrapper
           v-if="tab === 'bugs'"
@@ -79,6 +80,7 @@ export default {
     progressListsIds: Array,
     productionListIds: Array,
     allCardsActivities: Array,
+    allLabels: Array,
   },
 };
 </script>

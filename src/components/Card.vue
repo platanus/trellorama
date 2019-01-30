@@ -20,7 +20,10 @@ export default {
     card: Object,
     average: Number,
     days: String,
-    allLabels: Array,
+    allLabels: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     classObject() {
