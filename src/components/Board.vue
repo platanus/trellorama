@@ -20,6 +20,7 @@
         :boardId="board.id"
         :tab="tab"
         :backlogListCards="backlogListCards"
+        :allLabels="allLabels"
       />
       <PastDashboard
         v-if="dashboardState === 'past'"
@@ -92,6 +93,7 @@ export default {
       backlogListIds: get(`backlog_${this.$props.board.id}`, []),
       productionListIds: get(`production_${this.$props.board.id}`, []),
       progressListsIds: get(`wip_${this.$props.board.id}`, [null]),
+      allLabels: [],
     };
   },
   computed: {
@@ -136,6 +138,7 @@ export default {
   mounted() {
     this.getLists(this.$props.board.id, this.listIds);
     this.getAllCardsActivities(this.$props.board.id);
+    this.getBoardLabels(this.$props.board.id);
   },
   watch: {
     startDate() {
@@ -233,6 +236,18 @@ export default {
           filter: 'createCard,updateCard:idList',
           limit: 1000,
           before,
+        }
+      );
+    },
+    getBoardLabels(boardId) {
+      const self = this;
+      request(
+        `boards/${boardId}/labels`,
+        (response) => {
+          self.allLabels = response.data;
+        },
+        () => {
+          onRequestError(self.getBoardLabels, [boardId]);
         }
       );
     },

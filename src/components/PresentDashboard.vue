@@ -36,6 +36,7 @@
           v-bind:lists="wipLists"
           v-bind:wipLimits="wipLimits"
           v-bind:activities="allCardsActivities"
+          v-bind:allLabels="allLabels"
         />
       </div>
     </transition>
@@ -73,6 +74,7 @@ export default {
     boardId: String,
     tab: String,
     backlogListCards: Array,
+    allLabels: Array,
   },
 };
 </script>
