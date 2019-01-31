@@ -74,7 +74,7 @@ export default {
         (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id))
       ).filter((activity) => moment(activity.date).isBefore(endDate, this.dateTypeSelector)));
 
-      return incoming.length - outgoing.length;
+      return (incoming.length - outgoing.length) > 0 ? (incoming.length - outgoing.length) : 0;
     },
     buildChartData() {
       const dateLabels = [...new Set(this.getLabels(this.activities))]
