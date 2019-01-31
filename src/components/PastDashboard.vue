@@ -33,6 +33,16 @@
           v-bind:startDate="startDate"
           v-bind:endDate="endDate"
         />
+        <HistoricalLeadTimeWrapper
+          v-if="tab === 'historicalLeadTime'"
+          v-bind:activities="leadMetricsActivities"
+          v-bind:endListIds="endListIds"
+          v-bind:progressListIds="progressListsIds"
+          v-bind:backlogListIds="backlogListIds"
+          v-bind:productionListIds="productionListIds"
+          v-bind:endDate="endDate"
+          v-bind:startDate="startDate"
+        />
       </transition>
     </div>
   </div>
@@ -43,6 +53,7 @@ import CumulativeWrapper from './CumulativeWrapper.vue';
 import WipHistogramWrapper from './WipHistogramWrapper.vue';
 import HistoricalBugsWrapper from './HistoricalBugsWrapper.vue';
 import HistoricalSpeedWrapper from './HistoricalSpeedWrapper.vue';
+import HistoricalLeadTimeWrapper from './HistoricalLeadTimeWrapper.vue';
 
 export default {
   name: 'pastDashboard',
@@ -51,6 +62,7 @@ export default {
     WipHistogramWrapper,
     HistoricalBugsWrapper,
     HistoricalSpeedWrapper,
+    HistoricalLeadTimeWrapper,
   },
   props: {
     tab: String,
@@ -63,6 +75,9 @@ export default {
     allListCards: Array,
     endListIds: Array,
     backlogListIds: Array,
+    leadMetricsActivities: Array,
+    progressListsIds: Array,
+    productionListIds: Array,
   },
 };
 </script>

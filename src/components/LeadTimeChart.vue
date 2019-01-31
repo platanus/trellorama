@@ -47,10 +47,6 @@ const percentage = 100;
 export default {
   name: 'LeadTImeChart',
   props: {
-    filteredActivities: {
-      type: Array,
-      default: null,
-    },
     cardActivities: Array,
     endListIds: Array,
     progressListIds: Array,

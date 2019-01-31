@@ -33,6 +33,9 @@
         :allListCards="allListCards"
         :endListIds="endListIds"
         :backlogListIds="backlogListIds"
+        :leadMetricsActivities="leadMetricsActivities"
+        :progressListsIds="progressListsIds"
+        :productionListIds="productionListIds"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"
