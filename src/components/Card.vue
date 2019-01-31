@@ -39,3 +39,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" src="../assets/styles/card.scss"></style>

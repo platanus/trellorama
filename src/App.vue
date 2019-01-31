@@ -73,27 +73,10 @@ export default {
 </script>
 
 <style lang="scss" src="./assets/styles/app.scss"></style>
+<style lang="scss" src="./assets/styles/transitions.scss"></style>
 <style lang="scss" src="./assets/styles/buttons.scss"></style>
-<style lang="scss" src="./assets/styles/boardWizard.scss"></style>
-<style lang="scss" src="./assets/styles/dashboardOption.scss"></style>
+<style lang="scss" src="./assets/styles/checkbox.scss"></style>
 <style lang="scss" src="./assets/styles/dashboardOptions.scss"></style>
 <style lang="scss" src="./assets/styles/dashboardSubOptions.scss"></style>
-<style lang="scss" src="./assets/styles/boardList.scss"></style>
-<style lang="scss" src="./assets/styles/board.scss"></style>
-<style lang="scss" src="./assets/styles/boardBox.scss"></style>
-<style lang="scss" src="./assets/styles/backlogBugs.scss"></style>
-<style lang="scss" src="./assets/styles/card.scss"></style>
-<style lang="scss" src="./assets/styles/cumulativeWrapper.scss"></style>
-<style lang="scss" src="./assets/styles/futureDashboard.scss"></style>
-<style lang="scss" src="./assets/styles/historicalBugsWrapper.scss"></style>
-<style lang="scss" src="./assets/styles/historicalSpeedWrapper.scss"></style>
-<style lang="scss" src="./assets/styles/landingPage.scss"></style>
-<style lang="scss" src="./assets/styles/leadTime.scss"></style>
-<style lang="scss" src="./assets/styles/leadTimeChart.scss"></style>
-<style lang="scss" src="./assets/styles/pastDashboard.scss"></style>
-<style lang="scss" src="./assets/styles/presentDashboard.scss"></style>
-<style lang="scss" src="./assets/styles/projectionWrapper.scss"></style>
-<style lang="scss" src="./assets/styles/teamSpeed.scss"></style>
-<style lang="scss" src="./assets/styles/wipHistogramWrapper.scss"></style>
-<style lang="scss" src="./assets/styles/wipList.scss"></style>
-<style lang="scss" src="./assets/styles/wipLists.scss"></style>
+<style lang="scss" src="./assets/styles/dashboardOption.scss"></style>
+<style lang="scss" src="./assets/styles/dashboard.scss"></style>

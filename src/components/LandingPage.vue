@@ -23,3 +23,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" src="../assets/styles/landingPage.scss"></style>

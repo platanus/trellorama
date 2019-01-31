@@ -72,15 +72,6 @@
   font-size: 16px;
 }
 
-.checkbox {
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  background-color: #f0f0f0;
-  z-index: 1;
-  cursor: pointer;
-}
-
 .member-avatar {
   width: 30px;
   height: 30px;
@@ -101,14 +92,4 @@
   width: 310px;
   border-color: #000;
   margin: auto;
-}
-
-.hide-enter-active,
-.hide-leave-active {
-  transition: opacity .5s;
-}
-
-.hide-enter,
-.hide-leave-to {
-  opacity: 0;
 }

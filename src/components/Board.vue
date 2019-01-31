@@ -238,3 +238,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" src="../assets/styles/board.scss"></style>

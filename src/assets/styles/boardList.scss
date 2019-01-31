@@ -20,13 +20,3 @@
   width: calc(100vw - 200px);
   margin-left: 200px;
 }
-
-.hide-sub-options-enter-active,
-.hide-sub-options-leave-active {
-  transition: width .5s;
-}
-
-.hide-sub-options-enter,
-.hide-sub-options-leave-to {
-  width: 0;
-}

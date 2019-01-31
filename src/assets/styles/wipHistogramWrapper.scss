@@ -1,28 +1,5 @@
-.dashboard__single-item-container {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.dashboard__text {
-  opacity: 1;
-  color: #211952;
-  font-family: Rubik;
-  font-size: 20px;
-  letter-spacing: .4px;
-  line-height: 24px;
-  margin: auto;
-}
-
-.dashboard__subsection-title {
-  font-size: 18px;
-}
-
 .dashboard__wip-histogram-cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
-
-.dashboard__content-options {
-  padding: 10px;
 }
