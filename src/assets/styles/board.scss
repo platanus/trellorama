@@ -1,0 +1,13 @@
+.dashboard__board-title {
+  font-size: 36px;
+}
+
+.toggle-enter-active,
+.toggle-leave-active {
+  transition: opacity .5s;
+}
+
+.toggle-enter,
+.toggle-leave-to {
+  opacity: 0;
+}

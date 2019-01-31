@@ -1,0 +1,29 @@
+.wizard__board {
+  height: 84px;
+  width: 162px;
+  border: 1px solid rgba(33, 25, 82, .24);
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 9px 11px 0 rgba(85, 57, 255, .06);
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: auto;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.wizard__board--selected {
+  background-color: #ffd6ea;
+}
+
+.wizard__text--board {
+  color: #211952;
+  font-size: 18px;
+  letter-spacing: .4px;
+  line-height: 26px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
