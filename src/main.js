@@ -3,6 +3,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
+import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import dotenv from 'dotenv';
 import App from './App.vue';
@@ -14,7 +15,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueI18n);
 
-/* global process */
+Vue.use(Vuex);
+
+/* global process, store */
 
 dotenv.config();
 
@@ -28,6 +31,7 @@ const i18n = new VueI18n({
 
 new Vue({
   i18n,
+  store,
   render: h => h(App),
 }).$mount('#app');
 
