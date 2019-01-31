@@ -101,21 +101,18 @@ export default {
       return labels;
     },
     calculate(cardActivities) {
-      let responseTime = parseFloat(getAverageTime(
+      const responseTime = parseFloat(getAverageTime(
         ...getCardsBetweenTwoLists(cardActivities, this.backlogListIds, this.progressListIds),
         1
-      ));
-      if (isNaN(responseTime)) responseTime = 0;
-      let cycleTime = parseFloat(getAverageTime(
+      )) || 0;
+      const cycleTime = parseFloat(getAverageTime(
         ...getCardsBetweenTwoLists(cardActivities, this.progressListIds, this.endListIds),
         1
-      ));
-      if (isNaN(cycleTime)) cycleTime = 0;
-      let deployTime = parseFloat(getAverageTime(
+      )) || 0;
+      const deployTime = parseFloat(getAverageTime(
         ...getCardsBetweenTwoLists(cardActivities, this.endListIds, this.productionListIds),
         1
-      ));
-      if (isNaN(deployTime)) deployTime = 0;
+      )) || 0;
 
       return {
         responseTime,
