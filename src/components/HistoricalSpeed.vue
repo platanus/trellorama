@@ -120,11 +120,10 @@ export default {
       );
 
       return filterActivities(
-        this.activities.filter((activity) => moment(activity.date).isSameOrAfter(prevLabel, this.dateTypeSelector))
-          .filter((activity) => moment(activity.date).isBefore(label, this.dateTypeSelector)),
+        this.activities.filter((activity) => moment(activity.date).isBefore(label, this.dateTypeSelector)),
         this.endListIds,
         this.dateTypeSelector
-      ).length;
+      ).filter((activity) => moment(activity.date).isSameOrAfter(prevLabel, this.dateTypeSelector)).length;
     },
   },
 };

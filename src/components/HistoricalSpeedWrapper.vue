@@ -6,7 +6,6 @@
       &ensp;
       <label for="dateTypeSelector">{{ $t('chart.dateFormat') }}: </label>
       <select id="dateTypeSelector" v-model="dateTypeSelector">
-        <option value="day">{{ $t('date.day') }}</option>
         <option value="week">{{ $t('date.week') }}</option>
         <option value="month">{{ $t('date.month') }}</option>
       </select>
