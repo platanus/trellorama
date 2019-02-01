@@ -18,3 +18,14 @@ export function setLabels(state, data) {
     return 0;
   });
 }
+
+export function setMembers(state, data) {
+  state.members = data;
+  state.members.push({ username: 'No Member', id: null, avatarHash: null });
+  state.members.sort((a, b) => {
+    if (a.username.toLowerCase() < b.username.toLowerCase()) return -sortValue;
+    if (a.username.toLowerCase() > b.username.toLowerCase()) return sortValue;
+
+    return 0;
+  });
+}

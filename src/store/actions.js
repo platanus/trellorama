@@ -25,3 +25,18 @@ export function getLabels({ dispatch, commit }, boardId) {
     }
   );
 }
+
+export function getMembers({ dispatch, commit }, boardId) {
+  return request(
+    `boards/${boardId}/members`,
+    (response) => {
+      commit('setMembers', response.data);
+    },
+    () => {
+      onRequestError(dispatch('getMembers', boardId));
+    },
+    {
+      fields: 'id,username,avatarHash',
+    }
+  );
+}

@@ -127,7 +127,6 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 import { subtractToDate } from '../utils/dateManager.js';
 import DashboardOption from './DashboardOption.vue';
@@ -155,16 +154,13 @@ export default {
       )),
       endDate: new Date(),
       dashboardState: 'present',
-      allMembers: [],
       selectedMembers: [],
       showMembers: false,
     };
   },
   mounted() {
-    this.$store.dispatch('getLabels', this.board.id);
     this.selectStartDate();
     this.selectEndDate();
-    this.getBoardMembers(this.board.id);
   },
   computed: {
     containerClass() {
@@ -175,6 +171,9 @@ export default {
     },
     labelOptions() {
       return this.$store.state.labels;
+    },
+    allMembers() {
+      return this.$store.state.members;
     },
   },
   watch: {
@@ -195,6 +194,10 @@ export default {
     labelOptions() {
       this.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
       if (this.selectedLabels === null) this.selectedLabels = this.labelOptions.map((label) => label.value);
+    },
+    allMembers() {
+      this.selectedMembers = get(`${this.board.id}_selectedMembers`, null);
+      if (this.selectedMembers === null) this.selectedMembers = this.allMembers.map((member) => member.id);
     },
   },
   methods: {
@@ -226,24 +229,6 @@ export default {
     setState(value) {
       this.dashboardState = value;
       this.$emit('dashboardState', this.dashboardState);
-    },
-    getBoardMembers(boardId) {
-      const self = this;
-      request(
-        `boards/${boardId}/members`,
-        (response) => {
-          self.allMembers = response.data;
-          self.allMembers.push({ username: 'No Member', id: null, avatarHash: null });
-          self.selectedMembers = get(`${this.board.id}_selectedMembers`, null);
-          if (self.selectedMembers === null) self.selectedMembers = self.allMembers.map((member) => member.id);
-        },
-        () => {
-          onRequestError(self.getBoardMembers, [boardId]);
-        },
-        {
-          fields: 'id,username,avatarHash',
-        }
-      );
     },
     toggleMembers() {
       if (this.minimized) this.toggleOptions();
