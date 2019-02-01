@@ -36,6 +36,9 @@ export default {
     };
   },
   watch: {
+    startDate() {
+      this.renderData();
+    },
     activities() {
       this.renderData();
     },
@@ -101,8 +104,12 @@ export default {
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
+      const finalDateLabels = dateLabels.filter((label) =>
+        moment(label).isSameOrAfter(this.startDate, this.dateTypeSelector)
+      );
+      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
       this.chartdata = {
-        labels: dateLabels,
+        labels: finalDateLabels,
         datasets: [currentDataset],
       };
     },
