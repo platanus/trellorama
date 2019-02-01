@@ -3,11 +3,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
-import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import dotenv from 'dotenv';
 import App from './App.vue';
 import messages from './utils/localeText.js';
+import store from './store/store.js';
 
 library.add(fas);
 
@@ -15,9 +15,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueI18n);
 
-Vue.use(Vuex);
-
-/* global process, store */
+/* global process */
 
 dotenv.config();
 
