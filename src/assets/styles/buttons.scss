@@ -1,0 +1,32 @@
+.button {
+  height: 56px;
+  width: 200px;
+  border: 1px solid #211952;
+  background-color: #fff;
+  margin: 5px;
+  color: #211952;
+  font-family: Rubik;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: .4px;
+  line-height: 24px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.button--small {
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+}
+
+.button--disabled {
+  cursor: default;
+  background-color: #eaeaea;
+  opacity: .5;
+}
+
+.button--save {
+  background-color: #fcea10;
+  border: 0;
+}

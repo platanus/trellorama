@@ -1,0 +1,22 @@
+.dashboard-options__container {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  height: 100%;
+  z-index: 1;
+}
+
+.dashboard-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.dashboard-content {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  width: calc(100vw - 200px);
+  margin-left: 200px;
+}

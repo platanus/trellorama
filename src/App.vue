@@ -72,5 +72,11 @@ export default {
 };
 </script>
 
-<style type="text/css" src="./assets/style.css"></style>
-
+<style lang="scss" src="./assets/styles/app.scss"></style>
+<style lang="scss" src="./assets/styles/transitions.scss"></style>
+<style lang="scss" src="./assets/styles/buttons.scss"></style>
+<style lang="scss" src="./assets/styles/checkbox.scss"></style>
+<style lang="scss" src="./assets/styles/dashboardOptions.scss"></style>
+<style lang="scss" src="./assets/styles/dashboardSubOptions.scss"></style>
+<style lang="scss" src="./assets/styles/dashboardOption.scss"></style>
+<style lang="scss" src="./assets/styles/dashboard.scss"></style>

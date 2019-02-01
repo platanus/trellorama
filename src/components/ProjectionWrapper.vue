@@ -127,16 +127,3 @@ export default {
 };
 
 </script>
-
-<style>
-.date-selector {
-  display: flex;
-  justify-content: center;
-}
-
-.date-selector--input {
-  margin: 10px;
-  display: flex;
-}
-</style>
-

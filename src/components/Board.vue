@@ -240,9 +240,4 @@ export default {
 };
 </script>
 
-<style>
-.date-selector {
-  display: flex;
-  justify-content: center;
-}
-</style>
+<style lang="scss" src="../assets/styles/board.scss"></style>

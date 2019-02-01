@@ -1,0 +1,23 @@
+.wip-lists {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
+.wip-list {
+  flex: 1;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: scroll;
+  padding: 5px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #000;
+}

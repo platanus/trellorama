@@ -1,0 +1,29 @@
+.toggle-enter-active,
+.toggle-leave-active {
+  transition: opacity .5s;
+}
+
+.toggle-enter,
+.toggle-leave-to {
+  opacity: 0;
+}
+
+.hide-sub-options-enter-active,
+.hide-sub-options-leave-active {
+  transition: width .5s;
+}
+
+.hide-sub-options-enter,
+.hide-sub-options-leave-to {
+  width: 0;
+}
+
+.hide-enter-active,
+.hide-leave-active {
+  transition: opacity .5s;
+}
+
+.hide-enter,
+.hide-leave-to {
+  opacity: 0;
+}
