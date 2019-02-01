@@ -68,13 +68,16 @@ export default {
         );
     },
     getBugs(endDate) {
-      const incoming = this.filterDuplicates(this.activities.filter((activity) =>
-        (activity.type === 'createCard') ||
-        (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listAfter.id))
-      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, this.dateTypeSelector)));
+      let incoming = this.activities.filter((activity) =>
+        (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listAfter.id &&
+         !this.backlogListIds.includes(activity.data.listBefore.id)))
+      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, this.dateTypeSelector));
+      incoming = incoming.concat(this.activities.filter((activity) => activity.type === 'createCard'))
+        .filter((activity) => moment(activity.date).isSameOrBefore(endDate, this.dateTypeSelector));
 
       const outgoing = this.filterDuplicates(this.activities.filter((activity) =>
-        (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id))
+        (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id) &&
+         !this.backlogListIds.includes(activity.data.listBefore.id))
       ).filter((activity) => moment(activity.date).isBefore(endDate, this.dateTypeSelector)));
 
       return incoming.length - outgoing.length;

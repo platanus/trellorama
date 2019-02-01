@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      dateTypeSelector: get(`${this.boardId}_hist_speed_dateType`, 'day'),
+      dateTypeSelector: get(`${this.boardId}_hist_speed_dateType`, 'week'),
       dayOfWeek: get(`${this.boardId}_hist_speed_dayOfWeek`, 'monday'),
     };
   },
