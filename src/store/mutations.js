@@ -4,7 +4,7 @@ export function saveBoards(state, data) {
   state.boards = data;
 }
 
-export function setLabels(state, data) {
+export function saveLabels(state, data) {
   state.labels = data.map((label) => ({
     label: label.name,
     value: label.id,
@@ -19,7 +19,7 @@ export function setLabels(state, data) {
   });
 }
 
-export function setMembers(state, data) {
+export function saveMembers(state, data) {
   state.members = data;
   state.members.push({ username: 'No Member', id: null, avatarHash: null });
   state.members.sort((a, b) => {

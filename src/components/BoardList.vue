@@ -60,8 +60,7 @@ export default {
   },
   watch: {
     board() {
-      this.$store.dispatch('getLabels', this.board.id);
-      this.$store.dispatch('getMembers', this.board.id);
+      this.$store.dispatch('getBoardData', this.board.id);
     },
   },
   methods: {

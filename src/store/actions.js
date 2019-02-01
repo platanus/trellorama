@@ -10,33 +10,42 @@ function getBoards() {
   );
 }
 
-export async function setBoards({ commit }) {
-  commit('saveBoards', await getBoards());
-}
-
-export function getLabels({ dispatch, commit }, boardId) {
+function getLabels(boardId) {
   return request(
     `boards/${boardId}/labels`,
-    (response) => {
-      commit('setLabels', response.data);
-    },
+    (response) => response.data,
     () => {
-      onRequestError(dispatch('getLabels', boardId));
+      onRequestError(getLabels(boardId));
     }
   );
 }
 
-export function getMembers({ dispatch, commit }, boardId) {
+function getMembers(boardId) {
   return request(
     `boards/${boardId}/members`,
-    (response) => {
-      commit('setMembers', response.data);
-    },
+    (response) => response.data,
     () => {
-      onRequestError(dispatch('getMembers', boardId));
+      onRequestError(getMembers(boardId));
     },
     {
       fields: 'id,username,avatarHash',
     }
   );
+}
+
+export async function setBoards({ commit }) {
+  commit('saveBoards', await getBoards());
+}
+
+export async function setLabels({ commit }, boardId) {
+  commit('saveLabels', await getLabels(boardId));
+}
+
+export async function setMembers({ commit }, boardId) {
+  commit('saveMembers', await getMembers(boardId));
+}
+
+export async function getBoardData({ dispatch }, boardId) {
+  await dispatch('setLabels', boardId);
+  await dispatch('setMembers', boardId);
 }
