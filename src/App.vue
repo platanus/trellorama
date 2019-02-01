@@ -6,7 +6,7 @@
         v-bind:boards="boards"
         @setSettings="setSettings"
       />
-      <BoardList v-else v-bind:boards="selectedBoards" @setSettings="setSettings"/>
+      <BoardList v-else v-bind:board="selectedBoards[0]" @setSettings="setSettings"/>
     </div>
     <LandingPage v-else/>
   </div>
