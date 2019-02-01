@@ -36,6 +36,9 @@ export default {
     };
   },
   watch: {
+    startDate() {
+      this.renderData();
+    },
     activities() {
       this.renderData();
     },
@@ -74,7 +77,7 @@ export default {
         (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id))
       ).filter((activity) => moment(activity.date).isBefore(endDate, this.dateTypeSelector)));
 
-      return (incoming.length - outgoing.length) > 0 ? (incoming.length - outgoing.length) : 0;
+      return incoming.length - outgoing.length;
     },
     buildChartData() {
       const dateLabels = [...new Set(this.getLabels(this.activities))]
@@ -101,8 +104,12 @@ export default {
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
+      const finalDateLabels = dateLabels.filter((label) =>
+        moment(label).isSameOrAfter(this.startDate, this.dateTypeSelector)
+      );
+      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
       this.chartdata = {
-        labels: dateLabels,
+        labels: finalDateLabels,
         datasets: [currentDataset],
       };
     },

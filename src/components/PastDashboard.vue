@@ -20,7 +20,7 @@
         <HistoricalBugsWrapper
           v-if="tab === 'bugs'"
           v-bind:boardId="boardId"
-          v-bind:activities="cardActivities"
+          v-bind:activities="allCardsActivities"
           v-bind:cards="allListCards"
           v-bind:backlogListIds="backlogListIds"
           v-bind:startDate="startDate"
@@ -78,6 +78,7 @@ export default {
     leadMetricsActivities: Array,
     progressListsIds: Array,
     productionListIds: Array,
+    allCardsActivities: Array,
   },
 };
 </script>
