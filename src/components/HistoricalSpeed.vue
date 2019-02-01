@@ -1,5 +1,5 @@
 <script>
-import { Line } from 'vue-chartjs';
+import { Bar } from 'vue-chartjs';
 import moment from 'moment';
 import { fillDatasetGaps, fillFromStartDate, getColor } from '../utils/chartUtils.js';
 import { getDate } from '../utils/dateManager.js';
@@ -7,7 +7,7 @@ import { filterActivities, speedProjection } from '../utils/speedUtil.js';
 
 export default {
   name: 'historicalSpeed',
-  mixins: [Line],
+  mixins: [Bar],
   props: {
     activities: {
       type: Array,
@@ -65,6 +65,7 @@ export default {
         ),
         backgroundColor: getColor('speedBlue')[0],
         borderColor: getColor('speedBlue')[1],
+        type: 'line',
       };
       fillDatasetGaps(
         dateLabels,
@@ -82,9 +83,15 @@ export default {
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
+      const specificSpeed = {
+        label: this.$t('historicalSpeed.bar'),
+        type: 'bar',
+        backgroundColor: getColor('green')[0],
+        data: dateLabels.map((label) => this.getSpecificSpeed(label)),
+      };
       this.chartdata = {
         labels: dateLabels,
-        datasets: [currentDataset],
+        datasets: [currentDataset, specificSpeed],
       };
     },
     getSpeed(endDate) {
@@ -104,6 +111,19 @@ export default {
         this.activities.map((activity) => getDate(activity.date, this.dateTypeSelector, this.dayOfWeek))
       )]
         .sort((date1, date2) => moment(date1) - moment(date2));
+    },
+    getSpecificSpeed(label) {
+      const prevLabel = getDate(
+        moment(label).subtract(1, `${this.dateTypeSelector}s`),
+        this.dateTypeSelector,
+        this.dayOfWeek
+      );
+
+      return filterActivities(
+        this.activities.filter((activity) => moment(activity.date).isBefore(label, this.dateTypeSelector)),
+        this.endListIds,
+        this.dateTypeSelector
+      ).filter((activity) => moment(activity.date).isSameOrAfter(prevLabel, this.dateTypeSelector)).length;
     },
   },
 };
