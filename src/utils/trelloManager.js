@@ -66,7 +66,7 @@ function onRequestError(functionToExecute, parametersList = []) {
 }
 
 function request(url, onSuccess, onError, params = {}) {
-  axios.get(`${baseUrl}${url}?key=${getApiKey()}&token=${getToken()}${parseParams(params)}`)
+  return axios.get(`${baseUrl}${url}?key=${getApiKey()}&token=${getToken()}${parseParams(params)}`)
     .then(onSuccess)
     .catch(onError);
 }
