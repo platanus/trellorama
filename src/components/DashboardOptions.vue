@@ -134,8 +134,6 @@ import DashboardOption from './DashboardOption.vue';
 
 /* global require */
 
-const sortValue = 1;
-
 export default {
   name: 'dashboardOptions',
   components: {
@@ -148,7 +146,6 @@ export default {
   data() {
     return {
       minimized: true,
-      labelOptions: [],
       selectedLabels: [],
       showLabels: false,
       showDates: false,
@@ -164,7 +161,7 @@ export default {
     };
   },
   mounted() {
-    this.getBoardLabels(this.board.id);
+    this.$store.dispatch('getLabels', this.board.id);
     this.selectStartDate();
     this.selectEndDate();
     this.getBoardMembers(this.board.id);
@@ -175,6 +172,9 @@ export default {
         'dashboard-options': true,
         'dashboard-options-open': !this.minimized,
       };
+    },
+    labelOptions() {
+      return this.$store.state.labels;
     },
   },
   watch: {
@@ -192,6 +192,10 @@ export default {
     endDate() {
       this.selectEndDate();
     },
+    labelOptions() {
+      this.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
+      if (this.selectedLabels === null) this.selectedLabels = this.labelOptions.map((label) => label.value);
+    },
   },
   methods: {
     toggleOptions() {
@@ -201,31 +205,6 @@ export default {
         if (this.showDates) this.showDates = false;
         if (this.showMembers) this.showMembers = false;
       }
-    },
-    getBoardLabels(boardId) {
-      const self = this;
-      request(
-        `boards/${boardId}/labels`,
-        (response) => {
-          self.labelOptions = response.data.map((label) => ({
-            label: label.name,
-            value: label.id,
-            color: label.color,
-          }));
-          self.labelOptions.push({ label: 'No Label', value: null });
-          self.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
-          if (self.selectedLabels === null) self.selectedLabels = self.labelOptions.map((label) => label.value);
-          this.labelOptions = this.labelOptions.sort((a, b) => {
-            if (a.label.toLowerCase() < b.label.toLowerCase()) return -sortValue;
-            if (a.label.toLowerCase() > b.label.toLowerCase()) return sortValue;
-
-            return 0;
-          });
-        },
-        () => {
-          onRequestError(self.getBoardLabels, [boardId]);
-        }
-      );
     },
     enterWizard() {
       this.$emit('setSettings', true);
