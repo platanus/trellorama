@@ -6,7 +6,7 @@
         v-for="list in lists"
         v-bind:key="list.id"
         v-bind:list="list"
-        v-bind:cards="cards[list.id]"
+        v-bind:cards="cards[list.id] === undefined ? [] : cards[list.id]"
         v-bind:WIPLimit="getWip(list.id)"
         v-bind:activities="listActivities(list.id)"
         v-bind:averageTime="averageTime(list.id)"

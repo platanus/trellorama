@@ -20,6 +20,7 @@
     </div>
     <div class="dashboard-container">
       <Board
+        v-if="ready"
         class="dashboard-content"
         v-bind:board="board"
         v-bind:selectedLabels="selectedLabels"
@@ -37,6 +38,7 @@
 import Board from './Board.vue';
 import DashboardOptions from './DashboardOptions.vue';
 import DashboardSubOptions from './DashboardSubOptions.vue';
+import { get } from '../utils/configurationPersistance.js';
 
 export default {
   name: 'BoardList',
@@ -58,10 +60,25 @@ export default {
       selectedMembers: [],
     };
   },
+  computed: {
+    ready() {
+      return this.$store.state.ready;
+    },
+  },
   watch: {
     board() {
-      this.$store.dispatch('getBoardData', this.board.id);
+      this.$store.dispatch('getBoardData', {
+        boardId: this.board.id,
+        listIds: get(`lists_${this.board.id}`, []),
+      });
     },
+  },
+  mounted() {
+    if (this.board === undefined) return;
+    this.$store.dispatch('getBoardData', {
+      boardId: this.board.id,
+      listIds: get(`lists_${this.board.id}`, []),
+    });
   },
   methods: {
     setSettings() {

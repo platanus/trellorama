@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 const sortValue = 1;
 
 export function saveBoards(state, data) {
@@ -29,3 +31,24 @@ export function saveMembers(state, data) {
     return 0;
   });
 }
+
+export function saveLists(state, data) {
+  state.lists = data;
+  state.lists.forEach((list) => Vue.set(state.allCardsByList, list.id, []));
+}
+
+export function saveAllCardsByList(state, payload) {
+  Vue.set(state.allCardsByList, payload.listId, payload.data);
+}
+
+export function saveAllCardsActivities(state, payload) {
+  if (payload.clean) {
+    state.allCardsActivities = [];
+  }
+  state.allCardsActivities = state.allCardsActivities.concat(payload.data);
+}
+
+export function isReady(state) {
+  state.ready = true;
+}
+
