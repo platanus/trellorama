@@ -10,6 +10,8 @@
         v-bind:WIPLimit="getWip(list.id)"
         v-bind:activities="listActivities(list.id)"
         v-bind:averageTime="averageTime(list.id)"
+        v-bind:allLabels="allLabels"
+        :allMembers="allMembers"
       />
     </div>
   </div>
@@ -26,6 +28,8 @@ export default {
     cards: Object,
     wipLimits: Array,
     activities: Array,
+    allLabels: Array,
+    allMembers: Array,
   },
   components: {
     WIPList,
