@@ -87,9 +87,11 @@ const messages = {
         title: 'Choose the Archived Lists',
         description: 'Choose the Lists you want to take their archived Cards into the metrics.',
       },
-      bug: {
-        title: 'Choose the Bug Labels',
-        description: 'Choose the labels you use to mark bugs.',
+      labels: {
+        title: 'Classify your labels',
+        description: 'Mark the labels in their respective categories.',
+        bug: 'Bugs',
+        objective: 'Goals',
       },
       wipLimit: {
         title: 'Select the Work in Progress Limit',
@@ -143,6 +145,9 @@ const messages = {
     },
     backlogBug: {
       legend: 'Bug Cards in Backlog',
+    },
+    objectivePercentage: {
+      legend: 'Cards Completed for Goal',
     },
   },
   es: {
@@ -233,9 +238,11 @@ const messages = {
         title: 'Elija las Listas Archivadas',
         description: 'Elija las listas de las cuales quiere considerar sus tarjetas archivadas para las métricas.',
       },
-      bug: {
-        title: 'Elija las Etiquetas de Errores',
-        description: 'Elija las etiquetas que usa para marcar errores.',
+      labels: {
+        title: 'Clasifique sus etiquetas',
+        description: 'Seleccione las etiquetas en sus categorias respectivas.',
+        bug: 'Bugs',
+        objective: 'Objetivos',
       },
       wipLimit: {
         title: 'Elija un Límite de Trabajo en Progreso',
@@ -289,6 +296,9 @@ const messages = {
     },
     backlogBug: {
       legend: 'Tarjetas de Bug en Backlog',
+    },
+    objectivePercentage: {
+      legend: 'Tarjetas Completadas para Objetivo',
     },
   },
 };
