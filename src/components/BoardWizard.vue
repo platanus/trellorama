@@ -105,23 +105,44 @@
         </div>
       </div>
       <div v-if="stage === 3" class="wizard__container wizard__container--center">
-        <p class="wizard__title">{{ $t('wizard.bug.title') }}</p>
-        <p class="wizard__text">{{ $t('wizard.archived.description') }}</p>
+        <p class="wizard__title">{{ $t('wizard.labels.title') }}</p>
+        <p class="wizard__text">{{ $t('wizard.labels.description') }}</p>
         <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
         <div style="width: 100%;"></div>
-        <div class="wizard__container wizard__container__list wizard__container__list--alone">
-          <div class="checkbox-container" v-for="label in labels" :key="label.id">
-            <input
-              type="checkbox"
-              :id="`bugLabels_${label.id}`"
-              style="display: none;"
-              :value="label.id"
-              v-model="bugLabels"
-            >
-            <label :for="`bugLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
-            <label :for="`bugLabels_${label.id}`" class="wizard__text--list" v-on:click="generalListChangedNoDisable">
-              {{ label.name }}
-            </label>
+          <div class="wizard__container__list--container">
+          <p class="wizard__text">{{ $t('wizard.labels.bug') }}</p>
+          <div class="wizard__container wizard__container__list wizard__container__list--special">
+            <div class="checkbox-container" v-for="label in labels" :key="`bug_${label.id}`">
+              <input
+                type="checkbox"
+                :id="`bugLabels_${label.id}`"
+                style="display: none;"
+                :value="label.id"
+                v-model="bugLabels"
+              >
+              <label :for="`bugLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
+              <label :for="`bugLabels_${label.id}`" class="wizard__text--list" v-on:click="generalListChangedNoDisable">
+                {{ label.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="wizard__container__list--container">
+          <p class="wizard__text">{{ $t('wizard.labels.objective') }}</p>
+          <div class="wizard__container wizard__container__list wizard__container__list--special">
+            <div class="checkbox-container" v-for="label in labels" :key="`obj_${label.id}`">
+              <input
+                type="checkbox"
+                :id="`objectiveLabels_${label.id}`"
+                style="display: none;"
+                :value="label.id"
+                v-model="objectiveLabels"
+              >
+              <label :for="`objectiveLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
+              <label :for="`objectiveLabels_${label.id}`" class="wizard__text--list" v-on:click="generalListChangedNoDisable">
+                {{ label.name }}
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -186,6 +207,7 @@ export default {
       labels: [],
       bugLabels: [],
       wipLimits: {},
+      objectiveLabels: [],
     };
   },
   computed: {
@@ -244,6 +266,7 @@ export default {
       this.toLoad = false;
     } else if (this.stage === stages.selectBugLabels && this.toLoad) {
       this.loadUpdatedListNoDisable(this.bugLabels, 'bugLabels_', false);
+      this.loadUpdatedListNoDisable(this.objectiveLabels, 'objectiveLabels_', false);
       this.toLoad = false;
     } else if (this.stage === stages.setWIPLimit && this.toLoad) {
       this.loadWIP();
@@ -274,6 +297,7 @@ export default {
           save(`archived_${this.selectedBoard}`, this.archivedLists);
         } else if (this.stage === stages.selectBugLabels) {
           save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+          save(`objectiveLabels_${this.selectedBoard}`, this.objectiveLabels);
         } else if (this.stage === stages.setWIPLimit) {
           save(
             `wipLimit_${this.selectedBoard}`,
@@ -437,6 +461,7 @@ export default {
     saveBugLabels() {
       this.stage++;
       save(`bugLabels_${this.selectedBoard}`, this.bugLabels);
+      save(`objectiveLabels_${this.selectedBoard}`, this.objectiveLabels);
     },
     advancedActions() {
       const progressBar = document.getElementById('progress_bar');
@@ -447,6 +472,7 @@ export default {
       } else if (this.stage === stages.selectArchived) {
         this.saveArchived();
         this.bugLabels = get(`bugLabels_${this.selectedBoard}`, []);
+        this.objectiveLabels = get(`objectiveLabels_${this.selectedBoard}`, []);
       } else if (this.stage === stages.selectBugLabels) {
         this.saveBugLabels();
       }
