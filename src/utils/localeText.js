@@ -91,7 +91,7 @@ const messages = {
         title: 'Classify your labels',
         description: 'Mark the labels in their respective categories.',
         bug: 'Bugs',
-        objective: 'Objectives',
+        objective: 'Goals',
       },
       wipLimit: {
         title: 'Select the Work in Progress Limit',
@@ -147,7 +147,7 @@ const messages = {
       legend: 'Bug Cards in Backlog',
     },
     objectivePercentage: {
-      legend: 'Of objectives ready',
+      legend: 'Cards Completed for Goal',
     },
   },
   es: {
@@ -298,7 +298,7 @@ const messages = {
       legend: 'Tarjetas de Bug en Backlog',
     },
     objectivePercentage: {
-      legend: 'Objetivos listos',
+      legend: 'Tarjetas Completadas para Objetivo',
     },
   },
 };
