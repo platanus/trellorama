@@ -146,6 +146,9 @@ const messages = {
     backlogBug: {
       legend: 'Bug Cards in Backlog',
     },
+    objectivePercentage: {
+      legend: 'Of objectives ready',
+    },
   },
   es: {
     board: {
@@ -293,6 +296,9 @@ const messages = {
     },
     backlogBug: {
       legend: 'Tarjetas de Bug en Backlog',
+    },
+    objectivePercentage: {
+      legend: 'Objetivos listos',
     },
   },
 };
