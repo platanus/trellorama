@@ -138,8 +138,10 @@
                 :value="label.id"
                 v-model="objectiveLabels"
               >
-              <label :for="`objectiveLabels_${label.id}`" class="checkbox" v-on:click="generalListChangedNoDisable"></label>
-              <label :for="`objectiveLabels_${label.id}`" class="wizard__text--list" v-on:click="generalListChangedNoDisable">
+              <label :for="`objectiveLabels_${label.id}`"
+                class="checkbox" v-on:click="generalListChangedNoDisable"></label>
+              <label :for="`objectiveLabels_${label.id}`"
+                class="wizard__text--list" v-on:click="generalListChangedNoDisable">
                 {{ label.name }}
               </label>
             </div>
