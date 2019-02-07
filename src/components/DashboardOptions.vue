@@ -201,7 +201,11 @@ export default {
     },
     allMembers() {
       this.selectedMembers = get(`${this.board.id}_selectedMembers`, null);
+      const oldMembers = get(`${this.board.id}_oldMembers`, []);
       if (this.selectedMembers === null) this.selectedMembers = this.allMembers.map((member) => member.id);
+      this.allMembers.filter((member) => !oldMembers.includes(member.id))
+        .forEach((member) => this.selectedMembers.push(member.id));
+      save(`${this.board.id}_oldMembers`, this.allMembers.map((member) => member.id));
     },
   },
   methods: {
