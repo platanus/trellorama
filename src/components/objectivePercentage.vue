@@ -36,8 +36,8 @@ export default {
     const labels = get(`objectiveLabels_${this.boardId}`, []);
     this.objectiveLabels = this.allLabels.filter((label) => labels.includes(label.value));
     this.objectiveLabels = this.objectiveLabels.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) return -sortValue;
-      if (a.name.toLowerCase() > b.name.toLowerCase()) return sortValue;
+      if (a.label.toLowerCase() < b.label.toLowerCase()) return -sortValue;
+      if (a.label.toLowerCase() > b.label.toLowerCase()) return sortValue;
 
       return 0;
     });
@@ -53,6 +53,7 @@ export default {
     },
     percentage(labelId) {
       const usefulCards = this.usefulCards(labelId);
+      if (usefulCards.length === 0) return 0;
 
       return parseInt((usefulCards.filter((card) =>
         this.endListIds.concat(this.roductionListIds).includes(card.idList)
