@@ -6,14 +6,14 @@
         v-bind:boards="boards"
         @setSettings="setSettings"
       />
-      <BoardList v-else v-bind:boards="selectedBoards" @setSettings="setSettings"/>
+      <BoardList v-else v-bind:board="selectedBoards[0]" @setSettings="setSettings"/>
     </div>
     <LandingPage v-else/>
   </div>
 </template>
 <script>
 import BoardList from './components/BoardList.vue';
-import { request, onRequestError, isAuthorized } from './utils/trelloManager.js';
+import { isAuthorized } from './utils/trelloManager.js';
 import { get } from './utils/configurationPersistance.js';
 import BoardWizard from './components/BoardWizard.vue';
 import LandingPage from './components/LandingPage.vue';
@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       seeSettings: false,
-      boards: [],
       boardIds: [],
       selectedBoards: [],
     };
@@ -37,9 +36,12 @@ export default {
     authorized() {
       return isAuthorized();
     },
+    boards() {
+      return this.$store.state.boards;
+    },
   },
   mounted() {
-    if (isAuthorized()) this.getBoards();
+    if (isAuthorized()) this.$store.dispatch('setBoards');
   },
   watch: {
     seeSettings() {
@@ -55,18 +57,6 @@ export default {
   methods: {
     setSettings(value) {
       this.seeSettings = value;
-    },
-    getBoards() {
-      const self = this;
-      request(
-        'members/me/boards',
-        (response) => {
-          self.boards = response.data;
-        },
-        () => {
-          onRequestError(self.getBoards);
-        }
-      );
     },
   },
 };

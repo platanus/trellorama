@@ -7,6 +7,7 @@ import VueI18n from 'vue-i18n';
 import dotenv from 'dotenv';
 import App from './App.vue';
 import messages from './utils/localeText.js';
+import store from './store/store.js';
 
 library.add(fas);
 
@@ -28,6 +29,7 @@ const i18n = new VueI18n({
 
 new Vue({
   i18n,
+  store,
   render: h => h(App),
 }).$mount('#app');
 

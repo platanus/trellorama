@@ -57,13 +57,10 @@
 
 <script>
 import moment from 'moment';
-import { request, onRequestError } from '../utils/trelloManager.js';
 import { get, save } from '../utils/configurationPersistance.js';
 import PresentDashboard from './PresentDashboard.vue';
 import PastDashboard from './PastDashboard.vue';
 import FutureDashboard from './FutureDashboard.vue';
-
-const activitiesRequestLimit = 1000;
 
 export default {
   name: 'Board',
@@ -84,11 +81,8 @@ export default {
   data() {
     return {
       listIds: get(`lists_${this.$props.board.id}`, []),
-      lists: [],
-      allCardsByList: {},
       cardsByList: {},
       listIncludesArchived: get(`archived_${this.$props.board.id}`, []),
-      allCardsActivities: [],
       cardActivities: [],
       endListIds: get(`end_${this.$props.board.id}`, []),
       wipListsIds: get(`wip_${this.$props.board.id}`, []),
@@ -138,12 +132,23 @@ export default {
     allListCards() {
       return Object.values(this.cardsByList).flat();
     },
+    lists() {
+      return this.$store.state.lists;
+    },
+    allCardsByList() {
+      return this.$store.state.allCardsByList;
+    },
+    allCardsActivities() {
+      return this.$store.state.allCardsActivities;
+    },
+    ready() {
+      return this.$store.state.ready;
+    },
   },
   mounted() {
-    this.getLists(this.$props.board.id, this.listIds);
-    this.getAllCardsActivities(this.$props.board.id);
-    this.getBoardLabels(this.$props.board.id);
-    this.getBoardMembers(this.$props.board.id);
+    while (!this.ready);
+    this.getSelectedCards();
+    this.getSelectedActivities();
   },
   watch: {
     startDate() {
@@ -157,16 +162,6 @@ export default {
       this.getSelectedCards();
       this.getSelectedActivities();
     },
-    allCardsByList: {
-      handler() {
-        this.getSelectedCards();
-        this.getSelectedActivities();
-      },
-      deep: true,
-    },
-    allCardsActivities() {
-      this.getSelectedActivities();
-    },
     selectedMembers() {
       this.getSelectedCards();
       this.getSelectedActivities();
@@ -178,14 +173,15 @@ export default {
     },
     getSelectedCards() {
       this.lists.forEach((list) => {
-        this.cardsByList[list.id] = this.allCardsByList[list.id].filter(
+        if (this.allCardsByList[list.id] === undefined) return;
+        this.$set(this.cardsByList, list.id, this.allCardsByList[list.id].filter(
           (card) =>
             card.labels.map((label) => label.id).some((cardLabel) => this.selectedLabels.includes(cardLabel)) ||
             (this.selectedLabels.includes(null) ? card.labels.length === 0 : false)
         ).filter((card) =>
           card.idMembers.some((memberId) => this.selectedMembers.includes(memberId)) ||
           (this.selectedMembers.includes(null) ? card.idMembers.length === 0 : false)
-        );
+        ));
       });
     },
     getSelectedActivities() {
@@ -194,82 +190,6 @@ export default {
           .includes(activity.data.card.id)
       ).filter((activity) => moment(activity.date).isSameOrAfter(this.startDate, 'day'))
         .filter((activity) => moment(activity.date).isSameOrBefore(this.endDate, 'day'));
-    },
-    getLists(boardId, listIds) {
-      const self = this;
-      request(
-        `boards/${boardId}/lists`,
-        (response) => {
-          self.lists = response.data.filter((element) => listIds.includes(element.id));
-          self.lists.forEach((element) => self.getAllCards(element.id, self.listIncludesArchived.includes(element.id)));
-        },
-        () => {
-          onRequestError(self.getLists, [boardId, listIds]);
-        }
-      );
-    },
-    getAllCards(listId, includeArchived) {
-      const cardsFilter = includeArchived ? 'all' : 'open';
-      const self = this;
-      self.$set(self.allCardsByList, listId, []);
-      self.$set(this.cardsByList, listId, []);
-      request(
-        `lists/${listId}`,
-        (response) => {
-          self.$set(self.allCardsByList, listId, response.data.cards);
-        },
-        () => {
-          onRequestError(self.getAllCards, [listId, includeArchived]);
-        },
-        { cards: cardsFilter }
-      );
-    },
-    getAllCardsActivities(boardId, before = null) {
-      const self = this;
-      request(
-        `boards/${boardId}/actions`,
-        (response) => {
-          self.allCardsActivities = self.allCardsActivities.concat(response.data);
-          if (response.data.length === activitiesRequestLimit) {
-            self.getAllCardsActivities(boardId, response.data[activitiesRequestLimit - 1].date);
-          }
-        },
-        () => {
-          onRequestError(self.getAllCardsActivities, [boardId]);
-        },
-        {
-          filter: 'createCard,updateCard:idList',
-          limit: 1000,
-          before,
-        }
-      );
-    },
-    getBoardLabels(boardId) {
-      const self = this;
-      request(
-        `boards/${boardId}/labels`,
-        (response) => {
-          self.allLabels = response.data;
-        },
-        () => {
-          onRequestError(self.getBoardLabels, [boardId]);
-        }
-      );
-    },
-    getBoardMembers(boardId) {
-      const self = this;
-      request(
-        `boards/${boardId}/members`,
-        (response) => {
-          self.allMembers = response.data;
-        },
-        () => {
-          onRequestError(self.getBoardMembers, [boardId]);
-        },
-        {
-          fields: 'id,username,avatarHash',
-        }
-      );
     },
   },
 };

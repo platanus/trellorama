@@ -1,36 +1,35 @@
 <template>
-  <div>
-    <div v-for="board in boards" v-bind:key="board.id">
-      <div class="dashboard-options__container">
-        <DashboardOptions
-          v-bind:board="board"
-          @selectLabels="selectLabels"
-          @setSettings="setSettings"
-          @selectStartDate="selectStartDate"
-          @selectEndDate="selectEndDate"
-          @dashboardState="setDashboardState"
-          @selectMembers="selectMembers"
-        />
-        <transition name="hide-sub-options">
-          <DashboardSubOptions
-            v-if="dashboardState === 'past' || dashboardState === 'present'"
-            v-bind:dashboardState="dashboardState"
-            @tab="setTab"
-          />
-        </transition>
-      </div>
-      <div class="dashboard-container">
-        <Board
-          class="dashboard-content"
-          v-bind:board="board"
-          v-bind:selectedLabels="selectedLabels"
-          v-bind:startDate="startDate"
-          v-bind:endDate="endDate"
+  <div v-if="board !== undefined">
+    <div class="dashboard-options__container">
+      <DashboardOptions
+        v-bind:board="board"
+        @selectLabels="selectLabels"
+        @setSettings="setSettings"
+        @selectStartDate="selectStartDate"
+        @selectEndDate="selectEndDate"
+        @dashboardState="setDashboardState"
+        @selectMembers="selectMembers"
+      />
+      <transition name="hide-sub-options">
+        <DashboardSubOptions
+          v-if="dashboardState === 'past' || dashboardState === 'present'"
           v-bind:dashboardState="dashboardState"
-          v-bind:tab="tab"
-          v-bind:selectedMembers="selectedMembers"
+          @tab="setTab"
         />
-      </div>
+      </transition>
+    </div>
+    <div class="dashboard-container">
+      <Board
+        v-if="ready"
+        class="dashboard-content"
+        v-bind:board="board"
+        v-bind:selectedLabels="selectedLabels"
+        v-bind:startDate="startDate"
+        v-bind:endDate="endDate"
+        v-bind:dashboardState="dashboardState"
+        v-bind:tab="tab"
+        v-bind:selectedMembers="selectedMembers"
+      />
     </div>
   </div>
 </template>
@@ -39,6 +38,7 @@
 import Board from './Board.vue';
 import DashboardOptions from './DashboardOptions.vue';
 import DashboardSubOptions from './DashboardSubOptions.vue';
+import { get } from '../utils/configurationPersistance.js';
 
 export default {
   name: 'BoardList',
@@ -48,7 +48,7 @@ export default {
     DashboardSubOptions,
   },
   props: {
-    boards: Array,
+    board: Object,
   },
   data() {
     return {
@@ -59,6 +59,26 @@ export default {
       tab: null,
       selectedMembers: [],
     };
+  },
+  computed: {
+    ready() {
+      return this.$store.state.ready;
+    },
+  },
+  watch: {
+    board() {
+      this.$store.dispatch('getBoardData', {
+        boardId: this.board.id,
+        listIds: get(`lists_${this.board.id}`, []),
+      });
+    },
+  },
+  mounted() {
+    if (this.board === undefined) return;
+    this.$store.dispatch('getBoardData', {
+      boardId: this.board.id,
+      listIds: get(`lists_${this.board.id}`, []),
+    });
   },
   methods: {
     setSettings() {
