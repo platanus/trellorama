@@ -4,14 +4,17 @@
       <div v-for="label in cardLabels" :key="label.value"
         class="card-label"
         :style="{ backgroundColor: getTrelloLabelColor(label.color) }">
+        <span class="card-tooltiptext">{{ label.label }}</span>
       </div>
     </div>
     <p class="card-name">{{ card.name }}</p>
     <div class="card-info__container">
       <p :class="bellClass"><font-awesome-icon icon="bell" /> {{ days }} {{ $t('wip.days') }}</p>
       <div class="card-member__container">
-        <img v-for="member in cardMembers" :key="member.id"
-          class="member-avatar" :src="getImage(member)">
+        <div v-for="member in cardMembers" :key="member.id" class="member-container">
+          <img class="member-avatar" :src="getImage(member)">
+          <span class="card-tooltiptext">{{ member.username }}</span>
+        </div>
       </div>
     </div>
   </div>

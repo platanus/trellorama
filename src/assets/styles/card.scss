@@ -60,3 +60,41 @@
 .bell-class {
   color: #ff5454;
 }
+
+.card-tooltiptext {
+  font-size: 16px;
+  visibility: hidden;
+  background-color: #000;
+  color: #fff;
+  width: 200px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  margin-top: -35px;
+  margin-left: -85px;
+}
+
+.card-label:hover .card-tooltiptext {
+  visibility: visible;
+}
+
+.member-container:hover .card-tooltiptext {
+  visibility: visible;
+}
+
+.member-container .card-tooltiptext {
+  margin-left: -125px;
+}
+
+.card-tooltiptext::after {
+  content: ' ';
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #000 transparent transparent;
+}
