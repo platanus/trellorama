@@ -148,6 +148,7 @@ const messages = {
     },
     objectivePercentage: {
       legend: 'Cards Completed for Goal',
+      title: 'Goals',
     },
   },
   es: {
@@ -299,6 +300,7 @@ const messages = {
     },
     objectivePercentage: {
       legend: 'Tarjetas Completadas para Objetivo',
+      title: 'Objetivos',
     },
   },
 };

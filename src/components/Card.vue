@@ -1,7 +1,7 @@
 <template>
   <div :class="classObject" v-on:click="goToTrello()">
     <div class="card-label__container">
-      <div v-for="label in cardLabels" :key="label.id"
+      <div v-for="label in cardLabels" :key="label.value"
         class="card-label"
         :style="{ backgroundColor: getTrelloLabelColor(label.color) }">
       </div>
@@ -28,14 +28,6 @@ export default {
     card: Object,
     average: Number,
     days: String,
-    allLabels: {
-      type: Array,
-      default: () => [],
-    },
-    allMembers: {
-      type: Array,
-      default: () => [],
-    },
   },
   computed: {
     classObject() {
@@ -49,7 +41,7 @@ export default {
       };
     },
     cardLabels() {
-      return this.allLabels.filter((label) => this.card.idLabels.includes(label.id));
+      return this.allLabels.filter((label) => this.card.idLabels.includes(label.value));
     },
     cardMembers() {
       return this.allMembers.filter((member) => this.card.idMembers.includes(member.id));
@@ -60,6 +52,12 @@ export default {
       return {
         'bell-class': days - (this.average * two) > 0,
       };
+    },
+    allLabels() {
+      return this.$store.state.labels;
+    },
+    allMembers() {
+      return this.$store.state.members;
     },
   },
   methods: {

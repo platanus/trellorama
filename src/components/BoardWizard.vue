@@ -178,6 +178,8 @@ import BoardBox from './BoardBox.vue';
 import { get, save } from '../utils/configurationPersistance.js';
 import { request, onRequestError } from '../utils/trelloManager.js';
 
+const sortValue = 1;
+
 const maxStageBarDifference = 2;
 const stages = {
   selectBoard: 0,
@@ -408,6 +410,12 @@ export default {
         `boards/${boardId}/labels`,
         (response) => {
           self.labels = response.data;
+          self.labels = self.labels.sort((a, b) => {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) return -sortValue;
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return sortValue;
+
+            return 0;
+          });
         },
         () => {
           onRequestError(self.getBoardLabels, [boardId]);

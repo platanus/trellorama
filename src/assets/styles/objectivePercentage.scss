@@ -1,0 +1,22 @@
+.objectives-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border-style: solid;
+  margin: 15px;
+  padding: 0 10px;
+}
+
+.objectives-container p {
+  font-size: 32px;
+  margin: 5px;
+}
+
+.objective {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+}

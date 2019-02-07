@@ -1,25 +1,27 @@
 <template>
-  <div>
-    <p class="dashboard__number">{{ percentage }}%</p>
-    <p class="dashboard__text">{{ $t('objectivePercentage.legend') }}</p>
+  <div class="objectives-container">
+    <p>{{ $t('objectivePercentage.title') }}</p>
+    <div v-for="label in objectiveLabels" :key="label.value" class="objective">
+      <div
+        :style="{ backgroundColor: getTrelloLabelColor(label.color) }" class="trello-label">
+      </div>
+      {{ label.label }}: {{ percentage(label.value) }}%
+    </div>
   </div>
 </template>
 
 <script>
 import { get } from '../utils/configurationPersistance.js';
 
-function emptyArray() {
-  return [];
-}
-
 const percentageNumber = 100;
+const sortValue = 1;
 
 export default {
   name: 'objectivePercentage',
   props: {
     cards: {
       type: Array,
-      default: emptyArray(),
+      default: () => [],
     },
     boardId: String,
     endListIds: Array,
@@ -31,17 +33,51 @@ export default {
     };
   },
   mounted() {
-    this.objectiveLabels = get(`objectiveLabels_${this.boardId}`, []);
+    const labels = get(`objectiveLabels_${this.boardId}`, []);
+    this.objectiveLabels = this.allLabels.filter((label) => labels.includes(label.value));
+    this.objectiveLabels = this.objectiveLabels.sort((a, b) => {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) return -sortValue;
+      if (a.name.toLowerCase() > b.name.toLowerCase()) return sortValue;
+
+      return 0;
+    });
   },
   computed: {
-    usefulCards() {
-      return this.cards.filter((card) => card.idLabels.some((labelId) => this.objectiveLabels.includes(labelId)));
+    allLabels() {
+      return this.$store.state.labels;
     },
-    percentage() {
-      return parseInt((this.usefulCards.filter((card) =>
+  },
+  methods: {
+    usefulCards(labelId) {
+      return this.cards.filter((card) => card.idLabels.some((label) => label === labelId));
+    },
+    percentage(labelId) {
+      const usefulCards = this.usefulCards(labelId);
+
+      return parseInt((usefulCards.filter((card) =>
         this.endListIds.concat(this.roductionListIds).includes(card.idList)
-      ).length / this.usefulCards.length) * percentageNumber, 10);
+      ).length / usefulCards.length) * percentageNumber, 10);
+    },
+    getTrelloLabelColor(colorName) {
+      const colors = {
+        blue: '#0079BF',
+        green: '#61BD4F',
+        orange: '#FFAB4A',
+        red: '#EB5A46',
+        yellow: '#F2D600',
+        purple: '#C377E0',
+        pink: '#FF80CE',
+        sky: '#E4F7FA',
+        lime: '#51E898',
+        shades: '#838C91',
+        black: '#000000',
+        null: 'transparent',
+      };
+
+      return colors[colorName];
     },
   },
 };
 </script>
+
+<style lang="scss" src="../assets/styles/objectivePercentage.scss"></style>
