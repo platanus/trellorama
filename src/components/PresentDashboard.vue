@@ -51,30 +51,14 @@
 </template>
 
 <script>
-import TeamSpeed from './TeamSpeed';
-import LeadTime from './LeadTime.vue';
 import WIPLists from './WIPLists.vue';
-import BacklogBugs from './BacklogBugs.vue';
-import objectivePercentage from './objectivePercentage.vue';
 
 export default {
   name: 'presentDashboard',
   components: {
-    TeamSpeed,
-    LeadTime,
     WIPLists,
-    BacklogBugs,
-    objectivePercentage,
   },
   props: {
-    endListIds: Array,
-    progressListsIds: Array,
-    backlogListIds: Array,
-    productionListIds: Array,
-    leadMetricsActivities: Array,
-    cardActivities: Array,
-    startDate: Date,
-    endDate: Date,
     cardsByList: Object,
     wipLists: Array,
     wipLimits: Array,

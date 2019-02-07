@@ -4,14 +4,6 @@
     <transition name="toggle" mode="out-in" appear>
       <PresentDashboard
         v-if="dashboardState === 'present'"
-        :endListIds="endListIds"
-        :progressListsIds="progressListsIds"
-        :backlogListIds="backlogListIds"
-        :productionListIds="productionListIds"
-        :leadMetricsActivities="leadMetricsActivities"
-        :cardActivities="cardActivities"
-        :startDate="startDate"
-        :endDate="endDate"
         :cardsByList="cardsByList"
         :wipLists="wipLists"
         :wipLimits="wipLimits"
@@ -37,6 +29,8 @@
         :progressListsIds="progressListsIds"
         :productionListIds="productionListIds"
         :allCardsActivities="allCardsActivities"
+        :backlogListCards="backlogListCards"
+        :cardsByList="cardsByList"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"

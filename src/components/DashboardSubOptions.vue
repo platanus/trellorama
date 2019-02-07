@@ -1,11 +1,18 @@
 <template>
-  <div
-    :class="containerClass">
+  <div :class="containerClass">
     <DashboardOption
       :text="$t('dashboard.subOptions.menu')"
       icon="bars"
       :minimized="minimized"
       :buttonFunction="toggleSubOptions"
+    />
+    <DashboardOption
+      v-if="dashboardState === 'past'"
+      :text="$t('dashboard.present.stats')"
+      icon="book"
+      :minimized="minimized"
+      :buttonFunction="() => {setTab('stats')}"
+      :selected="tab === 'stats'"
     />
     <DashboardOption
       v-if="dashboardState === 'past'"
@@ -55,14 +62,6 @@
       :buttonFunction="() => {setTab('boardNow')}"
       :selected="tab === 'boardNow'"
     />
-    <DashboardOption
-      v-if="dashboardState === 'present'"
-      :text="$t('dashboard.present.stats')"
-      icon="book"
-      :minimized="minimized"
-      :buttonFunction="() => {setTab('stats')}"
-      :selected="tab === 'stats'"
-    />
   </div>
 </template>
 
@@ -85,7 +84,7 @@ export default {
   },
   mounted() {
     if (this.dashboardState === 'past') {
-      this.setTab('cumulative');
+      this.setTab('stats');
     }
     if (this.dashboardState === 'present') {
       this.setTab('boardNow');
@@ -94,7 +93,7 @@ export default {
   watch: {
     dashboardState() {
       if (this.dashboardState === 'past') {
-        this.setTab('cumulative');
+        this.setTab('stats');
       }
       if (this.dashboardState === 'present') {
         this.setTab('boardNow');
