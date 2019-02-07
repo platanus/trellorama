@@ -193,11 +193,19 @@ export default {
     },
     labelOptions() {
       this.selectedLabels = get(`${this.board.id}_selectedLabels`, null);
+      const oldLabels = get(`${this.board.id}_oldLabels`, []);
       if (this.selectedLabels === null) this.selectedLabels = this.labelOptions.map((label) => label.value);
+      this.labelOptions.filter((label) => !oldLabels.includes(label.value))
+        .forEach((label) => this.selectedLabels.push(label.value));
+      save(`${this.board.id}_oldLabels`, this.labelOptions.map((label) => label.value));
     },
     allMembers() {
       this.selectedMembers = get(`${this.board.id}_selectedMembers`, null);
+      const oldMembers = get(`${this.board.id}_oldMembers`, []);
       if (this.selectedMembers === null) this.selectedMembers = this.allMembers.map((member) => member.id);
+      this.allMembers.filter((member) => !oldMembers.includes(member.id))
+        .forEach((member) => this.selectedMembers.push(member.id));
+      save(`${this.board.id}_oldMembers`, this.allMembers.map((member) => member.id));
     },
   },
   methods: {
