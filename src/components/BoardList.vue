@@ -70,6 +70,7 @@ export default {
       this.$store.dispatch('getBoardData', {
         boardId: this.board.id,
         listIds: get(`lists_${this.board.id}`, []),
+        archived: get(`archived_${this.$props.board.id}`, []),
       });
     },
   },
@@ -78,6 +79,7 @@ export default {
     this.$store.dispatch('getBoardData', {
       boardId: this.board.id,
       listIds: get(`lists_${this.board.id}`, []),
+      archived: get(`archived_${this.$props.board.id}`, []),
     });
   },
   methods: {

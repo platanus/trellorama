@@ -78,7 +78,6 @@ export default {
     return {
       listIds: get(`lists_${this.$props.board.id}`, []),
       cardsByList: {},
-      listIncludesArchived: get(`archived_${this.$props.board.id}`, []),
       cardActivities: [],
       endListIds: get(`end_${this.$props.board.id}`, []),
       wipListsIds: get(`wip_${this.$props.board.id}`, []),

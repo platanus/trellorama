@@ -107,7 +107,7 @@ export async function getBoardData({ dispatch, commit }, payload) {
   await payload.listIds.forEach((listId) => {
     dispatch('setCardByList', {
       listId,
-      archived: false,
+      archived: payload.archived.includes(listId),
     });
   });
   let data = await dispatch('setcardsActivities', { ...payload, clean: true, before: null });
