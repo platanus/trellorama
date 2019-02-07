@@ -20,8 +20,6 @@
         :boardId="board.id"
         :tab="tab"
         :backlogListCards="backlogListCards"
-        :allLabels="allLabels"
-        :allMembers="allMembers"
       />
       <PastDashboard
         v-if="dashboardState === 'past'"
@@ -39,8 +37,6 @@
         :progressListsIds="progressListsIds"
         :productionListIds="productionListIds"
         :allCardsActivities="allCardsActivities"
-        :allLabels="allLabels"
-        :allMembers="allMembers"
       />
       <FutureDashboard
         v-if="dashboardState === 'future'"
@@ -90,8 +86,6 @@ export default {
       backlogListIds: get(`backlog_${this.$props.board.id}`, []),
       productionListIds: get(`production_${this.$props.board.id}`, []),
       progressListsIds: get(`wip_${this.$props.board.id}`, [null]),
-      allLabels: [],
-      allMembers: [],
     };
   },
   computed: {
