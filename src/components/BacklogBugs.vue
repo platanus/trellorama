@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <p class="dashboard__number">{{ bugs }}</p>
-    <p class="dashboard__text">{{ $t('backlogBug.legend') }}</p>
-  </div>
+  <p class="backlog-bugs">{{ bugs }} 🐛</p>
 </template>
 
 <script>
@@ -40,3 +37,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" src="../assets/styles/backlogBugs.scss"></style>

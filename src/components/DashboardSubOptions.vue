@@ -74,7 +74,6 @@ export default {
     DashboardOption,
   },
   props: {
-    dashboardState: String,
   },
   data() {
     return {
@@ -107,6 +106,9 @@ export default {
         'dashboard-options__suboptions': true,
         'dashboard-options-open': !this.minimized,
       };
+    },
+    dashboardState() {
+      return this.$store.state.dashboardState;
     },
   },
   methods: {

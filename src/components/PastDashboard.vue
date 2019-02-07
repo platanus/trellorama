@@ -16,11 +16,6 @@
               v-bind:startDate="startDate"
               v-bind:endDate="endDate"
             />
-            <BacklogBugs
-              class="stats"
-              v-bind:cards="backlogListCards"
-              v-bind:boardId="boardId"
-            />
             <div style="width: 100%"></div>
             <objectivePercentage
               v-bind:cards="Object.values(cardsByList).flat()"
@@ -90,7 +85,6 @@ import WipHistogramWrapper from './WipHistogramWrapper.vue';
 import HistoricalBugsWrapper from './HistoricalBugsWrapper.vue';
 import HistoricalSpeedWrapper from './HistoricalSpeedWrapper.vue';
 import HistoricalLeadTimeWrapper from './HistoricalLeadTimeWrapper.vue';
-import BacklogBugs from './BacklogBugs.vue';
 import objectivePercentage from './objectivePercentage.vue';
 import TeamSpeed from './TeamSpeed';
 import LeadTime from './LeadTime.vue';
@@ -105,7 +99,6 @@ export default {
     HistoricalLeadTimeWrapper,
     TeamSpeed,
     LeadTime,
-    BacklogBugs,
     objectivePercentage,
   },
   props: {
@@ -123,7 +116,6 @@ export default {
     progressListsIds: Array,
     productionListIds: Array,
     allCardsActivities: Array,
-    backlogListCards: Array,
     cardsByList: Object,
   },
 };

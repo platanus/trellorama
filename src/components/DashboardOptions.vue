@@ -153,7 +153,6 @@ export default {
         subtractToDate(new Date(), 1, 'month', { unit: 'day' })
       )),
       endDate: new Date(),
-      dashboardState: 'present',
       selectedMembers: [],
       showMembers: false,
     };
@@ -174,6 +173,9 @@ export default {
     },
     allMembers() {
       return this.$store.state.members;
+    },
+    dashboardState() {
+      return this.$store.state.dashboardState;
     },
   },
   watch: {
@@ -235,8 +237,7 @@ export default {
       this.$emit('selectEndDate', this.endDate);
     },
     setState(value) {
-      this.dashboardState = value;
-      this.$emit('dashboardState', this.dashboardState);
+      this.$store.commit('saveDashboardState', value);
     },
     toggleMembers() {
       if (this.minimized) this.toggleOptions();

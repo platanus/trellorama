@@ -52,3 +52,7 @@ export function isReady(state) {
   state.ready = true;
 }
 
+export function saveDashboardState(state, payload) {
+  state.dashboardState = payload;
+}
+

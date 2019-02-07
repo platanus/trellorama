@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="dashboard__board-title">{{ board.name }}</h1>
+    <h1 class="dashboard__board-title" v-if="dashboardState !== 'present'">{{ board.name }}</h1>
     <transition name="toggle" mode="out-in" appear>
       <PresentDashboard
         v-if="dashboardState === 'present'"
@@ -12,6 +12,7 @@
         :boardId="board.id"
         :tab="tab"
         :backlogListCards="backlogListCards"
+        :boardName="board.name"
       />
       <PastDashboard
         v-if="dashboardState === 'past'"
@@ -29,7 +30,6 @@
         :progressListsIds="progressListsIds"
         :productionListIds="productionListIds"
         :allCardsActivities="allCardsActivities"
-        :backlogListCards="backlogListCards"
         :cardsByList="cardsByList"
       />
       <FutureDashboard
@@ -66,7 +66,6 @@ export default {
     selectedLabels: Array,
     startDate: Date,
     endDate: Date,
-    dashboardState: String,
     tab: String,
     selectedMembers: Array,
   },
@@ -132,6 +131,9 @@ export default {
     },
     ready() {
       return this.$store.state.ready;
+    },
+    dashboardState() {
+      return this.$store.state.dashboardState;
     },
   },
   mounted() {
