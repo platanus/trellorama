@@ -19,8 +19,8 @@
             v-bind:cards="backlogListCards"
             v-bind:boardId="boardId"
           />
+          <div style="width: 100%"></div>
           <objectivePercentage
-            class="stats"
             v-bind:cards="Object.values(cardsByList).flat()"
             v-bind:boardId="boardId"
             v-bind:endListIds="endListIds"
