@@ -3,7 +3,7 @@ import { Bar } from 'vue-chartjs';
 import moment from 'moment';
 import { fillDatasetGaps, fillFromStartDate, getColor } from '../utils/chartUtils.js';
 import { getDate } from '../utils/dateManager.js';
-import { filterActivities, speedProjection } from '../utils/speedUtil.js';
+import { filterActivities, speedProjection, excludeActivities } from '../utils/speedUtil.js';
 
 export default {
   name: 'historicalSpeed',
@@ -18,6 +18,7 @@ export default {
     startDate: Date,
     endDate: Date,
     endListIds: Array,
+    productionListIds: Array,
   },
   data() {
     return {
@@ -50,6 +51,16 @@ export default {
   },
   mounted() {
     this.renderData();
+  },
+  computed: {
+    cards() {
+      return Object.values(this.$store.state.allCardsByList).flat();
+    },
+    excludedLists() {
+      return this.$store.state.lists.map((list) => list.id)
+        .filter((list) => !this.endListIds.includes(list))
+        .filter((list) => !this.productionListIds.includes(list));
+    },
   },
   methods: {
     renderData() {
@@ -96,10 +107,14 @@ export default {
     },
     getSpeed(endDate) {
       return speedProjection(
-        filterActivities(
-          this.activities.filter((activity) => moment(activity.date).isSameOrBefore(endDate, 'day')),
-          this.endListIds,
-          this.dateTypeSelector
+        excludeActivities(
+          this.cards,
+          filterActivities(
+            this.activities.filter((activity) => moment(activity.date).isSameOrBefore(endDate, 'day')),
+            this.endListIds,
+            this.dateTypeSelector
+          ),
+          this.excludedLists
         ),
         this.startDate,
         endDate,
@@ -119,10 +134,14 @@ export default {
         this.dayOfWeek
       );
 
-      return filterActivities(
-        this.activities.filter((activity) => moment(activity.date).isBefore(label, this.dateTypeSelector)),
-        this.endListIds,
-        this.dateTypeSelector
+      return excludeActivities(
+        this.cards,
+        filterActivities(
+          this.activities.filter((activity) => moment(activity.date).isBefore(label, this.dateTypeSelector)),
+          this.endListIds,
+          this.dateTypeSelector
+        ),
+        this.excludedLists
       ).filter((activity) => moment(activity.date).isSameOrAfter(prevLabel, this.dateTypeSelector)).length;
     },
   },

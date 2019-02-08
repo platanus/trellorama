@@ -32,6 +32,7 @@
           v-bind:endListIds="endListIds"
           v-bind:startDate="startDate"
           v-bind:endDate="endDate"
+          v-bind:productionListIds="productionListIds"
         />
         <HistoricalLeadTimeWrapper
           v-if="tab === 'historicalLeadTime'"

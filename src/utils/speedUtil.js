@@ -36,7 +36,15 @@ function speedProjection(filteredActivities, startDate, endDate, toNumber = fals
   return speed.toFixed(1);
 }
 
+function excludeActivities(cards, activities, excludedLists) {
+  return activities.filter((activity) => cards.filter((card) => !excludedLists.includes(card.idList))
+    .map((card) => card.id)
+    .includes(activity.id)
+  );
+}
+
 export {
   filterActivities,
   speedProjection,
+  excludeActivities,
 };

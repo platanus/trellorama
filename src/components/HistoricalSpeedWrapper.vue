@@ -27,6 +27,7 @@
       :startDate="startDate"
       :endDate="endDate"
       :endListIds="endListIds"
+      :productionListIds="productionListIds"
     />
   </div>
 </template>
@@ -43,6 +44,7 @@ export default {
     endListIds: Array,
     startDate: Date,
     endDate: Date,
+    productionListIds: Array,
   },
   components: {
     HistoricalSpeed,
