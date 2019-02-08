@@ -57,28 +57,27 @@ export default {
       this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
     },
-    filterDuplicates(activities) {
-      return activities
-        .filter((activity) =>
-          activities.filter((filteredActivity) => filteredActivity.data.card.id === activity.data.card.id).length === 1
-        ).concat(Object.values(
-          activities.filter((activity) =>
-            activities.filter((filteredActivity) => filteredActivity.data.card.id === activity.data.card.id).length > 1
-          ).reduce((acc, cur) => Object.assign(acc, { [cur.data.card.id]: cur }), {}))
-        );
-    },
     getBugs(endDate) {
-      let incoming = this.activities.filter((activity) =>
-        (activity.type === 'updateCard' && this.backlogListIds.includes(activity.data.listAfter.id &&
-         !this.backlogListIds.includes(activity.data.listBefore.id)))
-      ).filter((activity) => moment(activity.date).isSameOrBefore(endDate, this.dateTypeSelector));
-      incoming = incoming.concat(this.activities.filter((activity) => activity.type === 'createCard'))
-        .filter((activity) => moment(activity.date).isSameOrBefore(endDate, this.dateTypeSelector));
+      const activities = this.activities.filter((activity) =>
+        moment(activity.date).isSameOrBefore(endDate, `${this.dateTypeSelector}s`)
+      );
+      let incoming = activities
+        .filter((activity) => activity.type === 'createCard')
+        .filter((activity) => this.backlogListIds.includes(activity.data.list.id));
+      incoming = incoming.concat(
+        activities.filter((activity) => activity.type === 'updateCard')
+          .filter((activity) =>
+            !this.backlogListIds.includes(activity.data.listBefore.id) &&
+            this.backlogListIds.includes(activity.data.listAfter.id)
+          )
+      );
 
-      const outgoing = this.filterDuplicates(this.activities.filter((activity) =>
-        (activity.type === 'updateCard' && !this.backlogListIds.includes(activity.data.listAfter.id) &&
-         !this.backlogListIds.includes(activity.data.listBefore.id))
-      ).filter((activity) => moment(activity.date).isBefore(endDate, this.dateTypeSelector)));
+      const outgoing = activities
+        .filter((activity) => activity.type === 'updateCard')
+        .filter((activity) =>
+          this.backlogListIds.includes(activity.data.listBefore.id) &&
+          !this.backlogListIds.includes(activity.data.listAfter.id)
+        );
 
       return incoming.length - outgoing.length;
     },
