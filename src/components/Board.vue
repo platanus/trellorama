@@ -46,6 +46,7 @@
         :endDate="endDate"
         :boardId="board.id"
         :numberOfCards="getNumberOfCards()"
+        :productionListIds="productionListIds"
       />
     </transition>
   </div>
