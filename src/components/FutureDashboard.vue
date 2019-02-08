@@ -9,6 +9,7 @@
         v-bind:startDate="startDate"
         v-bind:endDate="endDate"
         v-bind:boardId="boardId"
+        v-bind:productionListIds="productionListIds"
       />
     </div>
   </div>
@@ -29,6 +30,7 @@ export default {
     endDate: Date,
     boardId: String,
     numberOfCards: Number,
+    productionListIds: Array,
   },
 };
 </script>

@@ -52,7 +52,7 @@
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import ProjectionChart from './ProjectionChart.vue';
-import { filterActivities, speedProjection } from '../utils/speedUtil.js';
+import { filterActivities, speedProjection, excludeActivities } from '../utils/speedUtil.js';
 import { get, save } from '../utils/configurationPersistance.js';
 
 moment().format('yyyy-MM-dd');
@@ -66,6 +66,7 @@ export default {
     endDate: Date,
     boardId: String,
     startDate: Date,
+    productionListIds: Array,
   },
   components: {
     ProjectionChart,
@@ -84,6 +85,14 @@ export default {
   computed: {
     timeUnits() {
       return Math.ceil(moment(this.projectionDate).diff(moment(new Date()), `${this.dateTypeSelector}s`, true));
+    },
+    cards() {
+      return Object.values(this.$store.state.allCardsByList).flat();
+    },
+    excludedLists() {
+      return this.$store.state.lists.map((list) => list.id)
+        .filter((list) => !this.endListIds.includes(list))
+        .filter((list) => !this.productionListIds.includes(list));
     },
   },
   mounted() {
@@ -116,11 +125,15 @@ export default {
       return speedProjection(filteredActivities, this.startDate, this.endDate);
     },
     generateData() {
-      this.filteredActivities = filterActivities(
-        this.cardActivities,
-        this.endListIds,
-        this.dateTypeSelector,
-        this.dayOfWeek
+      this.filteredActivities = excludeActivities(
+        this.cards,
+        filterActivities(
+          this.cardActivities,
+          this.endListIds,
+          this.dateTypeSelector,
+          this.dayOfWeek
+        ),
+        this.excludedLists
       );
     },
   },
