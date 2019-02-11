@@ -140,7 +140,7 @@ export default {
           currentProjection.data.length,
           goal.count + currentDataset.data[currentDataset.data.length - 1],
           {
-            colors: getColor('random'),
+            colors: getColor('randomDash'),
             label: goal.label.label,
             borderDash: [lineDashSize, lineDashSize],
           }
