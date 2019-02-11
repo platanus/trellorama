@@ -44,6 +44,7 @@
       v-bind:dayOfWeek="dayOfWeek"
       v-bind:startDate="startDate"
       v-bind:endDate="endDate"
+      v-bind:goals="generateGoals()"
     />
   </div>
 </template>
@@ -55,7 +56,7 @@ import ProjectionChart from './ProjectionChart.vue';
 import { filterActivities, speedProjection, excludeActivities } from '../utils/speedUtil.js';
 import { get, save } from '../utils/configurationPersistance.js';
 
-moment().format('yyyy-MM-dd');
+const sortValue = 1;
 
 export default {
   name: 'ProjectionWrapper',
@@ -93,6 +94,9 @@ export default {
       return this.$store.state.lists.map((list) => list.id)
         .filter((list) => !this.endListIds.includes(list))
         .filter((list) => !this.productionListIds.includes(list));
+    },
+    allLabels() {
+      return this.$store.state.labels;
     },
   },
   mounted() {
@@ -135,6 +139,29 @@ export default {
         ),
         this.excludedLists
       );
+    },
+    usefulCards(labelId) {
+      return this.cards.filter((card) => card.idLabels.some((label) => label === labelId));
+    },
+    generateGoals() {
+      const labels = get(`objectiveLabels_${this.boardId}`, []);
+      let objectiveLabels = this.allLabels.filter((label) => labels.includes(label.value));
+      objectiveLabels = objectiveLabels.sort((a, b) => {
+        if (a.label.toLowerCase() < b.label.toLowerCase()) return -sortValue;
+        if (a.label.toLowerCase() > b.label.toLowerCase()) return sortValue;
+
+        return 0;
+      });
+
+      return objectiveLabels.map((label) => ({ label, count: this.leftForGoal(label.value) }));
+    },
+    leftForGoal(labelId) {
+      const usefulCards = this.usefulCards(labelId);
+      if (usefulCards.length === 0) return 0;
+
+      return usefulCards.length - usefulCards.filter((card) =>
+        this.endListIds.concat(this.productionListIds).includes(card.idList)
+      ).length;
     },
   },
 };

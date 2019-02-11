@@ -47,6 +47,7 @@
         :boardId="board.id"
         :numberOfCards="getNumberOfCards()"
         :productionListIds="productionListIds"
+        :cardsByList="cardsByList"
       />
     </transition>
   </div>

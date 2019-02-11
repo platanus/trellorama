@@ -28,14 +28,15 @@ export default {
     numberOfCards: Number,
     dayOfWeek: String,
     startDate: Date,
+    goals: Array,
   },
   data() {
     return {
       chartoptions: {
         responsive: true,
         maintainAspectRatio: false,
-        chartdata: {},
       },
+      chartdata: {},
     };
   },
   watch: {
@@ -58,6 +59,11 @@ export default {
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
   },
+  computed: {
+    dateLabels() {
+      return getLabels(this.filteredActivities);
+    },
+  },
   methods: {
     renderData() {
       this.buildChartData();
@@ -68,15 +74,15 @@ export default {
 
       return array[array.length - numberTwo];
     },
-    genData(dateLabels) {
+    buildCurrentDataset(dateLabels, finalDateLabels) {
       const currentDataset = buildChartDataSet(
         this.filteredActivities,
-        dateLabels,
+        this.dateLabels,
         'Current Progression',
         { color: 'black', fill: false }
       );
       fillDatasetGaps(
-        dateLabels,
+        this.dateLabels,
         currentDataset.data,
         {
           dateTypeSelector: this.dateTypeSelector,
@@ -86,15 +92,20 @@ export default {
         false
       );
       fillFromStartDate(
-        dateLabels,
+        this.dateLabels,
         currentDataset.data,
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
+      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
+
+      return currentDataset;
+    },
+    genData(dateLabels) {
       const finalDateLabels = dateLabels.filter((label) =>
         moment(label).isSameOrAfter(this.startDate, this.dateTypeSelector)
       );
-      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
+      const currentDataset = this.buildCurrentDataset(dateLabels, finalDateLabels);
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
@@ -123,10 +134,21 @@ export default {
           borderDash: [lineDashSize, lineDashSize],
         }
       );
+      const goalLines = this.goals.map((goal) =>
+        this.generateTotalCardsLine(
+          currentDataset,
+          currentProjection.data.length,
+          goal.count + currentDataset.data[currentDataset.data.length - 1],
+          {
+            colors: getColor('random'),
+            label: goal.label.label,
+            borderDash: [lineDashSize, lineDashSize],
+          }
+        ));
 
       return [
         this.extendLabels(finalDateLabels, this.timeUnitsForward),
-        [currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine],
+        goalLines.concat([currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine]),
       ];
     },
     buildChartData() {
