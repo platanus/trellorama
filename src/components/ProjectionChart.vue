@@ -68,8 +68,7 @@ export default {
 
       return array[array.length - numberTwo];
     },
-    buildChartData() {
-      let dateLabels = getLabels(this.filteredActivities);
+    genData(dateLabels) {
       const currentDataset = buildChartDataSet(
         this.filteredActivities,
         dateLabels,
@@ -92,6 +91,10 @@ export default {
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
+      const finalDateLabels = dateLabels.filter((label) =>
+        moment(label).isSameOrAfter(this.startDate, this.dateTypeSelector)
+      );
+      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
@@ -120,10 +123,17 @@ export default {
           borderDash: [lineDashSize, lineDashSize],
         }
       );
-      dateLabels = this.extendLabels(dateLabels, this.timeUnitsForward);
+
+      return [
+        this.extendLabels(finalDateLabels, this.timeUnitsForward),
+        [currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine],
+      ];
+    },
+    buildChartData() {
+      const chartData = this.genData(getLabels(this.filteredActivities));
       this.chartdata = {
-        labels: dateLabels,
-        datasets: [currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine],
+        labels: chartData[0],
+        datasets: chartData[1],
       };
     },
     extendLabels(currentLabels, timeUnitsForward) {
