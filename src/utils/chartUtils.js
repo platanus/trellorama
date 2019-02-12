@@ -1,5 +1,6 @@
 import moment from 'moment';
-import { addToDate, getDate, subtractToDate } from '../utils/dateManager.js';
+import { addToDate, getDate, subtractToDate } from './dateManager.js';
+import { excludeActivities } from './speedUtil.js';
 
 moment().format('yyyy-MM-dd');
 
@@ -86,12 +87,16 @@ function buildChartDataSet(filteredActivities, labels, datasetName, lineParams =
   };
 }
 
-function buildChartDataSets(activities, labels, listIds) {
+function buildChartDataSets(activities, labels, listIds, cards) {
   globalColorIndex = 0;
 
   return listIds.map(
-    (listId) => buildChartDataSet(
-      activities.filter((activity) => listId === activity.list.id),
+    (listId, index) => buildChartDataSet(
+      excludeActivities(
+        cards,
+        activities.filter((activity) => listId === activity.list.id),
+        listIds.slice(0, index)
+      ),
       labels,
       activities.filter((activity) => listId === activity.list.id).length > 0 ?
         activities.filter((activity) => listId === activity.list.id)[0].list.name :

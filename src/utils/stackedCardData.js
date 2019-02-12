@@ -39,7 +39,7 @@ function fillRetroactively(activities, listIds) {
   });
 }
 
-export default function (activities, listIds, retroactiveFill, dateParameters) {
+export default function (activities, listIds, retroactiveFill, dateParameters, cards) {
   const activitiesData = activities.map((activity) =>
     getActivityData(
       activity,
@@ -54,7 +54,7 @@ export default function (activities, listIds, retroactiveFill, dateParameters) {
 
   const dateLabels = getLabels(activitiesData);
 
-  const chartDataset = buildChartDataSets(activitiesData, dateLabels, listIds);
+  const chartDataset = buildChartDataSets(activitiesData, dateLabels, listIds, cards);
   fillDatasetGaps(
     dateLabels,
     chartDataset,

@@ -42,6 +42,11 @@ export default {
       this.renderData();
     },
   },
+  computed: {
+    cards() {
+      return Object.values(this.$store.state.allCardsByList).flat();
+    },
+  },
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
   },
@@ -56,7 +61,8 @@ export default {
           dayOfWeek: this.dayOfWeek,
           startDate: this.startDate,
           endDate: this.endDate,
-        }
+        },
+        this.cards,
       );
       this.renderChart(this.chartdata, this.chartoptions);
     },
