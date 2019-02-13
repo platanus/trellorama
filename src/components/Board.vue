@@ -41,7 +41,7 @@
       <FutureDashboard
         v-if="dashboardState === 'future'"
         :endListIds="endListIds"
-        :cardActivities="cardActivities"
+        :cardActivities="allCardsActivities"
         :startDate="startDate"
         :endDate="endDate"
         :boardId="board.id"
@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     getNumberOfCards() {
-      return this.lists.map((list) => this.cardsByList[list.id]).flat().length;
+      return Object.values(this.cardsByList).flat().length;
     },
     getSelectedCards() {
       this.lists.forEach((list) => {
