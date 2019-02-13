@@ -26,16 +26,17 @@ const globalColorsDash = [
 
 let globalColorIndex = 0;
 
-function getColor(color) {
+function getColor(color, index = undefined) {
   let colorArray;
+  let realIndex;
   switch (color) {
   case 'random':
     colorArray = globalColors[globalColorIndex];
     globalColorIndex = (globalColorIndex + 1) % globalColors.length;
     break;
   case 'randomDash':
-    colorArray = globalColorsDash[globalColorIndex];
-    globalColorIndex = (globalColorIndex + 1) % globalColors.length;
+    realIndex = index % globalColors.length;
+    colorArray = globalColorsDash[realIndex];
     break;
   case 'blue':
     colorArray = ['rgba(0, 0, 255, 1)', 'rgba(0, 0, 255, 1)'];

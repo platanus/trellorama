@@ -2,7 +2,9 @@
 import { Line, mixins } from 'vue-chartjs';
 import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
-import { getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate } from '../utils/chartUtils.js';
+import {
+  getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate, resetColorIndex,
+} from '../utils/chartUtils.js';
 import { addToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
@@ -37,6 +39,7 @@ export default {
         maintainAspectRatio: false,
       },
       chartdata: {},
+      colorIndex: 0,
     };
   },
   watch: {
@@ -55,6 +58,12 @@ export default {
     pesimistValue() {
       this.renderData();
     },
+    goals: {
+      handler() {
+        this.renderData();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
@@ -66,6 +75,7 @@ export default {
   },
   methods: {
     renderData() {
+      this.colorIndex = 0;
       this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
     },
@@ -138,9 +148,9 @@ export default {
         this.generateTotalCardsLine(
           currentDataset,
           currentProjection.data.length,
-          goal.count + currentDataset.data[currentDataset.data.length - 1],
+          goal.count + goal.padding + currentDataset.data[currentDataset.data.length - 1],
           {
-            colors: getColor('randomDash'),
+            colors: getColor('randomDash', this.getIndex()),
             label: goal.label.label,
             borderDash: [lineDashSize, lineDashSize],
           }
@@ -207,6 +217,12 @@ export default {
       cardsDataset.data = Array(dataLength).fill(value);
 
       return cardsDataset;
+    },
+    getIndex() {
+      const index = this.colorIndex;
+      this.colorIndex++;
+
+      return index;
     },
   },
 };

@@ -32,6 +32,12 @@
           <datepicker v-model="projectionDate" name="projectionDate" placeholder="Projection Date" format="yyyy-MM-dd"/>
         </div>
       </div>
+      &ensp;
+      <b>Priorities:</b>
+      <div v-for="option in goals">
+        <label>{{ option.label.label }} </label>
+        <input type="number" id="option.label.value" v-model="priorities[option.label.value]">
+      </div>
     </div>
     <ProjectionChart
       v-bind:filteredActivities="filteredActivities"
@@ -44,7 +50,7 @@
       v-bind:dayOfWeek="dayOfWeek"
       v-bind:startDate="startDate"
       v-bind:endDate="endDate"
-      v-bind:goals="generateGoals()"
+      v-bind:goals="goals"
     />
   </div>
 </template>
@@ -81,6 +87,8 @@ export default {
       optimistValue: get(`${this.boardId}_projection_optimistValue`, 1),
       pesimistValue: get(`${this.boardId}_projection_pesimistValue`, 1),
       projectionDate: get(`${this.boardId}_projection_projectionDate`, new Date()),
+      priorities: {},
+      goals: [],
     };
   },
   computed: {
@@ -101,6 +109,7 @@ export default {
   },
   mounted() {
     this.generateData();
+    this.generateGoals();
   },
   watch: {
     cardActivities() {
@@ -122,6 +131,12 @@ export default {
     },
     pesimistValue() {
       save(`${this.boardId}_projection_pesimistValue`, this.pesimistValue);
+    },
+    priorities: {
+      handler() {
+        this.updateGoals();
+      },
+      deep: true,
     },
   },
   methods: {
@@ -153,7 +168,14 @@ export default {
         return 0;
       });
 
-      return objectiveLabels.map((label) => ({ label, count: this.leftForGoal(label.value) }));
+      this.goals = objectiveLabels.map((label) => ({ label, count: this.leftForGoal(label.value), padding: 0 }))
+        .filter((goal) => goal.count > 0);
+      let priority = 1;
+      this.goals.forEach((goal) => {
+        this.$set(this.priorities, goal.label.value, priority);
+        priority++;
+      });
+      this.updateGoals();
     },
     leftForGoal(labelId) {
       const usefulCards = this.usefulCards(labelId);
@@ -162,6 +184,16 @@ export default {
       return usefulCards.length - usefulCards.filter((card) =>
         this.endListIds.concat(this.productionListIds).includes(card.idList)
       ).length;
+    },
+    updateGoals() {
+      const goals = this.goals.slice().sort((a, b) =>
+        parseInt(this.priorities[a.label.value], 10) - parseInt(this.priorities[b.label.value], 10)
+      );
+      goals.forEach((goal, index) => {
+        if (index === 0) return;
+        const prevGoal = goals[index - 1];
+        this.goals.find((realGoal) => realGoal.label === goal.label).padding = prevGoal.count + prevGoal.padding;
+      });
     },
   },
 };
