@@ -31,6 +31,7 @@ export default {
     boardId: String,
     numberOfCards: Number,
     productionListIds: Array,
+    cardsByList: Object,
   },
 };
 </script>

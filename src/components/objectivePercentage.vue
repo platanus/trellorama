@@ -56,7 +56,7 @@ export default {
       if (usefulCards.length === 0) return 0;
 
       return parseInt((usefulCards.filter((card) =>
-        this.endListIds.concat(this.roductionListIds).includes(card.idList)
+        this.endListIds.concat(this.productionListIds).includes(card.idList)
       ).length / usefulCards.length) * percentageNumber, 10);
     },
     getTrelloLabelColor(colorName) {

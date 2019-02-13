@@ -2,7 +2,9 @@
 import { Line, mixins } from 'vue-chartjs';
 import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
-import { getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate } from '../utils/chartUtils.js';
+import {
+  getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate,
+} from '../utils/chartUtils.js';
 import { addToDate } from '../utils/dateManager.js';
 
 moment().format('yyyy-MM-dd');
@@ -28,14 +30,16 @@ export default {
     numberOfCards: Number,
     dayOfWeek: String,
     startDate: Date,
+    goals: Array,
   },
   data() {
     return {
       chartoptions: {
         responsive: true,
         maintainAspectRatio: false,
-        chartdata: {},
       },
+      chartdata: {},
+      colorIndex: 0,
     };
   },
   watch: {
@@ -54,12 +58,24 @@ export default {
     pesimistValue() {
       this.renderData();
     },
+    goals: {
+      handler() {
+        this.renderData();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.renderChart(this.chartdata, this.chartoptions);
   },
+  computed: {
+    dateLabels() {
+      return getLabels(this.filteredActivities);
+    },
+  },
   methods: {
     renderData() {
+      this.colorIndex = 0;
       this.buildChartData();
       this.renderChart(this.chartdata, this.chartoptions);
     },
@@ -68,15 +84,15 @@ export default {
 
       return array[array.length - numberTwo];
     },
-    genData(dateLabels) {
+    buildCurrentDataset(dateLabels, finalDateLabels) {
       const currentDataset = buildChartDataSet(
         this.filteredActivities,
-        dateLabels,
+        this.dateLabels,
         'Current Progression',
         { color: 'black', fill: false }
       );
       fillDatasetGaps(
-        dateLabels,
+        this.dateLabels,
         currentDataset.data,
         {
           dateTypeSelector: this.dateTypeSelector,
@@ -86,15 +102,20 @@ export default {
         false
       );
       fillFromStartDate(
-        dateLabels,
+        this.dateLabels,
         currentDataset.data,
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
+      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
+
+      return currentDataset;
+    },
+    genData(dateLabels) {
       const finalDateLabels = dateLabels.filter((label) =>
         moment(label).isSameOrAfter(this.startDate, this.dateTypeSelector)
       );
-      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
+      const currentDataset = this.buildCurrentDataset(dateLabels, finalDateLabels);
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
@@ -123,10 +144,21 @@ export default {
           borderDash: [lineDashSize, lineDashSize],
         }
       );
+      const goalLines = this.goals.map((goal) =>
+        this.generateTotalCardsLine(
+          currentDataset,
+          currentProjection.data.length,
+          goal.count + goal.padding + currentDataset.data[currentDataset.data.length - 1],
+          {
+            colors: getColor('randomDash', this.getIndex()),
+            label: goal.label.label,
+            borderDash: [lineDashSize, lineDashSize],
+          }
+        ));
 
       return [
         this.extendLabels(finalDateLabels, this.timeUnitsForward),
-        [currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine],
+        goalLines.concat([currentDataset, currentProjection, optimistProjection, pesimistProjection, cardsLine]),
       ];
     },
     buildChartData() {
@@ -185,6 +217,12 @@ export default {
       cardsDataset.data = Array(dataLength).fill(value);
 
       return cardsDataset;
+    },
+    getIndex() {
+      const index = this.colorIndex;
+      this.colorIndex++;
+
+      return index;
     },
   },
 };

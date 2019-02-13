@@ -13,14 +13,30 @@ const globalColors = [
   ['rgba(65, 244, 211, 0.1)', 'rgba(65, 244, 211, 0.5)'],
   ['rgba(160, 65, 244, 0.1)', 'rgba(160, 65, 244, 0.5)'],
 ];
+
+const globalColorsDash = [
+  ['rgba(255, 0, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
+  ['rgba(0, 255, 0, 0.5)', 'rgba(0, 255, 0, 0.5)'],
+  ['rgba(0, 0, 255, 0.5)', 'rgba(0, 0, 255, 0.5)'],
+  ['rgba(244, 244, 65, 0.5)', 'rgba(244, 244, 65, 0.5)'],
+  ['rgba(244, 124, 65, 0.5)', 'rgba(244, 124, 65, 0.5)'],
+  ['rgba(65, 244, 211, 0.5)', 'rgba(65, 244, 211, 0.5)'],
+  ['rgba(160, 65, 244, 0.5)', 'rgba(160, 65, 244, 0.5)'],
+];
+
 let globalColorIndex = 0;
 
-function getColor(color) {
+function getColor(color, index = undefined) {
   let colorArray;
+  let realIndex;
   switch (color) {
   case 'random':
     colorArray = globalColors[globalColorIndex];
     globalColorIndex = (globalColorIndex + 1) % globalColors.length;
+    break;
+  case 'randomDash':
+    realIndex = index % globalColors.length;
+    colorArray = globalColorsDash[realIndex];
     break;
   case 'blue':
     colorArray = ['rgba(0, 0, 255, 1)', 'rgba(0, 0, 255, 1)'];
