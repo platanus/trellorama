@@ -3,7 +3,7 @@ import { Line, mixins } from 'vue-chartjs';
 import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate, resetColorIndex,
+  getLabels, buildChartDataSet, getColor, fillDatasetGaps, fillFromStartDate,
 } from '../utils/chartUtils.js';
 import { addToDate } from '../utils/dateManager.js';
 

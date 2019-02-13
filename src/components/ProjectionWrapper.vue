@@ -34,7 +34,7 @@
       </div>
       &ensp;
       <b>Priorities:</b>
-      <div v-for="option in goals">
+      <div v-for="option in goals" :key="option.label.value">
         <label>{{ option.label.label }} </label>
         <input type="number" id="option.label.value" v-model="priorities[option.label.value]">
       </div>
