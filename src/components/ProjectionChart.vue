@@ -84,7 +84,7 @@ export default {
 
       return array[array.length - numberTwo];
     },
-    buildCurrentDataset(dateLabels) {
+    buildCurrentDataset(finalDateLabels) {
       const currentDataset = buildChartDataSet(
         this.filteredActivities,
         this.dateLabels,
@@ -107,7 +107,7 @@ export default {
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
-      currentDataset.data = currentDataset.data.slice(dateLabels.length);
+      currentDataset.data = currentDataset.data.slice(currentDataset.data.length - finalDateLabels.length);
 
       return currentDataset;
     },
@@ -115,7 +115,7 @@ export default {
       const finalDateLabels = dateLabels.filter((label) =>
         moment(label).isSameOrAfter(this.startDate, this.dateTypeSelector)
       );
-      const currentDataset = this.buildCurrentDataset(dateLabels, finalDateLabels);
+      const currentDataset = this.buildCurrentDataset(finalDateLabels);
       const currentProjection = this.projectData(
         this.speed,
         this.timeUnitsForward,
