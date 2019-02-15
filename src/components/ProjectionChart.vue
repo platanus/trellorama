@@ -84,7 +84,7 @@ export default {
 
       return array[array.length - numberTwo];
     },
-    buildCurrentDataset(dateLabels, finalDateLabels) {
+    buildCurrentDataset(dateLabels) {
       const currentDataset = buildChartDataSet(
         this.filteredActivities,
         this.dateLabels,
@@ -107,7 +107,7 @@ export default {
         { dateTypeSelector: this.dateTypeSelector, dayOfWeek: this.dayOfWeek, startDate: this.startDate },
         false
       );
-      currentDataset.data = currentDataset.data.slice(dateLabels.length - finalDateLabels.length);
+      currentDataset.data = currentDataset.data.slice(dateLabels.length);
 
       return currentDataset;
     },
