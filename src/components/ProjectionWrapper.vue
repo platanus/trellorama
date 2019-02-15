@@ -141,7 +141,12 @@ export default {
   },
   methods: {
     localSpeedProjection(filteredActivities) {
-      return speedProjection(filteredActivities, this.startDate, this.endDate);
+      return speedProjection(
+        filteredActivities.filter((activity) =>
+          moment(activity.date).isSameOrAfter(this.startDate, `${this.dateTypeSelector}s`)),
+        this.startDate,
+        this.endDate
+      );
     },
     generateData() {
       this.filteredActivities = excludeActivities(
