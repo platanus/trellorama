@@ -4,6 +4,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
+import VueGtm from 'vue-gtm';
 import dotenv from 'dotenv';
 import App from './App.vue';
 import messages from './utils/localeText.js';
@@ -14,6 +15,11 @@ library.add(fas);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueI18n);
+Vue.use(VueGtm, {
+  id: `GTM-${process.env.VUE_APP_GTM_ID}`,
+  enabled: true,
+  debug: true,
+});
 
 /* global process */
 
