@@ -20,7 +20,7 @@
     "lodash": "^4.17.11",
     "mathjs": "^5.4.0",
     "moment": "^2.23.0",
-    "npm": "^6.6.0",
+    "npm": "^6.9.0",
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
     "vue-i18n": "^8.7.0",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
-    "@vue/cli-service": "^3.2.0",
+    "@vue/cli-service": "^3.6.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "eslint": "^5.8.0",
