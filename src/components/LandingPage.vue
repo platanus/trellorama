@@ -1,10 +1,18 @@
 <template>
   <div class="landing">
-    <img src="../assets/Platanus.png" class="logo-box">
-    <div class="trello" v-on:click="trelloAuthorize"><img src="../assets/trello-logo.png" class="trello__logo"></div>
-    <p align="left" class="landing__text">{{ $t('landing.body') }}</p>
-    <div class="landing__oval"></div>
-    <div class="landing__rectangle"></div>
+    <header class="landing__header">
+      <img src="../assets/trellorama-logo.svg" class="trellorama-logo">
+      <p>{{ $t('landing.by') }}</p>
+      <img src="../assets/platanus-logo.png" class="platanus-logo">
+    </header>
+    <div class="landing__body">
+      <img src="../assets/landing-preview.png" class="landing__preview">
+      <p class="landing__text">{{ $t('landing.body') }}</p>
+      <div class="landing__authorization" v-on:click="trelloAuthorize">
+        <p class="landing__authorization-text">{{ $t('landing.authorize') }}</p>
+        <img src="../assets/trello-logo.png" class="trello-logo">
+      </div>
+    </div>
   </div>
 </template>
 
