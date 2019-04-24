@@ -24,7 +24,9 @@ const messages = {
       days: 'Days',
     },
     landing: {
-      body: 'Give me my damn project metrics.',
+      body: 'Explore your projects',
+      authorize: 'Authorize',
+      by: 'by',
     },
     date: {
       day: 'Day',
@@ -176,7 +178,9 @@ const messages = {
       days: 'Días',
     },
     landing: {
-      body: 'Dame mis malditas métricas de proyecto.',
+      body: 'Explora tus proyectos',
+      authorize: 'Autorizar a',
+      by: 'por',
     },
     date: {
       day: 'Día',
