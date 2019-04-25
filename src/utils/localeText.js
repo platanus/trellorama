@@ -96,7 +96,7 @@ const messages = {
         objective: 'Goals',
       },
       wipLimit: {
-        title: 'Select the Work in Progress Limit',
+        title: 'Enter the Work in Progress Limit',
         description: 'Set a limit of Cards for the Work in Progress Lists. Leave empty if no limit.',
       },
     },
@@ -250,7 +250,7 @@ const messages = {
         objective: 'Objetivos',
       },
       wipLimit: {
-        title: 'Elija un Límite de Trabajo en Progreso',
+        title: 'Ingresa un Límite de Trabajo en Progreso',
         description: 'Elija un límite de tarjetas para las listas en progreso. Deje en blanco para dejar sin límite',
       },
     },
