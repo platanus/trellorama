@@ -3,10 +3,10 @@
     <div class="wizard__progress-bar"></div>
     <div class="wizard__progress-bar wizard__progress-bar--step-1" id="progress_bar"></div>
     <div id="main_container" class="wizard__container">
-      <div v-if="stage === 0" class="wizard__container wizard__container--inner">
-        <p class="wizard__title">{{ $t('wizard.board.title') }}</p>
-        <p class="wizard__text">{{ $t('wizard.board.description') }}</p>
-        <div class="wizard__container wizard__container--board">
+      <div v-if="stage === 0" class="wizard__stage">
+        <h1 class="wizard__title">{{ $t('wizard.board.title') }}</h1>
+        <h2 class="wizard__subtitle">{{ $t('wizard.board.description') }}</h2>
+        <div class="wizard__boards">
           <BoardBox
             v-for="board in boards"
             :key="board.id"
@@ -15,16 +15,18 @@
             v-on:click.native="selectBoard"
           />
         </div>
-        <div style="width: 100%;"></div>
       </div>
-      <div v-if="stage === 1" class="wizard__container wizard__container--center">
-        <p class="wizard__title">{{ $t('wizard.lists.title') }}</p>
-        <p class="wizard__text">{{ $t('wizard.lists.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
-        <div style="width: 100%;"></div>
-        <div class="wizard__container__list--container">
-          <p class="wizard__text">{{ $t('wizard.lists.backlog') }}</p>
-          <div class="wizard__container wizard__container__list wizard__container__list--special">
+      <div v-if="stage === 1" class="wizard__stage">
+        <h1 class="wizard__title">{{ $t('wizard.lists.title') }}</h1>
+        <h2 class="wizard__subtitle">{{ $t('wizard.lists.description') }}</h2>
+        <BoardBox
+          :id="selectedBoard"
+          :board="selectedBoardObject"
+          class="wizard__board--selected wizard__board--centered"
+        />
+        <div class="wizard__columns">
+          <div class="wizard__column">
+            <h3 class="wizard__column-title">{{ $t('wizard.lists.backlog') }}</h3>
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
@@ -39,10 +41,8 @@
               </label>
             </div>
           </div>
-        </div>
-        <div class="wizard__container__list--container">
-          <p class="wizard__text">{{ $t('wizard.lists.wip') }}</p>
-          <div class="wizard__container wizard__container__list wizard__container__list--special">
+          <div class="wizard__column">
+            <h3 class="wizard__column-title">{{ $t('wizard.lists.wip') }}</h3>
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`wip_${list.id}`" style="display: none;" :value="list.id" v-model="wipLists" >
               <label :for="`wip_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
@@ -51,10 +51,8 @@
               </label>
             </div>
           </div>
-        </div>
-        <div class="wizard__container__list--container">
-          <p class="wizard__text">{{ $t('wizard.lists.finished') }}</p>
-          <div class="wizard__container wizard__container__list wizard__container__list--special">
+          <div class="wizard__column">
+            <h3 class="wizard__column-title">{{ $t('wizard.lists.finished') }}</h3>
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input type="checkbox" :id="`end_${list.id}`" style="display: none;" :value="list.id" v-model="endLists">
               <label :for="`end_${list.id}`" class="checkbox" v-on:click="generalListChanged"></label>
@@ -63,10 +61,8 @@
               </label>
             </div>
           </div>
-        </div>
-        <div class="wizard__container__list--container">
-          <p class="wizard__text">{{ $t('wizard.lists.production') }}</p>
-          <div class="wizard__container wizard__container__list wizard__container__list--special">
+          <div class="wizard__column">
+            <h3 class="wizard__column-title">{{ $t('wizard.lists.production') }}</h3>
             <div class="checkbox-container" v-for="list in allLists" :key="list.id" :name="`cont-${list.id}`">
               <input
                 type="checkbox"
@@ -83,13 +79,16 @@
           </div>
         </div>
       </div>
-      <div v-if="stage === 2" class="wizard__container wizard__container--center">
-        <p class="wizard__title">{{ $t('wizard.archived.title') }}</p>
-        <p class="wizard__text">{{ $t('wizard.archived.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
-        <div style="width: 100%;"></div>
-        <div class="wizard__container wizard__container__list wizard__container__list--alone">
-          <div class="checkbox-container" v-for="list in selectedLists" :key="list.id">
+      <div v-if="stage === 2" class="wizard__stage">
+        <h1 class="wizard__title">{{ $t('wizard.archived.title') }}</h1>
+        <h2 class="wizard__subtitle">{{ $t('wizard.archived.description') }}</h2>
+        <BoardBox
+          :id="selectedBoard"
+          :board="selectedBoardObject"
+          class="wizard__board--selected wizard__board--centered"
+        />
+        <div class="wizard__archived-list">
+          <div class="checkbox-container checkbox-container--horizontal" v-for="list in selectedLists" :key="list.id">
             <input
               type="checkbox"
               :id="`arc_${list.id}`"
@@ -104,14 +103,17 @@
           </div>
         </div>
       </div>
-      <div v-if="stage === 3" class="wizard__container wizard__container--center">
-        <p class="wizard__title">{{ $t('wizard.labels.title') }}</p>
-        <p class="wizard__text">{{ $t('wizard.labels.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
-        <div style="width: 100%;"></div>
-          <div class="wizard__container__list--container">
-          <p class="wizard__text">{{ $t('wizard.labels.bug') }}</p>
-          <div class="wizard__container wizard__container__list wizard__container__list--special">
+      <div v-if="stage === 3" class="wizard__stage">
+        <h1 class="wizard__title">{{ $t('wizard.labels.title') }}</h1>
+        <h2 class="wizard__subtitle">{{ $t('wizard.labels.description') }}</h2>
+        <BoardBox
+          :id="selectedBoard"
+          :board="selectedBoardObject"
+          class="wizard__board--selected wizard__board--centered"
+        />
+        <div class="wizard__labels">
+          <p class="wizard__labels-title">{{ $t('wizard.labels.bug') }}</p>
+          <div class="wizard__labels-content">
             <div class="checkbox-container" v-for="label in labels" :key="`bug_${label.id}`">
               <input
                 type="checkbox"
@@ -127,9 +129,9 @@
             </div>
           </div>
         </div>
-        <div class="wizard__container__list--container">
-          <p class="wizard__text">{{ $t('wizard.labels.objective') }}</p>
-          <div class="wizard__container wizard__container__list wizard__container__list--special">
+        <div class="wizard__labels">
+          <p class="wizard__labels-title">{{ $t('wizard.labels.objective') }}</p>
+          <div class="wizard__labels-content">
             <div class="checkbox-container" v-for="label in labels" :key="`obj_${label.id}`">
               <input
                 type="checkbox"
@@ -148,27 +150,30 @@
           </div>
         </div>
       </div>
-      <div v-if="stage === 4" class="wizard__container wizard__container--center">
-        <p class="wizard__title">{{ $t('wizard.wipLimit.title') }}</p>
-        <p class="wizard__text">{{ $t('wizard.wipLimit.description') }}</p>
-        <BoardBox :id="selectedBoard" :board="selectedBoardObject" class="wizard__board--selected"/>
-        <div style="width: 100%;"></div>
-        <div class="wizard__container wizard__container--center wizard__container-wip">
+      <div v-if="stage === 4" class="wizard__stage">
+        <h1 class="wizard__title">{{ $t('wizard.wipLimit.title') }}</h1>
+        <h2 class="wizard__subtitle">{{ $t('wizard.wipLimit.description') }}</h2>
+        <BoardBox
+          :id="selectedBoard"
+          :board="selectedBoardObject"
+          class="wizard__board--selected wizard__board--centered"
+        />
+        <div class="wizard__container">
           <div v-for="list in selectedWipLists" :key="list.id" class="wizard__wip">
-            <p class="wizard__text wizard__text--normal">{{ list.name }}</p>
+            <p class="wizard__column-title">{{ list.name }}</p>
             <input type="number" min="0" value="null" class="wizard__wip-input" v-model="wipLimits[list.id]">
           </div>
         </div>
       </div>
-      <div class="wizard__button-container">
-        <button id="back_button" class="button" v-on:click="stepBack">{{ backText }}</button>
-        <button id="save_button" class="button button--save button--disabled" v-on:click="saveData" disabled>
-          {{ saveText }}
-        </button>
-        <button v-if="advancedShow" id="advanced_button" class="button" v-on:click="advancedActions">
-          {{ advancedText }}
-        </button>
-      </div>
+    </div>
+    <div class="wizard__button-container">
+      <button id="back_button" class="button" v-on:click="stepBack">{{ backText }}</button>
+      <button id="save_button" class="button button--save button--disabled" v-on:click="saveData" disabled>
+        {{ saveText }}
+      </button>
+      <button v-if="advancedShow" id="advanced_button" class="button" v-on:click="advancedActions">
+        {{ advancedText }}
+      </button>
     </div>
   </div>
 </template>
@@ -352,8 +357,6 @@ export default {
 
       const progressBar = document.getElementById('progress_bar');
       this.forwardToStageBar(progressBar);
-
-      document.getElementById('main_container').classList.toggle('wizard__container-wide');
 
       this.stage++;
       this.toLoad = true;
