@@ -1,88 +1,67 @@
 <template>
   <div class="dashboard-content__container">
-    <transition name="toggle" mode="out-in">
-      <div class="dashboard__section" v-if="tab === 'stats'" key="stats">
-        <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.stats') }}</h2>
-        <h3 class="dashboard__text dashboard__subsection-title">
-          {{ $t('dashboard.present.speedVsBugs') }}
-        </h3>
-        <div class="dashboard-present__numbers-container">
-          <TeamSpeed
-            class="stats"
-            v-bind:cardActivities="cardActivities"
-            v-bind:endListIds="endListIds"
-            v-bind:startDate="startDate"
-            v-bind:endDate="endDate"
-            v-bind:productionListIds="productionListIds"
-          />
-          <BacklogBugs
-            class="stats"
-            v-bind:cards="backlogListCards"
-            v-bind:boardId="boardId"
-          />
-          <div style="width: 100%"></div>
-          <objectivePercentage
-            v-bind:cards="Object.values(cardsByList).flat()"
-            v-bind:boardId="boardId"
-            v-bind:endListIds="endListIds"
-            v-bind:productionListIds="productionListIds"
-          />
-        </div>
-        <LeadTime
-          class="dashboard__single-item-container"
-          v-bind:cardActivities="leadMetricsActivities"
-          v-bind:endListIds="endListIds"
-          v-bind:progressListIds="progressListsIds"
-          v-bind:backlogListIds="backlogListIds"
-          v-bind:productionListIds="productionListIds"
-        />
-      </div>
-      <div class="dashboard__section" v-if="tab === 'boardNow'" key="boardNow">
-        <h2 class="dashboard__text dashboard__section-title">{{ $t('dashboard.present.boardNow') }}</h2>
-        <WIPLists
-          v-bind:cards="cardsByList"
-          v-bind:lists="wipLists"
-          v-bind:wipLimits="wipLimits"
-          v-bind:activities="allCardsActivities"
-        />
-      </div>
-    </transition>
+    <div class="dashboard-header">
+      <p class="dashboard-header__title">{{ boardName }}</p>
+      <BacklogBugs
+        v-bind:cards="backlogListCards"
+        v-bind:boardId="boardId"
+      />
+    </div>
+    <hr class="dashboard-header__hr">
+    <div class="dashboard-header__navigator">
+      <button v-on:click="$store.commit('saveDashboardState', 'past')" :class="buttonState('past')">
+        <font-awesome-icon icon="long-arrow-alt-left" /> {{ $t('dashboard.options.past') }}
+      </button>
+      <button v-on:click="$store.commit('saveDashboardState', 'present')" :class="buttonState('present')">
+        {{ $t('dashboard.options.present') }}
+      </button>
+      <button v-on:click="$store.commit('saveDashboardState', 'future')" :class="buttonState('future')">
+        {{ $t('dashboard.options.future') }} <font-awesome-icon icon="long-arrow-alt-right" />
+      </button>
+    </div>
+    <div class="dashboard__section">
+      <WIPLists
+        v-bind:cards="cardsByList"
+        v-bind:lists="wipLists"
+        v-bind:wipLimits="wipLimits"
+        v-bind:activities="allCardsActivities"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import TeamSpeed from './TeamSpeed';
-import LeadTime from './LeadTime.vue';
 import WIPLists from './WIPLists.vue';
 import BacklogBugs from './BacklogBugs.vue';
-import objectivePercentage from './objectivePercentage.vue';
 
 export default {
   name: 'presentDashboard',
   components: {
-    TeamSpeed,
-    LeadTime,
     WIPLists,
     BacklogBugs,
-    objectivePercentage,
   },
   props: {
-    endListIds: Array,
-    progressListsIds: Array,
-    backlogListIds: Array,
-    productionListIds: Array,
-    leadMetricsActivities: Array,
-    cardActivities: Array,
-    startDate: Date,
-    endDate: Date,
     cardsByList: Object,
     wipLists: Array,
     wipLimits: Array,
     allCardsActivities: Array,
     endListsCards: Array,
     boardId: String,
-    tab: String,
     backlogListCards: Array,
+    boardName: String,
+  },
+  computed: {
+    dashboardState() {
+      return this.$store.state.dashboardState;
+    },
+  },
+  methods: {
+    buttonState(button) {
+      return {
+        'dashboard-header__button': true,
+        'dashboard-header__button--active': button === this.dashboardState,
+      };
+    },
   },
 };
 </script>

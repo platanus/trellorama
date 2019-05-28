@@ -2,7 +2,6 @@
   <div>
     <div class="wip-lists">
       <WIPList
-        class="wip-list"
         v-for="list in lists"
         v-bind:key="list.id"
         v-bind:list="list"

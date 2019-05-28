@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     allCardsByList: {},
     allCardsActivities: [],
     ready: false,
+    dashboardState: 'present',
   },
   mutations,
   actions,

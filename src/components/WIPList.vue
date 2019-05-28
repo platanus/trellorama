@@ -1,6 +1,9 @@
 <template>
   <div :class="listClass">
-    <h3>{{ list.name }} ({{cards.length}}/{{WIPLimit}})</h3>
+    <div class="list-header">
+      <p>{{ list.name }}</p>
+      <p :class="numberClass" v-if="Number.isInteger(WIPLimit)">{{cards.length}}/{{WIPLimit}}</p>
+    </div>
     <div>
       <Card
         v-for="card in sortedCards"
@@ -40,7 +43,13 @@ export default {
     },
     listClass() {
       return {
+        'wip-list': true,
         'wip-list--warning': this.warning,
+      };
+    },
+    numberClass() {
+      return {
+        'list-number--warning': this.warning,
       };
     },
   },

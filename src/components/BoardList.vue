@@ -1,13 +1,12 @@
 <template>
   <div v-if="board !== undefined">
-    <div class="dashboard-options__container">
+    <div class="dashboard-options__container" v-show="dashboardState !== 'present'">
       <DashboardOptions
         v-bind:board="board"
         @selectLabels="selectLabels"
         @setSettings="setSettings"
         @selectStartDate="selectStartDate"
         @selectEndDate="selectEndDate"
-        @dashboardState="setDashboardState"
         @selectMembers="selectMembers"
       />
       <transition name="hide-sub-options">
@@ -21,12 +20,11 @@
     <div class="dashboard-container">
       <Board
         v-if="ready"
-        class="dashboard-content"
+        :class="boardClass"
         v-bind:board="board"
         v-bind:selectedLabels="selectedLabels"
         v-bind:startDate="startDate"
         v-bind:endDate="endDate"
-        v-bind:dashboardState="dashboardState"
         v-bind:tab="tab"
         v-bind:selectedMembers="selectedMembers"
       />
@@ -55,7 +53,6 @@ export default {
       selectedLabels: [],
       startDate: new Date(),
       endDate: new Date(),
-      dashboardState: 'present',
       tab: null,
       selectedMembers: [],
     };
@@ -63,6 +60,15 @@ export default {
   computed: {
     ready() {
       return this.$store.state.ready;
+    },
+    boardClass() {
+      return {
+        'dashboard-content': true,
+        'dashboard-content--wide': this.dashboardState === 'present',
+      };
+    },
+    dashboardState() {
+      return this.$store.state.dashboardState;
     },
   },
   watch: {
@@ -94,9 +100,6 @@ export default {
     },
     selectEndDate(value) {
       this.endDate = value;
-    },
-    setDashboardState(value) {
-      this.dashboardState = value;
     },
     setTab(value) {
       this.tab = value;
