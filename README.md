@@ -25,6 +25,12 @@ If you want to deploy to Github Pages, you have to create the file **.env.produc
 VUE_APP_TRELLO_PATH=/REPOSITORY_NAME/
 ```
 
+In order to deploy for branch `gh-page` the task `deploy` exists
+in the `package.json`.
+```
+npm run deploy
+```
+
 ### Run your tests
 ```
 npm run test
